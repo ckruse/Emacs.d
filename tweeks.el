@@ -124,10 +124,6 @@
 
 (toggle-scroll-bar -1)
 
-(ido-mode)
-(setq ido-enable-flex-matching t)
-
-(setq redisplay-dont-pause t)
 
 (if (featurep 'ns)
     (set-default-font "Source Code Pro-11")

@@ -1,3 +1,5 @@
+;; -*- coding: utf-8 mode: lisp -*-
+
 (source melpa)
 (source marmalade)
 
@@ -15,6 +17,8 @@
 (depends-on "eproject")
 (depends-on "find-file-in-project")
 (depends-on "auto-complete")
+(depends-on "flx-ido")
+(depends-on "ido-vertical-mode")
 
 ;; languages
 
@@ -36,3 +40,5 @@
 (depends-on "flymake-css")
 (depends-on "flymake-php")
 (depends-on "flymake-jshint")
+
+;; eof
