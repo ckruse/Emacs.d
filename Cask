@@ -19,6 +19,7 @@
 (depends-on "auto-complete")
 (depends-on "flx-ido")
 (depends-on "ido-vertical-mode")
+(depends-on "yasnippet")
 
 ;; languages
 
