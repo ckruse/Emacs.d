@@ -1,0 +1,13 @@
+*.elc
+.#*
+.cask
+.swp
+ac-comphist.dat
+bookmarks
+eshell/*
+url/*
+var/*
+tramp
+.mc-lists.el
+.org-id-locations
+
