@@ -5,7 +5,7 @@
 
 (setq org-directory "~/BTSync/org")
 (setq org-mobile-directory "~/BTSync/MobileOrg/")
-(setq org-agenda-files (quote ("~/BTSync/org/projects.org" "~/BTSync/org/inbox.org")))
+(setq org-agenda-files (quote ("~/BTSync/org/inbox.org" "~/BTSync/org/projects.org")))
 (setq org-mobile-inbox-for-pull "~/BTSync/org/inbox.org")
 (setq org-default-notes-file (concat org-directory "/inbox.org"))
 
