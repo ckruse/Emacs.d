@@ -21,11 +21,10 @@
                 (add-to-list 'file-alist file-cons)
                 file-cons))
             (split-string (shell-command-to-string
-                           (format "find %s -type f \\( %s \\) %s | head -n %s"
+                           (format "find %s -type f %s | head -n %s"
                                    (or ffip-project-root
                                        (ffip-project-root)
                                        (error "No project root found"))
-                                   (ffip-join-patterns)
                                    ffip-find-options
                                    ffip-limit))))))
 
@@ -61,4 +60,3 @@
 (global-set-key "\C-p" 'find-file-in-project)
 
 ;; eof
-
