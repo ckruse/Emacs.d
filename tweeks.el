@@ -273,9 +273,12 @@ point reaches the beginning or end of the buffer, stop there."
   (interactive)
   (message "building project tags")
   (let ((root (eproject-root))
+        (ctags (if (featurep 'ns)
+                   "/usr/local/bin/ctags"
+                 "/usr/bin/ctags")))
     (if (string-match "/ios/" root)
         (shell-command (concat "find " root " -name '*.[hm]' | xargs /usr/local/bin/etags"))
-      (shell-command (concat "/usr/local/bin/ctags -e -R --extra=+fq --exclude=db --exclude=test --exclude=.git --exclude=public -f " root "/TAGS " root))))
+      (shell-command (concat ctags " -e -R --extra=+fq --exclude=db --exclude=test --exclude=.git --exclude=public -f " root "/TAGS " root))))
   (visit-project-tags)
   (message "tags built successfully"))
 
