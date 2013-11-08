@@ -272,7 +272,7 @@ point reaches the beginning or end of the buffer, stop there."
 (defun build-ctags ()
   (interactive)
   (message "building project tags")
-  (let ((root (simp-project-root)))
+  (let ((root (eproject-root))
     (if (string-match "/ios/" root)
         (shell-command (concat "find " root " -name '*.[hm]' | xargs /usr/local/bin/etags"))
       (shell-command (concat "/usr/local/bin/ctags -e -R --extra=+fq --exclude=db --exclude=test --exclude=.git --exclude=public -f " root "/TAGS " root))))
@@ -281,7 +281,7 @@ point reaches the beginning or end of the buffer, stop there."
 
 (defun visit-project-tags ()
   (interactive)
-  (let ((tags-file (concat (simp-project-root) "/TAGS")))
+  (let ((tags-file (concat (eproject-root) "/TAGS")))
     (visit-tags-table tags-file)
     (message (concat "Loaded " tags-file))))
 
