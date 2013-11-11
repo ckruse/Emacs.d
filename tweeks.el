@@ -272,7 +272,7 @@ point reaches the beginning or end of the buffer, stop there."
 (defun build-ctags ()
   (interactive)
   (message "building project tags")
-  (let ((root (eproject-root))
+  (let ((root (projectile-project-root))
         (ctags (if (featurep 'ns)
                    "/usr/local/bin/ctags"
                  "/usr/bin/ctags")))
@@ -284,7 +284,7 @@ point reaches the beginning or end of the buffer, stop there."
 
 (defun visit-project-tags ()
   (interactive)
-  (let ((tags-file (concat (eproject-root) "/TAGS")))
+  (let ((tags-file (concat (projectile-project-root) "/TAGS")))
     (visit-tags-table tags-file)
     (message (concat "Loaded " tags-file))))
 

@@ -14,7 +14,6 @@
 (depends-on "expand-region")
 (depends-on "smart-mode-line")
 (depends-on "smartparens")
-(depends-on "eproject")
 (depends-on "find-file-in-project")
 (depends-on "auto-complete")
 (depends-on "flx-ido")
@@ -22,6 +21,7 @@
 (depends-on "yasnippet")
 (depends-on "annoying-arrows-mode")
 (depends-on "persp-mode")
+(depends-on "projectile")
 
 ;; languages
 
