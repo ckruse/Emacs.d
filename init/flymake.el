@@ -19,7 +19,7 @@
   ;; (progn
 (require 'flymake-jshint)
 (setq jshint-configuration-path "~/.emacs.d/jshint.json")
-(add-hook 'js-mode-hook 'flymake-mode)
+(add-hook 'js-mode-hook 'flymake-jshint-load)
 (add-hook 'php-mode-hook 'flymake-mode)
 
 
