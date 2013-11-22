@@ -53,8 +53,6 @@
 (setq indent-tabs-mode nil)
 (setq-default indent-tabs-mode nil)
 
-(iswitchb-mode 1)
-
 ;disable backup
 (setq backup-inhibited t)
 (setq-default backup-inhibited t)
