@@ -13,10 +13,15 @@
 (ido-vertical-mode)
 
 (defun sd/ido-define-keys () ;; up/down is more intuitive in vertical layout
+  (my-ido-keys))
+
+(defun my-ido-keys ()
   (define-key ido-completion-map (kbd "C-n") 'ido-next-match)
   (define-key ido-completion-map (kbd "<down>") 'ido-next-match)
   (define-key ido-completion-map (kbd "C-p") 'ido-prev-match)
   (define-key ido-completion-map (kbd "<up>") 'ido-prev-match))
+
+(add-hook 'ido-setup-hook 'my-ido-keys)
 
 (set-default 'imenu-auto-rescan t)
 
