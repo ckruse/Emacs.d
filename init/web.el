@@ -15,4 +15,7 @@
 (custom-set-faces
  '(web-mode-symbol-face ((t (:foreground "orange")))))
 
+(custom-set-variables
+ '(web-mode-disable-auto-pairing t))
+
 ;; eof
