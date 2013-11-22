@@ -6,6 +6,9 @@
 ;; Enable perspective mode
 (persp-mode t)
 
+(custom-set-variables
+ '(persp-auto-save-opt 0))
+
 ;; TODO: implement persp-last as before-advice on persp-switch (?)
 
 (defmacro custom-persp (name &rest body)
