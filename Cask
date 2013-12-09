@@ -20,7 +20,6 @@
 (depends-on "ido-vertical-mode")
 (depends-on "yasnippet")
 (depends-on "annoying-arrows-mode")
-(depends-on "persp-mode")
 (depends-on "projectile")
 
 ;; languages
