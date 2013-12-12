@@ -13,9 +13,9 @@
 
 (add-hook 'cycle-buffer-load-hook (lambda ()
                                     (setq cycle-buffer-allow-visible t)
-                                    (setq cycle-buffer-filter (cons
-                                                               '(persp-contain-buffer-p (current-buffer))
-                                                               cycle-buffer-filter))
+                                    ;; (setq cycle-buffer-filter (cons
+                                    ;;                            '(persp-contain-buffer-p (current-buffer))
+                                    ;;                            cycle-buffer-filter))
                                     ))
 
 
