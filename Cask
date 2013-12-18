@@ -32,6 +32,7 @@
 (depends-on "haskell-mode")
 (depends-on "web-mode")
 (depends-on "go-mode")
+(depends-on "markdown-mode")
 
 ;; flymake
 
