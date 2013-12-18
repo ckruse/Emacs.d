@@ -14,4 +14,10 @@
 
 (server-start)
 
+(cd "~")
+(setq default-directory "~")
+
+(add-hook 'kill-buffer-hook (lambda ()
+                              (cd "~")))
+
 ;; ;; eof
