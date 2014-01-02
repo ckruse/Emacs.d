@@ -7,7 +7,7 @@
 
 (depends-on "gist")
 (depends-on "multiple-cursors")
-(depends-on "git-gutter")
+(depends-on "git-gutter-fringe")
 (depends-on "color-theme-sanityinc-tomorrow")
 (depends-on "magit")
 (depends-on "ace-jump-mode")
