@@ -86,8 +86,6 @@
 (setq dabbrev-case-fold-search t)
 
 
-(add-to-list 'auto-mode-alist '("mutt-" . mail-mode))
-
 (setq ring-bell-function 'ignore)
 
 (defun passwords ()
