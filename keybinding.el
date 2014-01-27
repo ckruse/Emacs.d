@@ -28,8 +28,8 @@
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
 
-(global-set-key [f1] 'point-to-register)
-(global-set-key [f2] 'jump-to-register)
+(global-set-key [f2] 'point-to-register)
+(global-set-key [f3] 'jump-to-register)
 
 (global-set-key [f9] 'bookmark-set)
 (global-set-key [f10] 'bookmark-jump)

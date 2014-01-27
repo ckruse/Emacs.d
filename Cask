@@ -42,4 +42,7 @@
 (depends-on "flymake-php")
 (depends-on "flymake-jshint")
 
+;; Dash, yay!
+(depends-on "helm-dash")
+
 ;; eof
