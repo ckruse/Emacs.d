@@ -65,5 +65,8 @@
 
 (global-set-key "\C-a" 'mark-whole-buffer)
 
+(global-set-key (kbd "s-}") 'pop-tag-mark)
+
+(global-set-key (kbd "C-z") 'yank)
 
 ;; eof
