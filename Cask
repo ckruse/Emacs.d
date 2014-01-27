@@ -10,7 +10,6 @@
 (depends-on "color-theme-sanityinc-tomorrow")
 (depends-on "magit")
 (depends-on "ace-jump-mode")
-(depends-on "expand-region")
 (depends-on "smart-mode-line")
 (depends-on "smartparens")
 (depends-on "auto-complete")
