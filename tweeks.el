@@ -82,7 +82,7 @@
 
 (defun passwords ()
   (interactive)
-  (find-file "~/BTSync/org/passwords.org.gpg")
+  (find-file "~/Dokumente/org/passwords.org.gpg")
   )
 
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -131,7 +131,7 @@ user."
 
 (defun gtd ()
   (interactive)
-  (find-file "~/BTSync/org/inbox.org")
+  (find-file "~/Dokumente/org/inbox.org")
   )
 
 
