@@ -44,10 +44,6 @@
 (line-number-mode t)
 (column-number-mode t)
 
-;; show and remove trailing whitespaces
-(setq-default show-trailing-whitespace t)
-;;(add-hook 'before-save-hook 'delete-trailing-whitespace)
-
 (setq tab-width 2)
 (setq-default tab-width 2)
 (setq indent-tabs-mode nil)
@@ -75,10 +71,6 @@
 ; we wanna use utf8 normally
 (prefer-coding-system       'utf-8)
 (set-default-coding-systems 'utf-8)
-
-; show trailing whitespaces
-(setq show-trailing-whitespace t)
-(setq-default whitespace-style '(face trailing newline empty newline-mark))
 
 ;; fuck off the splash screen
 (setq inhibit-splash-screen t)
