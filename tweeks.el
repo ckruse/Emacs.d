@@ -58,14 +58,11 @@
 (setq auto-save-list-file-prefix nil)
 (setq-default auto-save-list-file-prefix nil)
 
-(cond (
-       (fboundp 'global-font-lock-mode)
-       ;; Turn on font-lock in all modes that support it
-       (global-font-lock-mode t)
-       ;; Maximum colors
-       (setq font-lock-maximum-decoration t)
-       )
-      )
+(when (fboundp 'global-font-lock-mode)
+  ;; Turn on font-lock in all modes that support it
+  (global-font-lock-mode t)
+  ;; Maximum colors
+  (setq font-lock-maximum-decoration t))
 
 
 ; we wanna use utf8 normally
