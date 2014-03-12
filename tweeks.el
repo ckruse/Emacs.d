@@ -295,4 +295,6 @@ point reaches the beginning or end of the buffer, stop there."
       mouse-wheel-scroll-amount '(1 ((shift) . 1)))
 
 
+(global-auto-revert-mode t)
+
 ;; eof
