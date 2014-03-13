@@ -17,6 +17,22 @@
 (setq flymake-log-level 2)
 (setq flymake-gui-warnings-enabled nil)
 
+(defun goto-next-problem()
+  (interactive)
+  (if (member 'flymake-mode minor-mode-list)
+      (flymake-goto-next-error)
+    (flyspell-goto-next-error)))
+
+(defun goto-prev-problem()
+  (interactive)
+  (if (member 'flymake-mode minor-mode-list)
+      (flymake-goto-prev-error)
+    (flyspell-goto-previous-error)))
+
+
+(global-set-key (kbd "C-c e n") 'goto-next-problem)
+(global-set-key (kbd "C-c e p") 'goto-prev-problem)
+
 
 (require 'flymake-cursor)
 
