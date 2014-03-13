@@ -13,6 +13,7 @@
 (setq jshint-configuration-path "~/.emacs.d/jshint.json")
 (add-hook 'js-mode-hook 'flymake-jshint-load)
 (add-hook 'php-mode-hook 'flymake-mode)
+(add-hook 'c-mode-hook 'flymake-mode)
 
 (setq flymake-log-level 2)
 (setq flymake-gui-warnings-enabled nil)
