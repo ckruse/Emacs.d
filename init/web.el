@@ -12,9 +12,6 @@
 (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
 
-(custom-set-faces
- '(web-mode-symbol-face ((t (:foreground "orange")))))
-
 (custom-set-variables
  '(web-mode-disable-auto-pairing t))
 
