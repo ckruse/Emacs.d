@@ -19,6 +19,7 @@
 (depends-on "annoying-arrows-mode")
 (depends-on "projectile")
 (depends-on "smex")
+(depends-on "ido-ubiquitous")
 
 ;; languages
 

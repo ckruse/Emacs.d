@@ -17,4 +17,6 @@
 
 (set-default 'imenu-auto-rescan t)
 
+(require 'ido-ubiquitous)
+
 ;; eof
