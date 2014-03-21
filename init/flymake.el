@@ -13,7 +13,7 @@
 (setq jshint-configuration-path "~/.emacs.d/jshint.json")
 (add-hook 'js-mode-hook 'flymake-jshint-load)
 (add-hook 'php-mode-hook 'flymake-mode)
-(add-hook 'c-mode-hook 'flymake-mode)
+;;(add-hook 'c-mode-hook 'flymake-mode)
 
 (setq flymake-log-level 2)
 (setq flymake-gui-warnings-enabled nil)
@@ -34,6 +34,23 @@
 (global-set-key (kbd "C-c e n") 'goto-next-problem)
 (global-set-key (kbd "C-c e p") 'goto-prev-problem)
 
+;; (defun flymake-postgres-init ()
+;;   (flymake-simple-make-init-impl
+;;    'flymake-create-temp-inplace nil nil
+;;    buffer-file-name
+;;    'flymake-get-postgres-cmdline))
+
+;; (defun flymake-get-postgres-cmdline (source base-dir)
+;;   `("make" ("-C",
+;;             (concat "/home/andres/build/postgres/dev-assert/vpath/"
+;;                     (file-relative-name base-dir "/home/andres/src/postgresql")),
+;;             "SYNTAX_CHECK_MODE=1", "check-syntax-vpath",
+;;             (concat "CHK_SOURCES=" source))
+;; 	)
+;;   )
+
+;; (push '("\\.\\(?:c\\(?:pp\\|xx\\|\\+\\+\\)?\\|CC\\)\\'" flymake-postgres-init)
+;; 	  flymake-allowed-file-name-masks)
 
 (require 'flymake-cursor)
 
