@@ -15,4 +15,6 @@
 (custom-set-variables
  '(web-mode-disable-auto-pairing t))
 
+(setq web-mode-enable-block-partial-invalidation t)
+
 ;; eof
