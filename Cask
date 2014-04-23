@@ -33,15 +33,8 @@
 (depends-on "go-mode")
 (depends-on "markdown-mode")
 
-;; flymake
-
-(depends-on "flymake-easy")
-(depends-on "flymake-sass")
-(depends-on "flymake-cursor")
-(depends-on "flymake-ruby")
-(depends-on "flymake-css")
-(depends-on "flymake-php")
-(depends-on "flymake-jshint")
+;; flycheck
+(depends-on "flycheck")
 
 ;; Dash, yay!
 (depends-on "helm-dash")
