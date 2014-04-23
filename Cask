@@ -32,7 +32,6 @@
 (depends-on "web-mode")
 (depends-on "go-mode")
 (depends-on "markdown-mode")
-(depends-on "sql-indent")
 
 ;; flymake
 
