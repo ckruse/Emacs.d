@@ -15,7 +15,7 @@
 (add-hook 'php-mode-hook 'flymake-mode)
 ;;(add-hook 'c-mode-hook 'flymake-mode)
 
-(setq flymake-log-level 2)
+(setq flymake-log-level 0)
 (setq flymake-gui-warnings-enabled nil)
 
 (defun goto-next-problem()
