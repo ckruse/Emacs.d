@@ -21,6 +21,7 @@
 (depends-on "smex")
 (depends-on "ido-ubiquitous")
 (depends-on "switch-window")
+(depends-on "expand-region")
 
 ;; languages
 
