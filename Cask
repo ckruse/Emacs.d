@@ -22,6 +22,7 @@
 (depends-on "ido-ubiquitous")
 (depends-on "switch-window")
 (depends-on "expand-region")
+(depends-on "visual-regexp")
 
 ;; languages
 
