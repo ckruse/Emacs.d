@@ -20,6 +20,7 @@
 (depends-on "projectile")
 (depends-on "smex")
 (depends-on "ido-ubiquitous")
+(depends-on "switch-window")
 
 ;; languages
 

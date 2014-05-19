@@ -37,11 +37,6 @@
 (global-set-key "\C-c\C-c" 'comment-region)
 (global-set-key "\C-cc" 'uncomment-region)
 
-(global-set-key (kbd "C-x <left>")  'windmove-left)
-(global-set-key (kbd "C-x <right>") 'windmove-right)
-(global-set-key (kbd "C-x <up>")    'windmove-up)
-(global-set-key (kbd "C-x <down>")  'windmove-down)
-
 (global-set-key [f12] 'org-archive-subtree)
 (global-set-key (kbd "M-+") 'org-capture)
 
