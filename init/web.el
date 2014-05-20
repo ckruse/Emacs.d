@@ -16,6 +16,6 @@
  '(web-mode-disable-auto-pairing t)
  '(web-mode-enable-auto-pairing nil))
 
-(setq web-mode-enable-block-partial-invalidation t)
+;;(setq web-mode-enable-block-partial-invalidation t)
 
 ;; eof
