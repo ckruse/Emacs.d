@@ -35,10 +35,10 @@
 (depends-on "go-mode")
 (depends-on "markdown-mode")
 
-;; flycheck
+;; flycheck adds on-the-fly syntax checking for a lot of languages
 (depends-on "flycheck")
 
-;; Dash, yay!
+;; Dash, yay! Dash documentation system integration for emacs
 (depends-on "helm-dash")
 
 ;; eof
