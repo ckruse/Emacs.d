@@ -16,7 +16,6 @@
 (depends-on "flx-ido")
 (depends-on "ido-vertical-mode")
 (depends-on "yasnippet")
-(depends-on "annoying-arrows-mode")
 (depends-on "projectile")
 (depends-on "smex")
 (depends-on "ido-ubiquitous")
