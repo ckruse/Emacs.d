@@ -34,6 +34,7 @@
 (depends-on "web-mode")
 (depends-on "go-mode")
 (depends-on "markdown-mode")
+(depends-on "lua-mode")
 
 ;; flycheck adds on-the-fly syntax checking for a lot of languages
 (depends-on "flycheck")
