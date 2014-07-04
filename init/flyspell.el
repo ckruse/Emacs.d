@@ -11,4 +11,6 @@
 (add-hook 'markdown-mode-hook 'flyspell-mode)
 (add-hook 'rst-mode-hook 'flyspell-mode)
 
+(setq ispell-program-name "aspell")
+
 ;; eof
