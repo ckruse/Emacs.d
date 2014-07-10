@@ -4,7 +4,7 @@
 (load "~/.emacs.d/package.el")
 
 (load "~/.emacs.d/emulate-mac-keyboard-mode")
-(emulate-mac-german-keyboard-mode)
+(emulate-mac-us-keyboard-mode)
 
 (dolist (f (directory-files "~/.emacs.d/init/" t "\\.el$"))
   (load (replace-regexp-in-string "\\.el$" "" f)))
