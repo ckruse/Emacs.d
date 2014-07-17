@@ -2,6 +2,8 @@
 
 (source melpa)
 (source marmalade)
+(source gnu)
+(source org)
 
 ;; tools
 
@@ -22,6 +24,8 @@
 (depends-on "switch-window")
 (depends-on "expand-region")
 (depends-on "visual-regexp")
+(depends-on "org-plus-contrib")
+(depends-on "htmlize")
 
 ;; languages
 
