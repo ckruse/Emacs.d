@@ -24,21 +24,14 @@
 (define-key minibuffer-local-map (kbd "C--") 'dabbrev-expand)
 
 
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cb" 'org-iswitchb)
-
 (global-set-key [f2] 'point-to-register)
 (global-set-key [f3] 'jump-to-register)
 
-(global-set-key [f9] 'bookmark-set)
-(global-set-key [f10] 'bookmark-jump)
+(global-set-key [f7] 'bookmark-set)
+(global-set-key [f8] 'bookmark-jump)
 
 (global-set-key "\C-c\C-c" 'comment-region)
 (global-set-key "\C-cc" 'uncomment-region)
-
-(global-set-key [f12] 'org-archive-subtree)
-(global-set-key (kbd "M-+") 'org-capture)
 
 (global-set-key (kbd "C-x C-a") 'magit-status)
 
