@@ -1,4 +1,8 @@
-(require 'org-install)
+;(require 'org-install)
+
+(setq load-path (cons "/usr/share/emacs/site-lisp/org" load-path))
+(require 'org-loaddefs)
+(require 'org-agenda)
 
 ;; Explicitly load required exporters
 (require 'ox-html)
