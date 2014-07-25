@@ -23,7 +23,6 @@
 (depends-on "ido-ubiquitous")
 (depends-on "switch-window")
 (depends-on "expand-region")
-(depends-on "visual-regexp")
 (depends-on "org-plus-contrib")
 (depends-on "htmlize")
 
