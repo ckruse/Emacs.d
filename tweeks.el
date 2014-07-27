@@ -33,6 +33,9 @@
 (setq x-select-enable-clipboard t)
 (delete-selection-mode t)
 
+(setq initial-scratch-message nil)
+(setq initial-major-mode 'fundamental-mode)
+
 ; remove ugly and sucking toolbar
 (tool-bar-mode 0)
 (menu-bar-mode 0)
