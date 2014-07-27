@@ -114,9 +114,15 @@
 
 
 (if (featurep 'ns)
-    (set-default-font "Source Code Pro-11")
-  (set-default-font "Source Code Pro-09")
-  )
+    (progn
+      (set-default-font "Source Code Pro-11")
+      (set-fontset-font "fontset-default" nil
+                        (font-spec :size 11 :name "Symbola")))
+  (progn
+    (set-default-font "Source Code Pro-09")
+    (set-fontset-font "fontset-default" nil
+                      (font-spec :size 9 :name "Symbola"))))
+
 
 (defun djcb-find-file-as-root ()
   "Like `ido-find-file, but automatically edit the file with
