@@ -1,6 +1,6 @@
 ;; -*- coding: utf-8 -*-
 
-(require 'go-mode-load)
+(require 'go-mode)
 
 
 ;; eof
