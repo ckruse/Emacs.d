@@ -45,4 +45,6 @@
 ;; Dash, yay! Dash documentation system integration for emacs
 (depends-on "helm-dash")
 
+(depends-on "git-timemachine")
+
 ;; eof
