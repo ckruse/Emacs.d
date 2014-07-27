@@ -47,4 +47,6 @@
 
 (depends-on "git-timemachine")
 
+(depends-on "auto-compile")
+
 ;; eof
