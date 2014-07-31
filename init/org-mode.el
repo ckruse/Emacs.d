@@ -13,7 +13,7 @@
 (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\)$" . org-mode))
 
 (setq org-directory "~/Dokumente/org")
-(setq org-mobile-directory "/scpc:ckruse@jugulator.defunced.de:/home/ckruse/org")
+(setq org-mobile-directory "/scpc:ckruse@jugulator.defunced.de:/var/www/cloud.defunct.ch/htdocs/org")
 (setq org-agenda-files (quote ("~/Dokumente/org/" "~/Dokumente/org/priv"
                                "~/Dokumente/org/work" "~/Dokumente/org/foss")))
 (setq org-mobile-inbox-for-pull "~/Dokumente/org/inbox.org")
