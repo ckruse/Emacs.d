@@ -9,7 +9,6 @@
 
 (depends-on "gist")
 (depends-on "multiple-cursors")
-(depends-on "color-theme-sanityinc-tomorrow")
 (depends-on "magit")
 (depends-on "ace-jump-mode")
 (depends-on "smart-mode-line")
@@ -25,6 +24,9 @@
 (depends-on "expand-region")
 (depends-on "org-plus-contrib")
 (depends-on "htmlize")
+
+(depends-on "color-theme-sanityinc-tomorrow")
+(depends-on "cyberpunk-theme")
 
 ;; languages
 
