@@ -10,7 +10,7 @@
 (add-to-list 'sml/replacer-regexp-list '("^~/\\(data/\\)?[Ss]ites/" ":WEB:"))
 (add-to-list 'sml/replacer-regexp-list '("^~/\\(data/\\)?dev/" ":DEV:"))
 (add-to-list 'sml/replacer-regexp-list '("^~/\\(data/\\)?dev/postgres/" ":PG:"))
-(add-to-list 'sml/replacer-regexp-list '("^~/\\(data/\\)?Dokumente/" ":DOC:"))
+(add-to-list 'sml/replacer-regexp-list '("^~/\\(data/\\)?Documents/" ":DOC:"))
 
 (if after-init-time (sml/setup)
   (add-hook 'after-init-hook 'sml/setup))

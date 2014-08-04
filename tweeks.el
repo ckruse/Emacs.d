@@ -85,7 +85,7 @@
 
 (defun passwords ()
   (interactive)
-  (find-file "~/Dokumente/org/passwords.org.gpg")
+  (find-file "~/Documents/org/passwords.org.gpg")
   )
 
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -140,7 +140,7 @@ user."
 
 (defun gtd ()
   (interactive)
-  (find-file "~/Dokumente/org/inbox.org")
+  (find-file "~/Documents/org/inbox.org")
   )
 
 
