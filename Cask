@@ -40,6 +40,7 @@
 (depends-on "go-mode")
 (depends-on "markdown-mode")
 (depends-on "lua-mode")
+(depends-on "coffee-mode")
 
 ;; flycheck adds on-the-fly syntax checking for a lot of languages
 (depends-on "flycheck")
