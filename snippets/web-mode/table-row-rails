@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: table-row-rails
+# key: td
+# binding: direct-keybinding
+# --
+<td><%= $1 %></td>$0

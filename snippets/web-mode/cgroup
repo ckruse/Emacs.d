@@ -1,0 +1,12 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: cgroup
+# key: cgroup
+# binding: direct-keybinding
+# --
+<div class="control-group">
+  <%= $1 %>
+  <div class="controls">
+$2
+  </div>
+</div>
+$0
