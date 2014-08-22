@@ -24,9 +24,10 @@
 (depends-on "expand-region")
 (depends-on "org-plus-contrib")
 (depends-on "htmlize")
+(depends-on "inf-ruby")
 
 (depends-on "color-theme-sanityinc-tomorrow")
-(depends-on "cyberpunk-theme")
+
 
 ;; languages
 

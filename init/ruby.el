@@ -16,6 +16,8 @@
 (add-to-list 'auto-mode-alist '("Gemfile$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.prawn$" . ruby-mode))
 
+(global-set-key (kbd "C-c r r") 'inf-ruby)
+
 
 (defadvice ruby-indent-line (after line-up-args activate)
   (let (indent prev-indent arg-indent)
