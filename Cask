@@ -4,6 +4,7 @@
 (source marmalade)
 (source gnu)
 (source org)
+(source "e6h" "http://www.e6h.org/packages/")
 
 ;; tools
 
@@ -51,5 +52,7 @@
 
 (depends-on "git-timemachine")
 
+
+(depends-on "wanderlust")
 
 ;; eof
