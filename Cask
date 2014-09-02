@@ -54,5 +54,6 @@
 
 
 (depends-on "wanderlust")
+(depends-on "w3m")
 
 ;; eof
