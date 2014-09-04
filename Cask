@@ -44,6 +44,8 @@
 (depends-on "lua-mode")
 (depends-on "coffee-mode")
 
+(depends-on "sqlup-mode")
+
 ;; flycheck adds on-the-fly syntax checking for a lot of languages
 (depends-on "flycheck")
 
