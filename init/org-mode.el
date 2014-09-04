@@ -234,5 +234,6 @@
 (setq org-refile-allow-creating-parent-nodes (quote confirm))
 (setq org-completion-use-ido t)
 
+(flx-ido-mode 1)
 
 ;; eof
