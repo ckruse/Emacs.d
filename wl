@@ -15,6 +15,8 @@
 
  mime-edit-split-message nil
  mime-edit-pgp-signers '("C84EF897")
+ mime-edit-pgp-encrypt-to-self t
+ ;;mime-edit-pgp-verbose t
 
  ;;wl-smtp-posting-server "localhost"            ;; put the smtp server here
  wl-local-domain "defunct.ch"          ;; put something here...
@@ -230,7 +232,32 @@
     (wl-summary-next)
     (message "Refiled to %s" folder)))
 
+(defun ck-message-decrypt-pgp-nonmime()
+  (interactive)
+
+  (if (and wl-message-buffer (get-buffer-window wl-message-buffer))
+      (let ((start) (ends))
+        (wl-summary-toggle-disp-msg 'on)
+        (save-excursion
+          (set-buffer wl-message-buffer)
+          (goto-char (point-min))
+          (re-search-forward "^-----BEGIN PGP MESSAGE-----$")
+          (setq start (point))
+
+          (goto-char (point-min))
+          (re-search-forward "^-----END PGP MESSAGE-----$")
+          (setq ends (point))
+
+          (goto-char start)
+          (set-mark-command nil)
+          (goto-char ends)
+
+          (wl-message-decrypt-pgp-nonmime)))
+
+    (message "no message to decrypt")))
+
 (define-key wl-summary-mode-map (kbd "C-a") 'ck-refile-to-archive) ;; archive
+(define-key wl-summary-mode-map (kbd "C-c d") 'ck-message-decrypt-pgp-nonmime)
 
 
 ;; eof
