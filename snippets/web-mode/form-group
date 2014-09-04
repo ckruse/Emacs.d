@@ -1,0 +1,12 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: form-group
+# key: fgroup
+# binding: direct-keybinding
+# --
+<div class="form-group">
+  <%= f.label :$1, class: 'col-sm-2 control-label' %>
+  <div class="col-sm-5">
+    <%= f.${text_field} :$1, class: 'form-control' %>
+  </div>
+</div>
+$0
