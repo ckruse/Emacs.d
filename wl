@@ -192,7 +192,7 @@
 
 ;;Only save draft when I tell it to! (C-x C-s or C-c C-s):
 ;;(arg: seconds of idle time untill auto-save).
-;(setq wl-auto-save-drafts-interval nil)
+(setq wl-auto-save-drafts-interval nil)
 
 (defun ck-wl-setup ()
   (mime-edit-set-sign t)
