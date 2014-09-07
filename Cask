@@ -29,6 +29,7 @@
 
 (depends-on "color-theme-sanityinc-tomorrow")
 
+(depends-on "highlight-symbol")
 
 ;; languages
 
