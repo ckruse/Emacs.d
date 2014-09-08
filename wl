@@ -260,4 +260,15 @@
 (define-key wl-summary-mode-map (kbd "C-c d") 'ck-message-decrypt-pgp-nonmime)
 
 
+(eval-after-load "w3m"
+  '(progn
+     (define-key w3m-mode-map [left] 'backward-char)
+     (define-key w3m-mode-map [right] 'forward-char)
+     (define-key w3m-mode-map [up] 'previous-line)
+     (define-key w3m-mode-map [down] 'next-line)
+     (define-key w3m-minor-mode-map [left] 'backward-char)
+     (define-key w3m-minor-mode-map [right] 'forward-char)
+     (define-key w3m-minor-mode-map [up] 'previous-line)
+     (define-key w3m-minor-mode-map [down] 'next-line)))
+
 ;; eof
