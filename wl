@@ -74,7 +74,7 @@
    "^Cc"))
 
 (setq wl-draft-send-mail-function 'sendmail-send-it
-      sendmail-program "/home/ckruse/dev/mail/msmtp-enqueue.sh"
+      sendmail-program "~/dev/mail/msmtp-enqueue.sh"
       message-sendmail-extra-arguments "-a Defunct"
       message-send-mail-function 'message-send-mail-with-sendmail
       mail-specify-envelope-from t
