@@ -29,8 +29,6 @@
 
 (depends-on "color-theme-sanityinc-tomorrow")
 
-(depends-on "rainbow-delimiters")
-
 ;; languages
 
 (depends-on "cmake-mode")
