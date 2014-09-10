@@ -1,4 +1,4 @@
-(setq load-path  (cons (expand-file-name "~/.emacs.d/packages/web-mode/") load-path))
+;; -*- coding: utf-8 -*-
 
 (require 'web-mode)
 
