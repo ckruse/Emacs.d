@@ -19,6 +19,7 @@
 (depends-on "ido-vertical-mode")
 (depends-on "yasnippet")
 (depends-on "projectile")
+(depends-on "projectile-rails")
 (depends-on "smex")
 (depends-on "ido-ubiquitous")
 (depends-on "switch-window")
@@ -26,10 +27,9 @@
 (depends-on "org-plus-contrib")
 (depends-on "htmlize")
 (depends-on "inf-ruby")
-
 (depends-on "color-theme-sanityinc-tomorrow")
-
 (depends-on "rainbow-delimiters")
+(depends-on "rvm")
 
 ;; languages
 
