@@ -7,5 +7,6 @@
 (add-to-list 'ac-modes 'web-mode)
 (add-to-list 'ac-modes 'sql-mode)
 (add-to-list 'ac-modes 'c-mode)
+(add-to-list 'ac-modes 'swift-mode)
 
 ; eof
