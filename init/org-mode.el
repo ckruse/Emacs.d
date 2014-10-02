@@ -52,21 +52,21 @@
               ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
 
 (setq org-capture-templates
-      (quote (("t" "todo" entry (file "~/Documents/org/inbox.org")
+      (quote (("t" "todo" entry (file+headline "~/Documents/org/inbox.org" "Inbox")
                "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
-              ("r" "respond" entry (file "~/Documents/org/inbox.org")
+              ("r" "respond" entry (file+headline "~/Documents/org/inbox.org" "Inbox")
                "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
-              ("n" "note" entry (file "~/Documents/org/inbox.org")
+              ("n" "note" entry (file+headline "~/Documents/org/inbox.org" "Inbox")
                "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
               ("j" "Journal" entry (file+datetree "~/Documents/org/priv/diary.org")
                "* %?\n%U\n" :clock-in t :clock-resume t)
-              ("w" "org-protocol" entry (file "~/Documents/org/inbox.org")
+              ("w" "org-protocol" entry (file+headline "~/Documents/org/inbox.org" "Inbox")
                "* TODO Review %c\n%U\n" :immediate-finish t)
-              ("m" "Meeting" entry (file "~/Documents/org/inbox.org")
+              ("m" "Meeting" entry (file+headline "~/Documents/org/inbox.org" "Inbox")
                "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
-              ("p" "Phone call" entry (file "~/Documents/org/inbox.org")
+              ("p" "Phone call" entry (file+headline "~/Documents/org/inbox.org" "Inbox")
                "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
-              ("h" "Habit" entry (file "~/Documents/org/inbox.org")
+              ("h" "Habit" entry (file+headline "~/Documents/org/inbox.org" "Inbox")
                "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"<%Y-%m-%d %a .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
 
 
