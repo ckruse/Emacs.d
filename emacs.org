@@ -503,7 +503,6 @@ so much used to them that I can't get rid of them.
 (define-key my-keys-minor-mode-map (kbd "C-c c C-c") 'comment-region)
 (define-key my-keys-minor-mode-map (kbd "C-c c c") 'uncomment-region)
 (define-key my-keys-minor-mode-map (kbd "s-.") 'find-tag)
-(define-key my-keys-minor-mode-map (kbd "C-a") 'mark-whole-buffer)
 (define-key my-keys-minor-mode-map (kbd "s-}") 'pop-tag-mark)
 
 (define-minor-mode my-keys-minor-mode
