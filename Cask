@@ -8,6 +8,8 @@
 
 ;; tools
 
+(depends-on "use-package")
+
 (depends-on "gist")
 (depends-on "multiple-cursors")
 (depends-on "magit")

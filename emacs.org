@@ -1,0 +1,1841 @@
+#+TITLE: Christian's Emacs configuration
+
+* Christian's Emacs configuration
+** Initialisation
+
+   Inspired by [[Sacha Chua's Emacs configuration]], I'm using a
+   minimalistic =emacs.d/init.el= file to load an org mode document
+   with elisp snippets embedded. org-babel extracts the snippets and
+   evaluates the code. This is the content of my =init.el=:
+
+#+begin_src emacs-lisp  :tangle no
+(require 'cask "~/.cask/cask.el")
+(cask-initialize)
+
+(require 'org)
+(require 'ob-tangle)
+
+(org-babel-load-file (expand-file-name "~/.emacs.d/emacs.org"))
+#+end_src
+
+** Personal information
+
+#+begin_src emacs-lisp
+  (setq user-full-name "Christian Kruse"
+        user-mail-address "cjk@defunct.ch")
+#+end_src
+
+** Emacs initialization
+
+   I manage my package installations with the excellent [[http://cask.github.io/][Cask Package
+   Manager]]. Therefore I additionally maintain a =Cask= file with all
+   packages listed as dependencies. So I can easily install and update
+   all packages via =cask install= and =cask update=. You can find my
+   cask file at [[https://github.com/ckruse/Emacs.d/blob/master/Cask][github]].
+
+#+begin_src emacs-lisp
+(add-to-list 'load-path "~/.emacs.d")
+(add-to-list 'load-path "~/.emacs.d/site-lisp")
+
+(require 'use-package)
+#+end_src
+
+*** Byte-compile init files to speed things up on Emacs startup
+
+    I restart Emacs round about once a week when I upgrade my
+    packages. Thus it is nice to speed things up; byte-compiling elisp
+    files does exactly this.
+
+
+#+begin_src emacs-lisp
+(defun ck/byte-recompile ()
+  (interactive)
+  (byte-recompile-directory "~/.emacs.d" 0)
+  (byte-recompile-directory "~/emacs.d/site-lisp" 0))
+#+end_src
+
+*** Start Emacs server
+
+    I use =emacsclient= a lot to open files via command line (I
+    aliased it to =ff= (=find-file=) and =ffn= (=find-file no
+    wait=)). Thus start the Emacs server to be able to use that.
+
+#+begin_src emacs-lisp
+(load "server")
+(unless (server-running-p)
+  (server-start))
+#+end_src
+
+*** Toolbar, Menubar, scratch message, startup screen, etc
+
+    As a beginner the bars may be useful but for me they just suck. So
+    I disable them.
+
+#+begin_src emacs-lisp
+(setq initial-scratch-message nil)
+(setq initial-major-mode 'fundamental-mode)
+
+; remove ugly and sucking toolbar
+(tooltip-mode -1)
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
+
+(setq inhibit-splash-screen t)
+#+end_src
+
+*** Autosave and backups
+
+    I don't like the backup and autosave features of Emacs, thus I
+    disable them.
+
+#+begin_src emacs-lisp
+
+(setq backup-inhibited t)
+(setq-default backup-inhibited t)
+
+(setq auto-save-default nil)
+(setq-default auto-save-default nil)
+(setq auto-save-list-file-prefix nil)
+(setq-default auto-save-list-file-prefix nil)
+#+end_src
+
+*** OS X specific modifications
+
+    On OS X the keyboard is a little bit fucked up when using Emacs. To
+    avoid problems I shamelessly copied the =emulate-mac-keyboard.el=
+    from the [[http://aquamacs.org/][Aquamacs project]], modified it a little bit and now using
+    it.
+
+#+begin_src emacs-lisp
+(when (featurep 'ns)
+  (load "~/.emacs.d/emulate-mac-keyboard-mode")
+  (emulate-mac-us-keyboard-mode))
+#+end_src
+
+    Since I use [[http://brew.sh/][Homebrew]] my primary exec path is =/usr/local/bin=
+
+#+begin_src emacs-lisp
+(setq exec-path (append exec-path '("/usr/local/bin")))
+#+end_src
+
+*** Opening URLs
+
+    Opening URLs in Emacs sucks most of the time, thus I'd like to use
+    external programs (Firefox on Linux and =open= on OS X)
+
+#+begin_src emacs-lisp
+(if (featurep 'ns)
+    (setq browse-url-browser-function 'browse-url-generic
+          browse-url-generic-program "open")
+  (setq browse-url-browser-function 'browse-url-generic
+        browse-url-generic-program "firefox")
+  )
+#+end_src
+
+*** Status bar
+
+    I like to see the current time and date in the Emacs status bar.
+
+#+begin_src emacs-lisp
+(setq display-time-24hr-format t)
+(setq display-time-day-and-date t)
+(display-time)
+#+end_src
+
+    Line number and column are a useful information as well.
+
+#+begin_src emacs-lisp
+(line-number-mode t)
+(column-number-mode t)
+#+end_src
+
+*** Sane tab handling
+
+    Don't get me started… ;-)
+
+#+begin_src emacs-lisp
+(setq tab-width 2)
+(setq-default tab-width 2)
+(setq indent-tabs-mode nil)
+(setq-default indent-tabs-mode nil)
+#+end_src
+
+*** Turn on =font-lock-mode=
+
+    We want syntax highlighting, with maximum decorations.
+
+#+begin_src emacs-lisp
+(when (fboundp 'global-font-lock-mode)
+  (global-font-lock-mode t)
+  (setq font-lock-maximum-decoration t))
+#+end_src
+
+*** Use UTF-8 by default
+
+    UTF-8 is the de-facto standard, so let's use it by default.
+
+#+begin_src emacs-lisp
+; we wanna use utf8 normally
+(prefer-coding-system       'utf-8)
+(set-default-coding-systems 'utf-8)
+#+end_src
+
+*** Don't ring the bell
+
+    The audio bell is highly annoying to me, let's disable it.
+
+#+begin_src emacs-lisp
+(setq ring-bell-function 'ignore)
+#+end_src
+
+*** Use =y-or-n-p= instead of =yes-or-no-p=
+
+    I'm lazy. If I can type =y= instead of =yes=, I'll do that.  I
+    also accidently hit =C-x C-c= sometimes, so let's assure that
+    Emacs will ask if it is about to exit.
+
+#+begin_src emacs-lisp
+(defalias 'yes-or-no-p 'y-or-n-p)
+(setq confirm-kill-emacs 'y-or-n-p)
+#+end_src
+
+*** Disabled commands
+
+    Enable some of the disabled commands. They've been disable to
+    avoid confusion for new users, but some of them are quite useful
+    IMHO.
+
+#+begin_src emacs-lisp
+(put 'narrow-to-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+#+end_src
+
+*** Clipboard and "yank overwrites"
+
+I'd like to use the clipboard buffer on X11.
+
+#+begin_src emacs-lisp
+(setq x-select-enable-clipboard t)
+#+end_src
+
+I'd also like to overwrite an active region with a yank.
+
+#+begin_src emacs-lisp
+(delete-selection-mode t)
+#+end_src
+
+*** electric indentation
+
+I don't like to have to hit =tab= on every newline, so we enable
+electric indentation.
+
+#+begin_src emacs-lisp
+(electric-indent-mode t)
+(add-hook 'yaml-mode-hook (lambda ()
+                            (electric-indent-local-mode -1)))
+#+end_src
+
+*** Highlight current line
+
+    Very useful to have a better overview where in the buffer the
+    point is.
+
+#+begin_src emacs-lisp
+(global-hl-line-mode t)
+#+end_src
+
+** Shortcuts for opening often used files
+
+   Some of my more often used files (like my =org-mode= inbox file)
+   get it's own shortcut:
+
+#+begin_src emacs-lisp
+(define-prefix-command 'often-used-files-map)
+(define-key ctl-x-map "o" 'often-used-files-map)
+
+(define-key often-used-files-map "p" (lambda () (interactive) (find-file "~/Documents/org/passwords.org.gpg")))
+(define-key often-used-files-map "p" (lambda () (interactive) (find-file "~/Documents/org/inbox.org")))
+#+end_src
+
+** Theming and fonts
+
+*** Fonts
+
+    I use [[https://github.com/adobe-fonts/source-code-pro][Source Code Pro]]. Period.
+
+#+begin_src emacs-lisp
+(if (featurep 'ns)
+    (progn
+      (set-default-font "Source Code Pro-11")
+      (set-fontset-font "fontset-default" nil
+                        (font-spec :size 11 :name "Symbola")))
+  (progn
+    (set-default-font "Source Code Pro-09")
+    (set-fontset-font "fontset-default" nil
+                      (font-spec :size 9 :name "Symbola"))))
+#+end_src
+
+*** Theme
+
+    I'm using the Tomorrow theme in the eighties variant.
+
+#+begin_src emacs-lisp
+(custom-set-variables
+ '(custom-enabled-themes (quote (sanityinc-tomorrow-eighties)))
+ '(custom-safe-themes (quote ("628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" default))))
+
+(load-theme 'sanityinc-tomorrow-eighties t)
+#+end_src
+
+** Helpers
+
+*** Open a file as root
+
+#+begin_src emacs-lisp
+(defun ck/find-file-as-root ()
+  "Like `ido-find-file, but automatically edit the file with
+root-privileges (using tramp/sudo), if the file is not writable by
+user."
+  (interactive)
+  (let ((file (ido-read-file-name "Edit as root: ")))
+    (unless (file-writable-p file)
+      (setq file (concat "/sudo:root@localhost:" file)))
+    (find-file file)))
+
+(global-set-key (kbd "C-x F") 'ck/find-file-as-root)
+#+end_src
+
+*** Smarter beginning of line (like Sublime Text)
+
+#+begin_src emacs-lisp
+(defun smarter-move-beginning-of-line (arg)
+  "Move point back to indentation of beginning of line.
+
+Move point to the first non-whitespace character on this line.
+If point is already there, move to the beginning of the line.
+Effectively toggle between the first non-whitespace character and
+the beginning of the line.
+
+If ARG is not nil or 1, move forward ARG - 1 lines first.  If
+point reaches the beginning or end of the buffer, stop there."
+  (interactive "^p")
+  (setq arg (or arg 1))
+
+  ;; Move lines first
+  (when (/= arg 1)
+    (let ((line-move-visual nil))
+      (forward-line (1- arg))))
+
+  (let ((orig-point (point)))
+    (back-to-indentation)
+    (when (= orig-point (point))
+      (move-beginning-of-line 1))))
+
+(global-set-key [home] 'smarter-move-beginning-of-line)
+(global-set-key [s-left] 'smarter-move-beginning-of-line)
+#+end_src
+
+*** Go to matching paren (or the equivalent in ruby)
+
+#+begin_src emacs-lisp
+(defun goto-match-paren (arg)
+  "Go to the matching  if on (){}[], similar to vi style of % "
+  (interactive "p")
+  ;; first, check for "outside of bracket" positions expected by forward-sexp, etc
+  (cond ((looking-at "[\[\(\{]") (forward-sexp))
+        ((looking-back "[\]\)\}]" 1) (backward-sexp))
+        ;; now, try to succeed from inside of a bracket
+        ((looking-at "[\]\)\}]") (forward-char) (backward-sexp))
+        ((looking-back "[\[\(\{]" 1) (backward-char) (forward-sexp))
+        (t nil)))
+
+(defun goto-matching-ruby-block (arg)
+  (cond
+   ((equal (current-word) "end")
+    (ruby-beginning-of-block))
+
+   ((string-match (current-word) "\\(for\\|while\\|until\\|if\\|class\\|module\\|case\\|unless\\|def\\|begin\\|do\\)")
+    (ruby-end-of-block))))
+
+(defun dispatch-goto-matching (arg)
+  (interactive "p")
+
+  (if (or
+       (looking-at "[\[\(\{]")
+       (looking-at "[\]\)\}]")
+       (looking-back "[\[\(\{]" 1)
+       (looking-back "[\]\)\}]" 1))
+      (goto-match-paren arg)
+
+    (when (eq major-mode 'ruby-mode)
+      (goto-matching-ruby-block arg))))
+
+(global-set-key "\M--" 'dispatch-goto-matching)
+#+end_src
+
+
+*** RGB notation to hex
+
+    As a web developer I often get colors as RGB values. In CSS they
+    have to be notated in hex; to shorten that I wrote a little
+    =defun=.
+
+#+begin_src emacs-lisp
+(defun region-to-hexcol ()
+  (interactive)
+  (let
+      ((start (region-beginning))
+       (end (region-end))
+       (text))
+
+    (setq text (buffer-substring-no-properties start end))
+
+    (when (string-match "^[[:digit:]]+$" text)
+      (setq text (format "%02x" (string-to-number text)))
+      (delete-region start end)
+      (insert text))))
+
+(defun rgb-to-hex ()
+  (interactive)
+
+  (let
+      ((start (region-beginning))
+       (end (region-end)))
+
+    (goto-char start)
+    (set-mark start)
+    (skip-chars-forward "0-9")
+    (region-to-hexcol)
+
+    (skip-chars-forward ", ")
+    (set-mark (point))
+    (skip-chars-forward "0-9")
+    (region-to-hexcol)
+
+    (skip-chars-forward ", ")
+    (set-mark (point))
+    (skip-chars-forward "0-9")
+    (region-to-hexcol)
+
+    (setq end (point))
+    (goto-char start)
+
+    (save-restriction
+      (narrow-to-region start end)
+      (while (re-search-forward "[, ]" nil t) (replace-match "" nil t)))))
+#+end_src
+
+*** Kill all buffers
+
+#+begin_src emacs-lisp
+(defun kill-all-buffers ()
+  (interactive)
+  (mapcar 'kill-buffer (buffer-list))
+  (delete-other-windows))
+
+(global-set-key (kbd "C-x K") 'kill-all-buffers)
+#+end_src
+
+** SSL configuration
+
+   There are some problems with the default SSL configuration in
+   Emacs. I found this in the interwebs and it works.
+
+#+begin_src emacs-lisp
+(setq ssl-program-name "openssl s_client -ssl2 -connect %s:%p")
+(setq-default ssl-program-name "openssl s_client -ssl2 -connect %s:%p")
+#+end_src
+
+
+** Project management
+
+   I'm using [[https://github.com/bbatsov/projectile][projectile]] for project management.
+
+#+begin_src emacs-lisp
+  (use-package projectile
+    :init
+    (projectile-global-mode)
+
+    (setq projectile-indexing-method 'find
+          projectile-enable-caching t)
+
+    (global-set-key "\C-p" 'projectile-find-file)
+
+    (defun build-ctags ()
+      (interactive)
+      (message "building project tags")
+      (let ((root (projectile-project-root))
+            (ctags (if (featurep 'ns)
+                       "/usr/local/bin/ctags"
+                     "/usr/bin/ctags")))
+        (if (string-match "/ios/" root)
+            (shell-command (concat "find " root " -name '*.[hm]' | xargs /usr/local/bin/etags"))
+          (shell-command (concat ctags " -e -R --extra=+fq --exclude=db --exclude=test --exclude=.git --exclude=public -f " root "/TAGS " root))))
+      (visit-project-tags)
+      (message "tags built successfully"))
+
+    (defun visit-project-tags ()
+      (interactive)
+      (let ((tags-file (concat (projectile-project-root) "/TAGS")))
+        (visit-tags-table tags-file)
+        (message (concat "Loaded " tags-file)))))
+#+end_src
+
+** Keyboard shortcuts
+
+I've got some global keyboard shortcuts, inherited from the 90s. I got
+so much used to them that I can't get rid of them.
+
+#+begin_src emacs-lisp
+(global-set-key [end] 'end-of-line)
+(global-set-key [s-right] 'end-of-line)
+
+(global-set-key [C-home] 'beginning-of-buffer)
+(global-set-key [s-up] 'beginning-of-buffer)
+
+(global-set-key [C-end] 'end-of-buffer)
+(global-set-key [s-down] 'end-of-buffer)
+
+(defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode keymap.")
+(define-key my-keys-minor-mode-map (kbd "M-<") 'pop-to-mark-command)
+(define-key my-keys-minor-mode-map (kbd "C--") 'dabbrev-expand)
+(define-key my-keys-minor-mode-map (kbd "C-c c C-c") 'comment-region)
+(define-key my-keys-minor-mode-map (kbd "C-c c c") 'uncomment-region)
+(define-key my-keys-minor-mode-map (kbd "s-.") 'find-tag)
+(define-key my-keys-minor-mode-map (kbd "C-a") 'mark-whole-buffer)
+(define-key my-keys-minor-mode-map (kbd "s-}") 'pop-tag-mark)
+
+(define-minor-mode my-keys-minor-mode
+  "A minor mode so that my key settings override annoying major modes."
+  t " my-keys" 'my-keys-minor-mode-map)
+
+(my-keys-minor-mode 1)
+
+(defun my-minibuffer-setup-hook ()
+  (my-keys-minor-mode 0))
+
+(add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
+(define-key minibuffer-local-map (kbd "C--") 'dabbrev-expand)
+#+end_src
+
+** Parens
+
+[[https://github.com/Fuco1/smartparens][Smartparens]] really rocks, it is one of my most-used Emacs customizations.
+
+#+begin_src emacs-lisp
+  (use-package smartparens
+    :init
+    (require 'smartparens-config)
+    (require 'smartparens-ruby)
+
+    (smartparens-global-mode)
+    (show-smartparens-global-mode t))
+#+end_src
+
+** buffer names
+
+In Emacs each buffer has a unique name. For file buffers the name is
+derived from the file name, so for example a buffer associated with
+the file =README= is named =README=. This is fine as long as you don’t
+open files with the same name. To ensure the uniqueness of the buffer
+name Emacs will append a number to the buffer name, for example
+=README<1>=. I configured it to append the directory parts to the
+buffer name instead of prepending it, in this way the name is still
+the most prominent info:
+
+#+begin_src emacs-lisp
+(use-package uniquify
+  :init
+  (setq uniquify-buffer-name-style 'post-forward uniquify-separator ":"))
+#+end_src
+
+** narrow-or-widen-dwim
+
+=narrow-or-widen-dwim= is a nice piece of code from [[http://endlessparentheses.com/emacs-narrow-or-widen-dwim.html][Endless
+Parentheses]] for an intuitive narrow/widen behaviour.
+
+#+begin_src emacs-lisp
+(defun narrow-or-widen-dwim (p)
+  "If the buffer is narrowed, it widens. Otherwise, it narrows intelligently.
+Intelligently means: region, org-src-block, org-subtree, or defun,
+whichever applies first.
+Narrowing to org-src-block actually calls `org-edit-src-code'.
+
+With prefix P, don't widen, just narrow even if buffer is already
+narrowed."
+  (interactive "P")
+  (declare (interactive-only))
+  (cond ((and (buffer-narrowed-p) (not p)) (widen))
+        ((region-active-p)
+         (narrow-to-region (region-beginning) (region-end)))
+        ((derived-mode-p 'org-mode)
+         ;; `org-edit-src-code' is not a real narrowing command.
+         ;; Remove this first conditional if you don't want it.
+         (cond ((ignore-errors (org-edit-src-code))
+                (delete-other-windows))
+               ((org-at-block-p)
+                (org-narrow-to-block))
+               (t (org-narrow-to-subtree))))
+        (t (narrow-to-defun))))
+
+(define-key my-keys-minor-mode-map (kbd "C-x n") 'narrow-or-widen-dwim)
+#+end_src
+
+** ace-jump-mode
+
+[[https://github.com/winterTTr/ace-jump-mode][ace-jump-mode]] is a mode for easy movements to specific positions in the file.
+
+#+begin_src emacs-lisp
+  (use-package ace-jump-mode
+    :init
+
+    (define-key my-keys-minor-mode-map (kbd "C-c SPC") 'ace-jump-mode)
+
+    ;;
+    ;; enable a more powerful jump back function from ace jump mode
+    ;;
+    (ace-jump-mode-enable-mark-sync)
+    (define-key my-keys-minor-mode-map (kbd "C-x SPC") 'ace-jump-mode-pop-mark))
+#+end_src
+
+*** switch-window
+
+[[https://github.com/dimitri/switch-window][switch-window]] is a mode based on =ace-jump-mode= which makes buffer
+switching similiar to it. Very nice!
+
+#+begin_src emacs-lisp
+  (use-package switch-window
+    :init
+    (define-key my-keys-minor-mode-map (kbd "C-x o") 'switch-window))
+#+end_src
+
+** org-mode
+
+   [[http://orgmode.org/][Organize your live in plain text!]]
+
+#+begin_src emacs-lisp
+(setq load-path (cons "/usr/share/emacs/site-lisp/org" load-path))
+(require 'org-loaddefs)
+(require 'org-agenda)
+
+;; Explicitly load required exporters
+(require 'ox-html)
+(require 'ox-latex)
+(require 'ox-ascii)
+
+
+(add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\)$" . org-mode))
+
+(setq org-directory "~/Documents/org")
+(setq org-mobile-directory "/scpc:ckruse@jugulator.defunced.de:/var/www/cloud.defunct.ch/htdocs/org")
+(setq org-agenda-files (quote ("~/Documents/org/" "~/Documents/org/priv"
+                               "~/Documents/org/work" "~/Documents/org/foss")))
+(setq org-mobile-inbox-for-pull "~/Documents/org/inbox.org")
+(setq org-default-notes-file (concat org-directory "/inbox.org"))
+
+(add-hook 'org-mode-hook 'turn-on-font-lock)
+
+(setq org-todo-keywords
+      (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+              (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)"
+                        "PHONE" "MEETING"))))
+
+(setq org-todo-keyword-faces
+      (quote (("TODO" :foreground "red" :weight bold)
+              ("NEXT" :foreground "blue" :weight bold)
+              ("DONE" :foreground "forest green" :weight bold)
+              ("WAITING" :foreground "orange" :weight bold)
+              ("HOLD" :foreground "magenta" :weight bold)
+              ("CANCELLED" :foreground "forest green" :weight bold)
+              ("MEETING" :foreground "forest green" :weight bold)
+              ("PHONE" :foreground "forest green" :weight bold))))
+
+;; use C-c C-t <KEY> for fast selection of todo state
+(setq org-use-fast-todo-selection t)
+
+(setq org-treat-S-cursor-todo-selection-as-state-change nil)
+
+
+(setq org-todo-state-tags-triggers
+      (quote (("CANCELLED" ("CANCELLED" . t))
+              ("WAITING" ("WAITING" . t))
+              ("HOLD" ("WAITING") ("HOLD" . t))
+              (done ("WAITING") ("HOLD"))
+              ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
+              ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
+              ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
+
+(setq org-capture-templates
+      (quote (("t" "todo" entry (file+headline "~/Documents/org/inbox.org" "Inbox")
+               "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
+              ("r" "respond" entry (file+headline "~/Documents/org/inbox.org" "Inbox")
+               "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
+              ("n" "note" entry (file+headline "~/Documents/org/inbox.org" "Inbox")
+               "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
+              ("j" "Journal" entry (file+datetree "~/Documents/org/priv/diary.org")
+               "* %?\n%U\n" :clock-in t :clock-resume t)
+              ("w" "org-protocol" entry (file+headline "~/Documents/org/inbox.org" "Inbox")
+               "* TODO Review %c\n%U\n" :immediate-finish t)
+              ("m" "Meeting" entry (file+headline "~/Documents/org/inbox.org" "Inbox")
+               "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
+              ("p" "Phone call" entry (file+headline "~/Documents/org/inbox.org" "Inbox")
+               "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
+              ("h" "Habit" entry (file+headline "~/Documents/org/inbox.org" "Inbox")
+               "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"<%Y-%m-%d %a .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
+
+
+; Set default column view headings: Task Effort Clock_Summary
+(setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM")
+; global Effort estimate values
+; global STYLE property values for completion
+(setq org-global-properties (quote (("Effort_ALL" . "0:15 0:30 0:45 1:00 2:00 3:00 4:00 5:00 6:00 0:00")
+                                    ("STYLE_ALL" . "habit"))))
+
+;; Remove empty LOGBOOK drawers on clock out
+(defun bh/remove-empty-drawer-on-clock-out ()
+  (interactive)
+  (save-excursion
+    (beginning-of-line 0)
+    (org-remove-empty-drawer-at "LOGBOOK" (point))))
+
+(add-hook 'org-clock-out-hook 'bh/remove-empty-drawer-on-clock-out 'append)
+
+
+(global-set-key (kbd "<f12>") 'org-agenda)
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-cb" 'org-iswitchb)
+(global-set-key "\C-ca" 'org-archive-subtree)
+(global-set-key (kbd "M-+") 'org-capture)
+
+(global-set-key (kbd "<f9> I") 'bh/punch-in)
+(global-set-key (kbd "<f9> O") 'bh/punch-out)
+
+(global-set-key (kbd "<f11>") 'org-clock-goto)
+(global-set-key (kbd "C-<f11>") 'org-clock-in)
+
+
+;;;;;;;;;;;;;;;;;
+;; clock setup ;;
+;;;;;;;;;;;;;;;;;
+
+;;
+;; Resume clocking task when emacs is restarted
+(org-clock-persistence-insinuate)
+;;
+;; Show lot of clocking history so it's easy to pick items off the C-F11 list
+(setq org-clock-history-length 23)
+;; Resume clocking task on clock-in if the clock is open
+(setq org-clock-in-resume t)
+;; Change tasks to NEXT when clocking in
+(setq org-clock-in-switch-to-state 'bh/clock-in-to-next)
+;; Separate drawers for clocking and logs
+(setq org-drawers (quote ("PROPERTIES" "LOGBOOK")))
+;; Save clock data and state changes and notes in the LOGBOOK drawer
+(setq org-clock-into-drawer t)
+;; Sometimes I change tasks I'm clocking quickly - this removes clocked tasks with 0:00 duration
+(setq org-clock-out-remove-zero-time-clocks t)
+;; Clock out when moving task to a done state
+(setq org-clock-out-when-done t)
+;; Save the running clock and all clock history when exiting Emacs, load it on startup
+(setq org-clock-persist t)
+;; Do not prompt to resume an active clock
+(setq org-clock-persist-query-resume nil)
+;; Enable auto clock resolution for finding open clocks
+(setq org-clock-auto-clock-resolution (quote when-no-clock-is-running))
+;; Include current clocking task in clock reports
+(setq org-clock-report-include-clocking-task t)
+
+(setq bh/keep-clock-running nil)
+
+(defvar bh/organization-task-id "BADA377F-DABB-4C51-BC7B-99C574DCE45D")
+
+(add-hook 'org-clock-out-hook 'bh/clock-out-maybe 'append)
+
+
+;;;;;;;;;;;;;;;
+;; exporting ;;
+;;;;;;;;;;;;;;;
+
+(setq org-alphabetical-lists t)
+
+(setq org-html-inline-images t)
+; Export with LaTeX fragments
+(setq org-export-with-LaTeX-fragments t)
+; Increase default number of headings to export
+(setq org-export-headline-levels 6)
+; disable sup/sub scripts
+(setq org-use-sub-superscripts nil)
+
+(setq org-html-doctype "html5")
+(setq org-html-head-include-default-style nil)
+
+;;(setq debug-on-error t)
+(setq org-publish-project-alist
+      ;
+      ; Termitel Todo list
+      ; org-mode-doc-org this document
+      ; org-mode-doc-extra are images and css files that need to be included
+      ; org-mode-doc is the top-level project that gets published
+      ; This uses the same target directory as the 'doc' project
+      (quote (("termitel"
+               :base-directory "~/Documents/org/work/"
+               :publishing-directory "/ssh:ckruse@jugulator.defunced.de:/var/www/cloud.defunct.ch/htdocs/todo/termitel"
+               :recursive t
+               :section-numbers nil
+               :table-of-contents nil
+               :base-extension "org"
+               :publishing-function (org-html-publish-to-html org-org-publish-to-org)
+               :html-head "<link rel=\"stylesheet\" href=\"http://cloud.defunct.ch/todo/org.css\" type=\"text/css\">"
+               :plain-source t
+               :htmlized-source t
+               :style-include-default nil
+               :auto-sitemap t
+               :sitemap-filename "index.html"
+               :sitemap-title "Termitel TODO"
+               :sitemap-style "tree"
+               :author-info t
+               :creator-info t)
+
+              ("foss"
+               :base-directory "~/Documents/org/foss/"
+               :publishing-directory "/ssh:ckruse@jugulator.defunced.de:/var/www/cloud.defunct.ch/htdocs/todo/foss"
+               :recursive t
+               :section-numbers nil
+               :table-of-contents nil
+               :base-extension "org"
+               :publishing-function (org-html-publish-to-html org-org-publish-to-org)
+               :html-head "<link rel=\"stylesheet\" href=\"http://cloud.defunct.ch/todo/org.css\" type=\"text/css\">"
+               :plain-source t
+               :htmlized-source t
+               :style-include-default nil
+               :auto-sitemap t
+               :sitemap-filename "index.html"
+               :sitemap-title "FOSS TODO"
+               :sitemap-style "tree"
+               :author-info t
+               :creator-info t)
+
+              ("private"
+               :base-directory "~/Documents/org/"
+               :publishing-directory "/ssh:ckruse@jugulator.defunced.de:/var/www/cloud.defunct.ch/htdocs/todo/private"
+               :recursive t
+               :section-numbers nil
+               :table-of-contents nil
+               :base-extension "org"
+               :publishing-function (org-html-publish-to-html org-org-publish-to-org)
+               :html-head "<link rel=\"stylesheet\" href=\"http://cloud.defunct.ch/todo/org.css\" type=\"text/css\">"
+               :plain-source t
+               :htmlized-source t
+               :style-include-default nil
+               :auto-sitemap t
+               :sitemap-filename "index.html"
+               :sitemap-title "Privat TODO"
+               :sitemap-style "tree"
+               :author-info t
+               :creator-info t
+               :exclude "passwords\\|work\\|foss"))))
+
+
+
+;;;;;;;;;;;;;;;;;;
+;; refile setup ;;
+;;;;;;;;;;;;;;;;;;
+
+(setq org-refile-targets (quote ((nil :maxlevel . 9)
+                                 (org-agenda-files :maxlevel . 9))))
+(setq org-refile-use-outline-path t)
+(setq org-outline-path-complete-in-steps nil)
+(setq org-refile-allow-creating-parent-nodes (quote confirm))
+(setq org-completion-use-ido t)
+
+(defun bh/is-project-p ()
+  "Any task with a todo keyword subtask"
+  (save-restriction
+    (widen)
+    (let ((has-subtask)
+          (subtree-end (save-excursion (org-end-of-subtree t)))
+          (is-a-task (member (nth 2 (org-heading-components)) org-todo-keywords-1)))
+      (save-excursion
+        (forward-line 1)
+        (while (and (not has-subtask)
+                    (< (point) subtree-end)
+                    (re-search-forward "^\*+ " subtree-end t))
+          (when (member (org-get-todo-state) org-todo-keywords-1)
+            (setq has-subtask t))))
+      (and is-a-task has-subtask))))
+
+(defun bh/is-project-subtree-p ()
+  "Any task with a todo keyword that is in a project subtree.
+Callers of this function already widen the buffer view."
+  (let ((task (save-excursion (org-back-to-heading 'invisible-ok)
+                              (point))))
+    (save-excursion
+      (bh/find-project-task)
+      (if (equal (point) task)
+          nil
+        t))))
+
+(defun bh/is-task-p ()
+  "Any task with a todo keyword and no subtask"
+  (save-restriction
+    (widen)
+    (let ((has-subtask)
+          (subtree-end (save-excursion (org-end-of-subtree t)))
+          (is-a-task (member (nth 2 (org-heading-components)) org-todo-keywords-1)))
+      (save-excursion
+        (forward-line 1)
+        (while (and (not has-subtask)
+                    (< (point) subtree-end)
+                    (re-search-forward "^\*+ " subtree-end t))
+          (when (member (org-get-todo-state) org-todo-keywords-1)
+            (setq has-subtask t))))
+      (and is-a-task (not has-subtask)))))
+
+(defun bh/is-subproject-p ()
+  "Any task which is a subtask of another project"
+  (let ((is-subproject)
+        (is-a-task (member (nth 2 (org-heading-components)) org-todo-keywords-1)))
+    (save-excursion
+      (while (and (not is-subproject) (org-up-heading-safe))
+        (when (member (nth 2 (org-heading-components)) org-todo-keywords-1)
+          (setq is-subproject t))))
+    (and is-a-task is-subproject)))
+
+(defun bh/list-sublevels-for-projects-indented ()
+  "Set org-tags-match-list-sublevels so when restricted to a subtree we list all subtasks.
+  This is normally used by skipping functions where this variable is already local to the agenda."
+  (if (marker-buffer org-agenda-restrict-begin)
+      (setq org-tags-match-list-sublevels 'indented)
+    (setq org-tags-match-list-sublevels nil))
+  nil)
+
+(defun bh/list-sublevels-for-projects ()
+  "Set org-tags-match-list-sublevels so when restricted to a subtree we list all subtasks.
+  This is normally used by skipping functions where this variable is already local to the agenda."
+  (if (marker-buffer org-agenda-restrict-begin)
+      (setq org-tags-match-list-sublevels t)
+    (setq org-tags-match-list-sublevels nil))
+  nil)
+
+(defvar bh/hide-scheduled-and-waiting-next-tasks t)
+
+(defun bh/toggle-next-task-display ()
+  (interactive)
+  (setq bh/hide-scheduled-and-waiting-next-tasks (not bh/hide-scheduled-and-waiting-next-tasks))
+  (when  (equal major-mode 'org-agenda-mode)
+    (org-agenda-redo))
+  (message "%s WAITING and SCHEDULED NEXT Tasks" (if bh/hide-scheduled-and-waiting-next-tasks "Hide" "Show")))
+
+(defun bh/skip-stuck-projects ()
+  "Skip trees that are not stuck projects"
+  (save-restriction
+    (widen)
+    (let ((next-headline (save-excursion (or (outline-next-heading) (point-max)))))
+      (if (bh/is-project-p)
+          (let* ((subtree-end (save-excursion (org-end-of-subtree t)))
+                 (has-next ))
+            (save-excursion
+              (forward-line 1)
+              (while (and (not has-next) (< (point) subtree-end) (re-search-forward "^\\*+ NEXT " subtree-end t))
+                (unless (member "WAITING" (org-get-tags-at))
+                  (setq has-next t))))
+            (if has-next
+                nil
+              next-headline)) ; a stuck project, has subtasks but no next task
+        nil))))
+
+(defun bh/skip-non-stuck-projects ()
+  "Skip trees that are not stuck projects"
+  ;; (bh/list-sublevels-for-projects-indented)
+  (save-restriction
+    (widen)
+    (let ((next-headline (save-excursion (or (outline-next-heading) (point-max)))))
+      (if (bh/is-project-p)
+          (let* ((subtree-end (save-excursion (org-end-of-subtree t)))
+                 (has-next ))
+            (save-excursion
+              (forward-line 1)
+              (while (and (not has-next) (< (point) subtree-end) (re-search-forward "^\\*+ NEXT " subtree-end t))
+                (unless (member "WAITING" (org-get-tags-at))
+                  (setq has-next t))))
+            (if has-next
+                next-headline
+              nil)) ; a stuck project, has subtasks but no next task
+        next-headline))))
+
+(defun bh/skip-non-projects ()
+  "Skip trees that are not projects"
+  ;; (bh/list-sublevels-for-projects-indented)
+  (if (save-excursion (bh/skip-non-stuck-projects))
+      (save-restriction
+        (widen)
+        (let ((subtree-end (save-excursion (org-end-of-subtree t))))
+          (cond
+           ((bh/is-project-p)
+            nil)
+           ((and (bh/is-project-subtree-p) (not (bh/is-task-p)))
+            nil)
+           (t
+            subtree-end))))
+    (save-excursion (org-end-of-subtree t))))
+
+(defun bh/skip-project-trees-and-habits ()
+  "Skip trees that are projects"
+  (save-restriction
+    (widen)
+    (let ((subtree-end (save-excursion (org-end-of-subtree t))))
+      (cond
+       ((bh/is-project-p)
+        subtree-end)
+       ((org-is-habit-p)
+        subtree-end)
+       (t
+        nil)))))
+
+(defun bh/skip-projects-and-habits-and-single-tasks ()
+  "Skip trees that are projects, tasks that are habits, single non-project tasks"
+  (save-restriction
+    (widen)
+    (let ((next-headline (save-excursion (or (outline-next-heading) (point-max)))))
+      (cond
+       ((org-is-habit-p)
+        next-headline)
+       ((and bh/hide-scheduled-and-waiting-next-tasks
+             (member "WAITING" (org-get-tags-at)))
+        next-headline)
+       ((bh/is-project-p)
+        next-headline)
+       ((and (bh/is-task-p) (not (bh/is-project-subtree-p)))
+        next-headline)
+       (t
+        nil)))))
+
+(defun bh/skip-project-tasks-maybe ()
+  "Show tasks related to the current restriction.
+When restricted to a project, skip project and sub project tasks, habits, NEXT tasks, and loose tasks.
+When not restricted, skip project and sub-project tasks, habits, and project related tasks."
+  (save-restriction
+    (widen)
+    (let* ((subtree-end (save-excursion (org-end-of-subtree t)))
+           (next-headline (save-excursion (or (outline-next-heading) (point-max))))
+           (limit-to-project (marker-buffer org-agenda-restrict-begin)))
+      (cond
+       ((bh/is-project-p)
+        next-headline)
+       ((org-is-habit-p)
+        subtree-end)
+       ((and (not limit-to-project)
+             (bh/is-project-subtree-p))
+        subtree-end)
+       ((and limit-to-project
+             (bh/is-project-subtree-p)
+             (member (org-get-todo-state) (list "NEXT")))
+        subtree-end)
+       (t
+        nil)))))
+
+(defun bh/skip-project-tasks ()
+  "Show non-project tasks.
+Skip project and sub-project tasks, habits, and project related tasks."
+  (save-restriction
+    (widen)
+    (let* ((subtree-end (save-excursion (org-end-of-subtree t))))
+      (cond
+       ((bh/is-project-p)
+        subtree-end)
+       ((org-is-habit-p)
+        subtree-end)
+       ((bh/is-project-subtree-p)
+        subtree-end)
+       (t
+        nil)))))
+
+(defun bh/skip-non-project-tasks ()
+  "Show project tasks.
+Skip project and sub-project tasks, habits, and loose non-project tasks."
+  (save-restriction
+    (widen)
+    (let* ((subtree-end (save-excursion (org-end-of-subtree t)))
+           (next-headline (save-excursion (or (outline-next-heading) (point-max)))))
+      (cond
+       ((bh/is-project-p)
+        next-headline)
+       ((org-is-habit-p)
+        subtree-end)
+       ((and (bh/is-project-subtree-p)
+             (member (org-get-todo-state) (list "NEXT")))
+        subtree-end)
+       ((not (bh/is-project-subtree-p))
+        subtree-end)
+       (t
+        nil)))))
+
+(defun bh/skip-projects-and-habits ()
+  "Skip trees that are projects and tasks that are habits"
+  (save-restriction
+    (widen)
+    (let ((subtree-end (save-excursion (org-end-of-subtree t))))
+      (cond
+       ((bh/is-project-p)
+        subtree-end)
+       ((org-is-habit-p)
+        subtree-end)
+       (t
+        nil)))))
+
+(defun bh/skip-non-subprojects ()
+  "Skip trees that are not projects"
+  (let ((next-headline (save-excursion (outline-next-heading))))
+    (if (bh/is-subproject-p)
+        nil
+      next-headline)))
+
+(defun bh/clock-in-to-next (kw)
+  "Switch a task from TODO to NEXT when clocking in.
+Skips capture tasks, projects, and subprojects.
+Switch projects and subprojects from NEXT back to TODO"
+  (when (not (and (boundp 'org-capture-mode) org-capture-mode))
+    (cond
+     ((and (member (org-get-todo-state) (list "TODO"))
+           (bh/is-task-p))
+      "NEXT")
+     ((and (member (org-get-todo-state) (list "NEXT"))
+           (bh/is-project-p))
+      "TODO"))))
+
+(defun bh/find-project-task ()
+  "Move point to the parent (project) task if any"
+  (save-restriction
+    (widen)
+    (let ((parent-task (save-excursion (org-back-to-heading 'invisible-ok) (point))))
+      (while (org-up-heading-safe)
+        (when (member (nth 2 (org-heading-components)) org-todo-keywords-1)
+          (setq parent-task (point))))
+      (goto-char parent-task)
+      parent-task)))
+
+(defun bh/punch-in (arg)
+  "Start continuous clocking and set the default task to the
+selected task.  If no task is selected set the Organization task
+as the default task."
+  (interactive "p")
+  (setq bh/keep-clock-running t)
+  (if (equal major-mode 'org-agenda-mode)
+      ;;
+      ;; We're in the agenda
+      ;;
+      (let* ((marker (org-get-at-bol 'org-hd-marker))
+             (tags (org-with-point-at marker (org-get-tags-at))))
+        (if (and (eq arg 4) tags)
+            (org-agenda-clock-in '(16))
+          (bh/clock-in-organization-task-as-default)))
+    ;;
+    ;; We are not in the agenda
+    ;;
+    (save-restriction
+      (widen)
+      ; Find the tags on the current task
+      (if (and (equal major-mode 'org-mode) (not (org-before-first-heading-p)) (eq arg 4))
+          (org-clock-in '(16))
+        (bh/clock-in-organization-task-as-default)))))
+
+(defun bh/punch-out ()
+  (interactive)
+  (setq bh/keep-clock-running nil)
+  (when (org-clock-is-active)
+    (org-clock-out))
+  (org-agenda-remove-restriction-lock))
+
+(defun bh/clock-in-default-task ()
+  (save-excursion
+    (org-with-point-at org-clock-default-task
+      (org-clock-in))))
+
+(defun bh/clock-in-parent-task ()
+  "Move point to the parent (project) task if any and clock in"
+  (let ((parent-task))
+    (save-excursion
+      (save-restriction
+        (widen)
+        (while (and (not parent-task) (org-up-heading-safe))
+          (when (member (nth 2 (org-heading-components)) org-todo-keywords-1)
+            (setq parent-task (point))))
+        (if parent-task
+            (org-with-point-at parent-task
+              (org-clock-in))
+          (when bh/keep-clock-running
+            (bh/clock-in-default-task)))))))
+
+(defun bh/clock-in-organization-task-as-default ()
+  (interactive)
+  (org-with-point-at (org-id-find bh/organization-task-id 'marker)
+    (org-clock-in '(16))))
+
+(defun bh/clock-out-maybe ()
+  (when (and bh/keep-clock-running
+             (not org-clock-clocking-in)
+             (marker-buffer org-clock-default-task)
+             (not org-clock-resolving-clocks-due-to-idleness))
+    (bh/clock-in-parent-task)))
+#+end_src
+
+** ido
+
+[[http://www.emacswiki.org/emacs/InteractivelyDoThings][ido]] is a really great addition to Emacs. It greatly improves nearly
+all minibuffer actions. Just have a look at [[https://www.youtube.com/watch?v=AfZX39jd6cw][YouTube]] to get an
+impression.
+
+#+begin_src emacs-lisp
+  (use-package ido
+    :init
+
+    (ido-mode t)
+    (setq ido-enable-flex-matching t
+          redisplay-dont-pause t
+          ido-use-faces nil)
+    (set-default 'imenu-auto-rescan t))
+
+  (use-package flx-ido
+    :init
+    (flx-ido-mode 1))
+
+  (use-package ido-vertical-mode
+    :init
+    (ido-vertical-mode)
+
+    (custom-set-variables
+     '(ido-vertical-define-keys 'C-n-C-p-up-and-down)))
+
+  (use-package ido-ubiquitous)
+#+end_src
+
+** yasnippet
+
+[[https://github.com/capitaomorte/yasnippet][YASnippet]] is a snippet system for Emacs, similiar to TextMate's tab
+triggered snippets.
+
+#+begin_src emacs-lisp
+(use-package yasnippet
+  :init
+  (yas-global-mode 1))
+#+end_src
+
+** web-mode
+
+As a web developer [[http://web-mode.org/][web-mode]] is a must-have. It enables
+pseudo-multi-modes (for web templates, where you often have mixed
+contents like CSS, JS and HTML in one file).
+
+#+begin_src emacs-lisp
+(use-package web-mode
+  :commands web-mode
+
+  :init
+  (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.jsp\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+
+  :config
+  (custom-set-variables
+   '(web-mode-disable-auto-pairing t)
+   '(web-mode-enable-auto-pairing nil)))
+#+end_src
+
+** autocomplete
+
+Autocomplete provides a nice autocompletion feature for Emacs,
+similiar to the autocompletion provided by XCode.
+
+#+begin_src emacs-lisp
+  (use-package auto-complete-config
+    :init
+    (ac-config-default)
+
+    (setq web-mode-ac-sources-alist
+          '(("erb" . (ac-source-yasnippet))
+            ("php" . (ac-source-yasnippet))
+            ("css" . (ac-source-css-property))
+            ("html" . (ac-source-words-in-buffer ac-source-abbrev))))
+
+    (add-to-list 'ac-modes 'objc-mode)
+    (add-to-list 'ac-modes 'web-mode)
+    (add-to-list 'ac-modes 'sql-mode)
+    (add-to-list 'ac-modes 'c-mode)
+    (add-to-list 'ac-modes 'swift-mode)
+
+    (add-hook 'web-mode-before-auto-complete-hooks
+              '(lambda ()
+                 (let ((web-mode-cur-language
+                        (web-mode-language-at-pos)))
+                   (if (string= web-mode-cur-language "php")
+                       (yas-activate-extra-mode 'php-mode)
+                     (yas-deactivate-extra-mode 'php-mode))
+
+                   (if (string= web-mode-cur-language "erb")
+                       (yas-activate-extra-mode 'ruby-mode)
+                     (yas-deactivate-extra-mode 'ruby-mode))))))
+#+end_src
+
+
+** PostgreSQL
+
+PostgreSQL has its own, very specific indentation settings. We have to
+respect that.
+
+#+begin_src emacs-lisp
+(c-add-style "postgresql"
+             '("bsd"
+               (c-auto-align-backslashes . nil)
+               (c-basic-offset . 4)
+               (c-offsets-alist . ((case-label . +)
+                                   (label . -)
+                                   (statement-case-open . +)))
+               (fill-column . 78)
+               (indent-tabs-mode . t)
+               (tab-width . 4)))
+
+;; perl files
+
+(defun pgsql-perl-style ()
+  "Perl style adjusted for PostgreSQL project"
+  (interactive)
+  (setq perl-brace-imaginary-offset 0)
+  (setq perl-brace-offset 0)
+  (setq perl-continued-brace-offset 4)
+  (setq perl-continued-statement-offset 4)
+  (setq perl-indent-level 4)
+  (setq perl-label-offset -2)
+  (setq tab-width 4))
+
+(add-hook 'perl-mode-hook
+          (defun postgresql-perl-mode-hook ()
+            (when (string-match "/postgres\\(ql\\)?/" buffer-file-name)
+              (pgsql-perl-style))))
+
+;; doc files
+
+(add-hook 'sgml-mode-hook
+          (defun postgresql-sgml-mode-hook ()
+            (when (and buffer-file-name (string-match "/postgres\\(ql\\)?/" buffer-file-name))
+              (setq fill-column 78)
+              (setq indent-tabs-mode nil)
+              (setq sgml-basic-offset 1))))
+
+
+;;; Makefiles
+
+;; use GNU make mode instead of plain make mode
+(add-to-list 'auto-mode-alist '("/postgres\\(ql\\)?/.*Makefile.*" . makefile-gmake-mode))
+(add-to-list 'auto-mode-alist '("/postgres\\(ql\\)?/.*\\.mk\\'" . makefile-gmake-mode))
+#+end_src
+
+** C/C++ modifications
+
+Just indentation in a sane way.
+
+#+begin_src emacs-lisp
+(defun ck-init-c ()
+  (if (string-match "/postgres/" buffer-file-name)
+      (progn
+        (c-set-style "postgresql")
+        (setq c-basic-offset 2)
+        (setq-default c-basic-offset 2))
+
+    (progn
+      (c-set-style "bsd")
+      (setq c-basic-offset 2)
+      (c-set-offset 'arglist-cont 0)
+      (c-set-offset 'arglist-intro 2)
+      (c-set-offset 'case-label 2)
+      (c-set-offset 'arglist-close 0))))
+
+(add-hook 'c-mode-hook 'ck-init-c)
+(add-hook 'c++-mode-hook 'ck-init-c)
+#+end_src
+
+** CMake support
+
+We want to be able to edit CMake files in a sane way.
+
+#+begin_src emacs-lisp
+(use-package cmake-mode
+  :commands cmake-mode
+  :init
+
+  (add-to-list 'auto-mode-alist '(".cmake" . cmake-mode))
+  (add-to-list 'auto-mode-alist '("CMakeLists.txt" . cmake-mode)))
+#+end_src
+
+** Elang support
+
+#+begin_src emacs-lisp
+(defun erl-get-lib-path (path)
+  (format "%s/%s/emacs" path (car (directory-files path nil "^tools"))))
+
+(cond
+ ((file-exists-p "/usr/local/lib/erlang")
+  (setq load-path (cons (erl-get-lib-path "/usr/local/lib/erlang/lib") load-path))
+  (setq erlang-root-dir "/usr/local/lib/erlang")
+  (setq exec-path (cons "/usr/local/lib/erlang/bin" exec-path)))
+
+ ((file-exists-p "/usr/lib/erlang")
+  (setq load-path (cons (erl-get-lib-path "/usr/lib/erlang/lib") load-path))
+  (setq erlang-root-dir "/usr/lib/erlang")
+  (setq exec-path (cons "/usr/lib/erlang/bin" exec-path))))
+
+(require 'erlang-start)
+#+end_src
+
+** expand-region
+
+[[https://github.com/magnars/expand-region.el][expand-region]] is an Emacs extension to increase selected region by semantic units.
+
+#+begin_src emacs-lisp
+(use-package expand-region
+  :init
+  (define-key my-keys-minor-mode-map (kbd "C-=") 'er/expand-region))
+#+end_src
+
+** flycheck
+
+   [[https://github.com/flycheck/flycheck][Flycheck]] is a nice mode for on-the-fly syntax checking.
+
+#+begin_src emacs-lisp
+(add-hook 'after-init-hook #'global-flycheck-mode)
+
+(setq flycheck-check-syntax-automatically '(mode-enabled new-line save))
+(setq flycheck-jshintrc "~/.emacs.d/jshint.json")
+#+end_src
+
+** flyspell
+
+[[http://www.emacswiki.org/emacs/FlySpell][Fly Spell]] enables on-the-fly spell checking in Emacs.
+
+#+begin_src emacs-lisp
+(defun fd-switch-dictionary()
+  (interactive)
+  (let* ((dic ispell-current-dictionary)
+         (change (if (string= dic "deutsch") "en" "deutsch")))
+    (ispell-change-dictionary change)
+    (message "Dictionary switched from %s to %s" dic change)))
+
+(add-hook 'mail-mode-hook 'flyspell-mode)
+(add-hook 'markdown-mode-hook 'flyspell-mode)
+(add-hook 'rst-mode-hook 'flyspell-mode)
+
+(setq ispell-program-name "aspell")
+#+end_src
+
+** Go support
+
+   Sometimes we edit Go as well, so this is useful.
+
+#+begin_src emacs-lisp
+(use-package go-mode)
+#+end_src
+
+** ibuffer
+
+   [[http://www.emacswiki.org/emacs/IbufferMode][IBuffer]] is an advanced replacement for BufferMenu. Very neat for
+   switching buffers and such.
+
+#+begin_src emacs-lisp
+(use-package ibuffer
+  :commands ibuffer
+  :init
+  (define-key my-keys-minor-mode-map (kbd "C-x C-b") 'ibuffer)
+
+  (setq ibuffer-saved-filter-groups
+        (quote (("default"
+                 ("dired" (mode . dired-mode))
+                 ("Org" (or
+                         (mode . org-mode)))
+                 ("emacs" (or
+                           (name . "^\\*scratch\\*$")
+                           (name . "^\\*Messages\\*$")
+                           (name . "^\\*Help\\*$")
+                           (name . "^\\*Flycheck error messages\\*$")))
+                 ("wanderlust" (or
+                                (mode . wl-folder-mode)
+                                (mode . wl-summary-mode)
+                                (mode . mime-view-mode)))))))
+
+  (add-hook 'ibuffer-mode-hook
+            (lambda ()
+              (ibuffer-switch-to-saved-filter-groups "default"))))
+#+end_src
+
+** JS modifications
+
+   Just a few indentation settings.
+
+#+begin_src emacs-lisp
+(setq js-indent-level 2)
+(setq-default js-indent-level 2)
+#+end_src
+
+** magit
+
+   [[https://github.com/magit/magit][Magit]] is an Emacs git integration. I use it all the time, it rocks.
+
+#+begin_src emacs-lisp
+(use-package magit
+  :commands magit-status
+  :init
+  (when (featurep 'ns)
+    (setq magit-emacsclient-executable "/usr/local/bin/emacsclient"))
+
+  (define-key my-keys-minor-mode-map (kbd "C-x C-a") 'magit-status))
+#+end_src
+
+** mail-mode
+
+   Just a few modifications such as colors and such.
+
+#+begin_src emacs-lisp
+(add-to-list 'auto-mode-alist '("mutt-" . mail-mode))
+(add-to-list 'auto-mode-alist '("kmail" . mail-mode))
+(add-to-list 'auto-mode-alist '(".eml" . mail-mode))
+
+
+(defface mail-double-quoted-text-face
+  '((((class color)) :foreground "SteelBlue")) "Double-quoted email.")
+(defface mail-treble-quoted-text-face
+  '((((class color)) :foreground "SlateGrey")) "Treble-quoted email.")
+(defface mail-multiply-quoted-text-face
+  '((((class color)) :foreground "DarkSlateGrey")) "Multiply-quoted email.")
+
+(font-lock-add-keywords 'mail-mode
+                        '(("^\\(\\( *>\\)\\{4,\\}\\)\\(.*\\)$"
+                           (1 'font-lock-comment-delimiter-face)
+                           (3 'mail-multiply-quoted-text-face))
+                          ("^\\(\\( *>\\)\\{3\\}\\)\\(.*\\)$"
+                           (1 'font-lock-comment-delimiter-face)
+                           (3 'mail-treble-quoted-text-face))
+                          ("^\\( *> *>\\)\\(.*\\)$"
+                           (1 'font-lock-comment-delimiter-face)
+                           (2 'mail-double-quoted-text-face))))
+#+end_src
+
+
+** markdown support
+
+   Editing markdown in fundamental or text-mode sucks.
+
+#+begin_src emacs-lisp
+(use-package markdown-mode
+  :commands markdown-mode
+  :init
+  (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+  (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode)))
+#+end_src
+
+** multiple-cursor
+
+   [[https://github.com/magnars/multiple-cursors.el][Oh the niceness…]] this is one of my most-often used features. It rocks!
+
+#+begin_src emacs-lisp
+  (use-package multiple-cursors
+    :commands multiple-cursors
+    :init
+
+    (define-key my-keys-minor-mode-map (kbd "C-c v") 'mc/edit-lines)
+    (define-key my-keys-minor-mode-map (kbd "C-c C-d") 'mc/mark-next-like-this)
+    (define-key my-keys-minor-mode-map (kbd "C-c M-d") 'mc/mark-previous-like-this)
+    (define-key my-keys-minor-mode-map (kbd "C-c D") 'mc/mark-all-like-this))
+#+end_src
+
+
+** Perl support
+
+   There seem to be references to =cperl-mode= in various pieces of
+   code. We don't use it.
+
+#+begin_src
+(defalias 'perl-mode 'cperl-mode)
+#+end_src
+
+** PHP support
+
+   Just indentation, nothing special.
+
+#+begin_src emacs-lisp
+(use-package php-mode
+  :commands php-mode
+  :init
+  (defun ck-init-php ()
+    (setq c-basic-offset 2)
+    (c-set-offset 'arglist-cont 0)
+    (c-set-offset 'arglist-intro 2)
+    (c-set-offset 'case-label 2)
+    (c-set-offset 'arglist-close 0))
+
+  (add-hook 'php-mode-hook 'ck-init-php))
+#+end_src
+
+** Rails integration
+
+   We use RVM (and thus =rvm-mode=) and =projectile-rails=.
+
+#+begin_src emacs-lisp
+  (use-package rvm
+    :commands rvm-use-default
+    :init
+    (add-hook 'ruby-mode-hook (lambda ()
+                                (interactive)
+                                (rvm-use-default))))
+
+  (use-package projectile-rails
+    :commands projectile-rails-on
+    :init
+    (add-hook 'projectile-mode-hook 'projectile-rails-on))
+#+end_src
+
+** rainbow-delimiters
+
+   [[https://github.com/jlr/rainbow-delimiters][Rainbow delimiters]] is a “rainbow parentheses”-like mode which
+   highlights parentheses, brackets, and braces according to their
+   depth. Each successive level is highlighted in a different
+   color. This makes it easy to spot matching delimiters, orient
+   yourself in the code, and tell which statements are at a given
+   depth.
+
+#+begin_src emacs-lisp
+(use-package rainbow-delimiters
+  :init
+  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+#+end_src
+
+** ruby support
+
+   Mainly =auto-mode-alist= and indentation.
+
+#+begin_src emacs-lisp
+(use-package ruby-mode
+  :commands ruby-mode
+  :init
+  (add-hook 'ruby-mode-hook 'turn-on-font-lock)
+  (add-hook 'ruby-mode-hook (lambda ()
+                              (setq tab-width 2
+                                    indent-tabs-mode nil
+                                        ;ruby-deep-arglist nil
+                                        ;ruby-deep-indent-paren nil
+                                    ruby-insert-encoding-magic-comment nil)))
+
+  (add-to-list 'auto-mode-alist '("\\.rb$" . ruby-mode))
+  (add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
+  (add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
+  (add-to-list 'auto-mode-alist '("\\.gemspec$" . ruby-mode))
+  (add-to-list 'auto-mode-alist '("\\.ru$" . ruby-mode))
+  (add-to-list 'auto-mode-alist '("Gemfile$" . ruby-mode))
+  (add-to-list 'auto-mode-alist '("\\.prawn$" . ruby-mode))
+
+  (define-key my-keys-minor-mode-map (kbd "C-c r r") 'inf-ruby)
+
+
+  (defadvice ruby-indent-line (after line-up-args activate)
+    (let (indent prev-indent arg-indent)
+      (save-excursion
+        (back-to-indentation)
+        (when (zerop (car (syntax-ppss)))
+          (setq indent (current-column))
+          (skip-chars-backward " \t\n")
+          (when (eq ?, (char-before))
+            (ruby-backward-sexp)
+            (back-to-indentation)
+            (setq prev-indent (current-column))
+            (skip-syntax-forward "w_.")
+            (skip-chars-forward " ")
+            (setq arg-indent (+ (ruby-current-indentation) ruby-indent-level))))) ;; (current-column)
+      (when prev-indent
+        (let ((offset (- (current-column) indent)))
+          (cond ((< indent prev-indent)
+                 (indent-line-to prev-indent))
+                ((= indent prev-indent)
+                 (indent-line-to arg-indent)))
+          (when (> offset 0) (forward-char offset)))))))
+#+end_src
+
+** Rust support
+
+#+begin_src emacs-lisp
+(use-package rust-mode
+  :commands rust-mode
+  :init
+  (setq rust-indent-unit 2)
+  (setq-default rust-indent-unit 2))
+#+end_src
+
+** SCSS mode
+
+#+begin_src emacs-lisp
+(use-package scss-mode
+  :commands scss-mode
+  :init
+  (add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
+
+  (setq-default scss-compile-at-save nil)
+  (setq-default css-indent-offset 2))
+#+end_src
+
+** smart-mode-line
+
+   Unclutters my mode line (e.g. hides minor modes).
+
+#+begin_src emacs-lisp
+(use-package smart-mode-line
+  :commands smart-mode-line
+  :init
+  (if after-init-time (sml/setup)
+    (add-hook 'after-init-hook 'sml/setup))
+
+  :config
+  (custom-set-variables
+   '(sml/hidden-modes (quote (" hl-p" " my-keys" " pair" " HRB" " AC" " GitGutter" " Flymake" " yas" " SP" " WS" " MRev")))
+   '(custom-safe-themes (quote ("6a37be365d1d95fad2f4d185e51928c789ef7a4ccf17e7ca13ad63a8bf5b922f" default))))
+
+  (add-to-list 'sml/replacer-regexp-list '("^~/\\(data/\\)?[Ss]ites/" ":WEB:"))
+  (add-to-list 'sml/replacer-regexp-list '("^~/\\(data/\\)?dev/" ":DEV:"))
+  (add-to-list 'sml/replacer-regexp-list '("^~/\\(data/\\)?dev/postgres/" ":PG:"))
+  (add-to-list 'sml/replacer-regexp-list '("^~/\\(data/\\)?Documents/" ":DOC:")))
+#+end_src
+
+** Smex
+
+   [[https://github.com/nonsequitur/smex/][Smex]] is a M-x enhancement for Emacs. Built on top of Ido, it
+   provides a convenient interface to your recently and most
+   frequently used commands. And to all the other commands, too.
+
+#+begin_src emacs-lisp
+(use-package smex
+  :init
+  (smex-initialize)
+
+  (define-key my-keys-minor-mode-map (kbd "M-x") 'smex)
+  (define-key my-keys-minor-mode-map (kbd "M-X") 'smex-major-mode-commands)
+
+  (define-key my-keys-minor-mode-map (kbd "C-c M-x") 'execute-extended-command))
+#+end_src
+
+** SQL
+
+#+begin_src emacs-lisp
+(add-hook 'sql-interactive-mode-hook
+          (lambda ()
+            (toggle-truncate-lines t)))
+
+(add-hook 'sql-mode-hook 'sqlup-mode)
+(add-hook 'sql-interactive-mode-hook 'sqlup-mode)
+
+(define-key my-keys-minor-mode-map (kbd "C-c u") 'sqlup-capitalize-keywords-in-region)
+
+(defun sql-indent-string ()
+  "Indents the string under the cursor as SQL."
+  (interactive)
+  (save-excursion
+    (er/mark-inside-quotes)
+    (let* ((text (buffer-substring-no-properties (region-beginning) (region-end)))
+           (pos (region-beginning))
+           (column (progn (goto-char pos) (current-column)))
+           (formatted-text (with-temp-buffer
+                             (insert text)
+                             (delete-trailing-whitespace)
+                             (sql-indent-buffer)
+                             (replace-string "\n" (concat "\n" (make-string column (string-to-char " "))) nil (point-min) (point-max))
+                             (buffer-string))))
+      (delete-region (region-beginning) (region-end))
+      (goto-char pos)
+      (insert formatted-text))))
+#+end_src
+
+** Swift support
+
+#+begin_src emacs-lisp
+(use-package swift
+  :commands swift-mode
+  :init
+  (setq swift-indent-offset 2))
+#+end_src
+
+** Tramp
+
+   Tramp has problems with the ZSH, so ensure we use Bash.
+
+#+begin_src emacs-lisp
+(eval-after-load 'tramp '(setenv "SHELL" "/bin/bash"))
+#+end_src
+
+** which-function-mode
+
+   This little mode displays the function the point is currently
+   located in in the mode line.
+
+#+begin_src emacs-lisp
+(which-function-mode)
+
+(add-to-list 'which-func-modes 'ruby-mode)
+(add-to-list 'which-func-modes 'emacs-lisp-mode)
+(add-to-list 'which-func-modes 'js-mode)
+(add-to-list 'which-func-modes 'c-mode)
+(add-to-list 'which-func-modes 'php-mode)
+#+end_src
+
+** whitespace-mode
+
+#+begin_src emacs-lisp
+(use-package whitespace
+  :init
+  (global-whitespace-mode t)
+
+  (setq show-trailing-whitespace t)
+  ;;(add-hook 'before-save-hook 'delete-trailing-whitespace)
+  (setq whitespace-line-column 79)
+  (setq whitespace-style
+        '(face lines-tail trailing indentation))
+
+  ;;  indentation::tab indentation::space tabs tab-mark spaces space-mark
+
+  (custom-set-faces
+   '(whitespace-trailing ((t (:background "#f2777a" :weight bold))))))
+#+end_src
+
+** Wanderlust
+
+   This is what I use for email.
+
+#+begin_src emacs-lisp
+(use-package wl
+  :commands wl wl-other-frame wl-draft
+  :init
+  (custom-set-variables
+   '(wl-init-file "~/.emacs.d/wl")))
+#+end_src
+
+** YAML support
+
+#+begin_src emacs-lisp
+(use-package yaml-mode
+  :commands yaml-mode
+  :init
+  (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode)))
+#+end_src
+
+** easy gists
+
+#+begin_src emacs-lisp
+(use-package gist
+  :commands gist-region gist-region-private gist-buffer gist-buffer-private gist-region-or-buffer gist-region-or-buffer-private)
+#+end_src
+
+** extra functions for dired
+
+#+begin_src emacs-lisp
+(require 'dired-x)
+#+end_src
+
