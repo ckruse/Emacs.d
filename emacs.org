@@ -3,7 +3,7 @@
 * Christian's Emacs configuration
 ** Initialisation
 
-   Inspired by [[Sacha Chua's Emacs configuration]], I'm using a
+   Inspired by [[https://github.com/sachac/.emacs.d/blob/gh-pages/Sacha.org][Sacha Chua's Emacs configuration]], I'm using a
    minimalistic =emacs.d/init.el= file to load an org mode document
    with elisp snippets embedded. org-babel extracts the snippets and
    evaluates the code. This is the content of my =init.el=:
