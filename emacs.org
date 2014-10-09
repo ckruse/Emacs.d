@@ -1281,6 +1281,19 @@ similiar to the autocompletion provided by XCode.
                      (yas-deactivate-extra-mode 'ruby-mode))))))
 #+end_src
 
+** key-chord
+
+#+begin_src emacs-lisp
+  (use-package key-chord
+   :init
+   (message "HAAA")
+   (key-chord-mode 1)
+   (key-chord-define-global "uu" 'undo)
+   (key-chord-define-global "oo" 'switch-window)
+   (key-chord-define-global "jl" 'ace-jump-word-mode)
+   (key-chord-define-global "jl" 'ace-jump-line-mode))
+
+#+end_src
 
 ** PostgreSQL
 

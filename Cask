@@ -33,6 +33,8 @@
 (depends-on "rainbow-delimiters")
 (depends-on "rvm")
 
+(depends-on "key-chord")
+
 ;; languages
 
 (depends-on "cmake-mode")
