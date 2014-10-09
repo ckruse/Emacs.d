@@ -1286,7 +1286,6 @@ similiar to the autocompletion provided by XCode.
 #+begin_src emacs-lisp
   (use-package key-chord
    :init
-   (message "HAAA")
    (key-chord-mode 1)
    (key-chord-define-global "uu" 'undo)
    (key-chord-define-global "oo" 'switch-window)
