@@ -252,10 +252,10 @@ electric indentation.
 
 #+begin_src emacs-lisp
 (define-prefix-command 'often-used-files-map)
-(define-key ctl-x-map "o" 'often-used-files-map)
+(define-key ctl-x-map (kbd "c o") 'often-used-files-map)
 
 (define-key often-used-files-map "p" (lambda () (interactive) (find-file "~/Documents/org/passwords.org.gpg")))
-(define-key often-used-files-map "p" (lambda () (interactive) (find-file "~/Documents/org/inbox.org")))
+(define-key often-used-files-map "i" (lambda () (interactive) (find-file "~/Documents/org/inbox.org")))
 #+end_src
 
 ** Theming and fonts
