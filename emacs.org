@@ -245,6 +245,13 @@ electric indentation.
 (global-hl-line-mode t)
 #+end_src
 
+*** Safe local vars
+
+#+begin_src emacs-lisp
+(custom-set-variables
+  '(safe-local-variable-values (quote ((encoding . utf-8)))))
+#+end_src
+
 ** Shortcuts for opening often used files
 
    Some of my more often used files (like my =org-mode= inbox file)
