@@ -1602,17 +1602,19 @@ We want to be able to edit CMake files in a sane way.
    We use RVM (and thus =rvm-mode=) and =projectile-rails=.
 
 #+begin_src emacs-lisp
-  (use-package rvm
-    :commands rvm-use-default
-    :init
-    (add-hook 'ruby-mode-hook (lambda ()
-                                (interactive)
-                                (rvm-use-default))))
+    (use-package rvm
+      :commands rvm-use-default
+      :init
+      (setq rvm--current-ruby nil)
+      (add-hook 'ruby-mode-hook (lambda ()
+                                  (interactive)
+                                  (when (not rvm--current-ruby)
+                                    (rvm-use-default)))))
 
-  (use-package projectile-rails
-    :commands projectile-rails-on
-    :init
-    (add-hook 'projectile-mode-hook 'projectile-rails-on))
+    (use-package projectile-rails
+      :commands projectile-rails-on
+      :init
+      (add-hook 'projectile-mode-hook 'projectile-rails-on))
 #+end_src
 
 ** rainbow-delimiters
