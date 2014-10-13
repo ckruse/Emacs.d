@@ -1775,7 +1775,7 @@ We want to be able to edit CMake files in a sane way.
 ** Swift support
 
 #+begin_src emacs-lisp
-(use-package swift
+(use-package swift-mode
   :commands swift-mode
   :init
   (setq swift-indent-offset 2))
