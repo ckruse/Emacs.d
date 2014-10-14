@@ -245,6 +245,21 @@ electric indentation.
 (global-hl-line-mode t)
 #+end_src
 
+*** Move by logical line, not by visual line
+
+    By default Emacs moves lines by visual lines, but that sometimes
+    sucks. Thus we use this snippet to toggle between the two
+    modes. Idea by [[http://ergoemacs.org/][Xah Lee]].
+
+#+begin_src elisp
+(defun ck/toggle-line-move-visual ()
+  "Toggle behavior of up/down arrow key, by visual line vs logical line."
+  (interactive)
+  (if line-move-visual
+      (setq line-move-visual nil)
+    (setq line-move-visual t)))
+#+end_src
+
 *** Safe local vars
 
 #+begin_src emacs-lisp
