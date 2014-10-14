@@ -1798,6 +1798,16 @@ We want to be able to edit CMake files in a sane way.
   (setq swift-indent-offset 2))
 #+end_src
 
+** JavaScript
+
+#+begin_src emacs-lisp
+  (use-package js2-mode
+    :commands js2-mode
+    :init
+    (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+    (add-to-list 'interpreter-mode-alist '("node" . js2-mode)))
+#+end_src
+
 ** Tramp
 
    Tramp has problems with the ZSH, so ensure we use Bash.
