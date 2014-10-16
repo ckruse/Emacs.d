@@ -1484,24 +1484,37 @@ We want to be able to edit CMake files in a sane way.
   :init
   (define-key my-keys-minor-mode-map (kbd "C-x C-b") 'ibuffer)
 
+  (defun ck/define-projectile-filter-groups ()
+    (when (boundp 'projectile-known-projects)
+      (setq my/project-filter-groups
+            (mapcar
+             (lambda (it)
+               (let ((name (file-name-nondirectory (directory-file-name it))))
+                 `(,name (filename . ,(expand-file-name it)))))
+             projectile-known-projects))))
+
   (setq ibuffer-saved-filter-groups
-        (quote (("default"
-                 ("dired" (mode . dired-mode))
-                 ("Org" (or
-                         (mode . org-mode)))
-                 ("emacs" (or
-                           (name . "^\\*scratch\\*$")
-                           (name . "^\\*Messages\\*$")
-                           (name . "^\\*Help\\*$")
-                           (name . "^\\*Flycheck error messages\\*$")))
-                 ("wanderlust" (or
-                                (mode . wl-folder-mode)
-                                (mode . wl-summary-mode)
-                                (mode . mime-view-mode)))))))
+        (list
+         (cons "default"
+               (append
+                (ck/define-projectile-filter-groups)
+                '(("dired" (mode . dired-mode))
+                  ("Org" (or
+                          (mode . org-mode)))
+                  ("emacs" (or
+                            (name . "^\\*scratch\\*$")
+                            (name . "^\\*Messages\\*$")
+                            (name . "^\\*Help\\*$")
+                            (name . "^\\*Flycheck error messages\\*$")))
+                  ("wanderlust" (or
+                                 (mode . wl-folder-mode)
+                                 (mode . wl-summary-mode)
+                                 (mode . mime-view-mode))))))))
 
   (add-hook 'ibuffer-mode-hook
             (lambda ()
-              (ibuffer-switch-to-saved-filter-groups "default"))))
+              (ibuffer-switch-to-saved-filter-groups "default")))
+  (setq ibuffer-show-empty-filter-groups nil))
 #+end_src
 
 ** JS modifications
@@ -1558,7 +1571,6 @@ We want to be able to edit CMake files in a sane way.
 (add-hook 'mail-mode-hook 'turn-on-auto-fill)
 #+end_src
 
-
 ** markdown support
 
    Editing markdown in fundamental or text-mode sucks.
@@ -1585,7 +1597,6 @@ We want to be able to edit CMake files in a sane way.
     (define-key my-keys-minor-mode-map (kbd "C-c M-d") 'mc/mark-previous-like-this)
     (define-key my-keys-minor-mode-map (kbd "C-c D") 'mc/mark-all-like-this))
 #+end_src
-
 
 ** Perl support
 
