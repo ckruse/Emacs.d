@@ -1554,6 +1554,8 @@ We want to be able to edit CMake files in a sane way.
                           ("^\\( *> *>\\)\\(.*\\)$"
                            (1 'font-lock-comment-delimiter-face)
                            (2 'mail-double-quoted-text-face))))
+
+(add-hook 'mail-mode-hook 'turn-on-auto-fill)
 #+end_src
 
 
