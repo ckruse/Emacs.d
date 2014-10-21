@@ -266,6 +266,12 @@ electric indentation.
   '(safe-local-variable-values (quote ((encoding . utf-8)))))
 #+end_src
 
+*** No blinking cursor in Emacs 24.4
+
+#+begin_src emacs-lisp
+(blink-cursor-mode 0)
+#+end_src
+
 ** Shortcuts for opening often used files
 
    Some of my more often used files (like my =org-mode= inbox file)
