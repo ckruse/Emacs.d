@@ -1,8 +1,5 @@
 ;; -*- mode: emacs-lisp -*-
 
-(require 'w3m)
-(require 'mime-w3m)
-
 (setq
  elmo-maildir-folder-path "~/Mail"
 
@@ -42,15 +39,7 @@
  wl-queue-folder ".Defunct/Drafts"
  wl-temporary-file-directory "~/.cache/wl"
 
- ;; check this folder periodically, and update modeline
- wl-biff-check-folder-list '(".Defunct/INBOX" ".Termitel/INBOX") ;; check every 180 seconds
- ;; (default: wl-biff-check-interval)
-
- global-mode-string (cons
-                     '(wl-modeline-biff-status
-                       wl-modeline-biff-state-on
-                       wl-modeline-biff-state-off)
-                     global-mode-string)
+ mime-view-text/html-previewer 'shr
 
  ;; hide many fields from message buffers
  wl-message-ignored-field-list '("^.*:")
@@ -82,6 +71,20 @@
       mail-envelope-from 'header
       mail-interactive nil
       message-sendmail-envelope-from 'header)
+
+
+(when (not wl-biff-check-folder-list)
+    (setq
+     ;; check this folder periodically, and update modeline
+     wl-biff-check-folder-list '(".Defunct/INBOX" ".Termitel/INBOX") ;; check every 180 seconds
+     ;; (default: wl-biff-check-interval)
+
+     global-mode-string (cons
+                         '(wl-modeline-biff-status
+                           wl-modeline-biff-state-on
+                           wl-modeline-biff-state-off)
+                         global-mode-string)
+     ))
 
 ;; sort method: reverse date
 (defun wl-summary-overview-entity-compare-by-rdate (x y)
@@ -260,15 +263,5 @@
 (define-key wl-summary-mode-map (kbd "C-c d") 'ck-message-decrypt-pgp-nonmime)
 
 
-(eval-after-load "w3m"
-  '(progn
-     (define-key w3m-mode-map [left] 'backward-char)
-     (define-key w3m-mode-map [right] 'forward-char)
-     (define-key w3m-mode-map [up] 'previous-line)
-     (define-key w3m-mode-map [down] 'next-line)
-     (define-key w3m-minor-mode-map [left] 'backward-char)
-     (define-key w3m-minor-mode-map [right] 'forward-char)
-     (define-key w3m-minor-mode-map [up] 'previous-line)
-     (define-key w3m-minor-mode-map [down] 'next-line)))
 
 ;; eof
