@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: HTML5 DTD
+# key: doctype
+# binding: direct-keybinding
+# --
+<!DOCTYPE html>
