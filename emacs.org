@@ -1808,7 +1808,9 @@ We want to be able to edit CMake files in a sane way.
 (use-package swift-mode
   :commands swift-mode
   :init
-  (setq swift-indent-offset 2))
+  (setq swift-indent-offset 2)
+  :config
+  (setq flycheck-checkers (remove 'swift flycheck-checkers)))
 #+end_src
 
 ** JavaScript
