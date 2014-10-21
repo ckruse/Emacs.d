@@ -34,7 +34,6 @@
    cask file at [[https://github.com/ckruse/Emacs.d/blob/master/Cask][github]].
 
 #+begin_src emacs-lisp
-(add-to-list 'load-path "~/.emacs.d")
 (add-to-list 'load-path "~/.emacs.d/site-lisp")
 
 (require 'use-package)
