@@ -1866,6 +1866,9 @@ We want to be able to edit CMake files in a sane way.
 
   ;;  indentation::tab indentation::space tabs tab-mark spaces space-mark
 
+  (setq whitespace-global-modes '(c-mode c++-mode ruby-mode swift-mode
+                                  erlang-mode js2-mode elisp-mode))
+
   (custom-set-faces
    '(whitespace-trailing ((t (:background "#f2777a" :weight bold))))))
 #+end_src
