@@ -231,8 +231,6 @@ electric indentation.
 
 #+begin_src emacs-lisp
 (electric-indent-mode t)
-(add-hook 'yaml-mode-hook (lambda ()
-                            (electric-indent-local-mode -1)))
 #+end_src
 
 *** Highlight current line
