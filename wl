@@ -69,7 +69,7 @@
       mail-specify-envelope-from t
       message-sendmail-f-is-evil nil
       mail-envelope-from 'header
-      mail-interactive nil
+      mail-interactive t
       message-sendmail-envelope-from 'header)
 
 
