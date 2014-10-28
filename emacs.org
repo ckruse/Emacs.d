@@ -1935,3 +1935,19 @@ prefix argument."
 (global-set-key [remap org-kill-line] (bol-with-prefix org-kill-line))
 (global-set-key [remap kill-line] (bol-with-prefix paredit-kill))
 #+end_src
+** use aggressive indent mode
+
+   This mode re-indents every time one changes source code.
+
+#+begin_src emacs-lisp
+(use-package aggressive-indent
+  :commands aggressive-indent-mode
+  :init
+  (add-hook 'css-mode-hook #'aggressive-indent-mode)
+  (add-hook 'scss-mode-hook #'aggressive-indent-mode)
+  (add-hook 'web-mode-hook #'aggressive-indent-mode)
+  (add-hook 'ruby-mode-hook #'aggressive-indent-mode)
+  (add-hook 'swift-mode-hook #'aggressive-indent-mode)
+  (add-hook 'js2-mode-hook #'aggressive-indent-mode)
+)
+#+end_src
