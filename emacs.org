@@ -642,6 +642,7 @@ switching similiar to it. Very nice!
 (setq load-path (cons "/usr/share/emacs/site-lisp/org" load-path))
 (require 'org-loaddefs)
 (require 'org-agenda)
+(require 'org-wl)
 
 ;; Explicitly load required exporters
 (require 'ox-html)
