@@ -35,8 +35,6 @@
 
 (depends-on "key-chord")
 
-(depends-on "aggressive-indent")
-
 ;; languages
 
 (depends-on "cmake-mode")
