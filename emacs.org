@@ -1,4 +1,5 @@
 #+TITLE: Christian's Emacs configuration
+#+STARTUP: content
 
 * Christian's Emacs configuration
 ** Initialisation
