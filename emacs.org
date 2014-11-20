@@ -1860,17 +1860,18 @@ We want to be able to edit CMake files in a sane way.
 
   (setq show-trailing-whitespace t)
   ;;(add-hook 'before-save-hook 'delete-trailing-whitespace)
-  (setq whitespace-line-column 79)
+  ;;(setq whitespace-line-column 79)
   (setq whitespace-style
-        '(face lines-tail trailing indentation))
+        '(face trailing indentation))
+  ;;      '(face lines-tail trailing indentation))
 
   ;;  indentation::tab indentation::space tabs tab-mark spaces space-mark
 
   (setq whitespace-global-modes '(c-mode c++-mode ruby-mode swift-mode
-                                  erlang-mode js2-mode elisp-mode))
+                                  erlang-mode js2-mode elisp-mode)))
 
-  (custom-set-faces
-   '(whitespace-trailing ((t (:background "#f2777a" :weight bold))))))
+  ;;(custom-set-faces
+  ;; '(whitespace-trailing ((t (:background "#f2777a" :weight bold))))))
 #+end_src
 
 ** Wanderlust
