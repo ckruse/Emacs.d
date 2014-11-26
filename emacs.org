@@ -728,17 +728,17 @@ switching similiar to it. Very nice!
 (add-hook 'org-clock-out-hook 'bh/remove-empty-drawer-on-clock-out 'append)
 
 
-(global-set-key (kbd "<f12>") 'org-agenda)
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-cb" 'org-iswitchb)
-(global-set-key "\C-ca" 'org-archive-subtree)
-(global-set-key (kbd "M-+") 'org-capture)
+(global-set-key "\C-coa" 'org-agenda)
+(global-set-key "\C-col" 'org-store-link)
+(global-set-key "\C-cob" 'org-iswitchb)
+(global-set-key "\C-coa" 'org-archive-subtree)
 
-(global-set-key (kbd "<f9> I") 'bh/punch-in)
-(global-set-key (kbd "<f9> O") 'bh/punch-out)
+(global-set-key "\C-co+" 'org-capture)
+(global-set-key "\C-coi" 'bh/punch-in)
+(global-set-key "\C-coo" 'bh/punch-out)
 
-(global-set-key (kbd "<f11>") 'org-clock-goto)
-(global-set-key (kbd "C-<f11>") 'org-clock-in)
+(global-set-key "\C-cog" 'org-clock-goto)
+(global-set-key "\C-coI" 'org-clock-in)
 
 
 ;;;;;;;;;;;;;;;;;
