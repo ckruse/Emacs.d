@@ -727,18 +727,20 @@ switching similiar to it. Very nice!
 
 (add-hook 'org-clock-out-hook 'bh/remove-empty-drawer-on-clock-out 'append)
 
+(define-prefix-command 'ck/org-map)
+(define-key my-keys-minor-mode-map "\C-cco" 'ck/org-map)
 
-(global-set-key "\C-coa" 'org-agenda)
-(global-set-key "\C-col" 'org-store-link)
-(global-set-key "\C-cob" 'org-iswitchb)
-(global-set-key "\C-coa" 'org-archive-subtree)
+(define-key ck/org-map "a" 'org-agenda)
+(define-key ck/org-map "l" 'org-store-link)
+(define-key ck/org-map "b" 'org-iswitchb)
+(define-key ck/org-map "A" 'org-archive-subtree)
 
-(global-set-key "\C-co+" 'org-capture)
-(global-set-key "\C-coi" 'bh/punch-in)
-(global-set-key "\C-coo" 'bh/punch-out)
+(define-key ck/org-map "+" 'org-capture)
+(define-key ck/org-map "i" 'bh/punch-in)
+(define-key ck/org-map "o" 'bh/punch-out)
 
-(global-set-key "\C-cog" 'org-clock-goto)
-(global-set-key "\C-coI" 'org-clock-in)
+(define-key ck/org-map "g" 'org-clock-goto)
+(define-key ck/org-map "I" 'org-clock-in)
 
 
 ;;;;;;;;;;;;;;;;;
