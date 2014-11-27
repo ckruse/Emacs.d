@@ -1971,3 +1971,13 @@ prefix argument."
 (define-key ck/launcher-map "a" #'magit-status)
 #+end_src
 
+** =eshell= modifications
+
+#+begin_src emacs-lisp
+(defun eshell-mode-hook-func ()
+  (setq eshell-path-env (concat (getenv "PATH") ":" eshell-path-env)))
+  ;(setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
+  ;(define-key eshell-mode-map (kbd "M-s") 'other-window-or-split))
+ 
+(add-hook 'eshell-mode-hook 'eshell-mode-hook-func)
+#+end_src
