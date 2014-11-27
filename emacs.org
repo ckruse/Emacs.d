@@ -1966,7 +1966,7 @@ prefix argument."
 (define-key ck/launcher-map "i" #'package-install-from-buffer)
 (define-key ck/launcher-map "n" #'nethack)
 (define-key ck/launcher-map "p" #'paradox-list-packages)
-(define-key ck/launcher-map "s" #'shell)
+(define-key ck/launcher-map "s" #'eshell)
 (define-key ck/launcher-map "t" #'proced)
 (define-key ck/launcher-map "a" #'magit-status)
 #+end_src
