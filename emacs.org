@@ -1542,9 +1542,7 @@ We want to be able to edit CMake files in a sane way.
   :commands magit-status
   :init
   (when (featurep 'ns)
-    (setq magit-emacsclient-executable "/usr/local/bin/emacsclient"))
-
-  (define-key my-keys-minor-mode-map (kbd "C-x C-a") 'magit-status))
+    (setq magit-emacsclient-executable "/usr/local/bin/emacsclient")))
 #+end_src
 
 ** mail-mode
@@ -1939,5 +1937,28 @@ prefix argument."
 (global-set-key [remap paredit-kill] (bol-with-prefix paredit-kill))
 (global-set-key [remap org-kill-line] (bol-with-prefix org-kill-line))
 (global-set-key [remap kill-line] (bol-with-prefix paredit-kill))
+#+end_src
+
+** Launcher map for not-so-often used tools
+
+   Tools I don't use that often get its own launcher map so I remember
+   them easily.
+
+#+begin_src emacs-lisp
+(define-prefix-command 'ck/launcher-map)
+
+(define-key my-keys-minor-mode-map "\C-ccl" 'ck/launcher-map)
+(define-key ck/launcher-map "c" #'calc)
+(define-key ck/launcher-map "d" #'ediff-buffers)
+(define-key ck/launcher-map "f" #'find-dired)
+(define-key ck/launcher-map "g" #'lgrep)
+(define-key ck/launcher-map "G" #'rgrep)
+(define-key ck/launcher-map "h" #'man)
+(define-key ck/launcher-map "i" #'package-install-from-buffer)
+(define-key ck/launcher-map "n" #'nethack)
+(define-key ck/launcher-map "p" #'paradox-list-packages)
+(define-key ck/launcher-map "s" #'shell)
+(define-key ck/launcher-map "t" #'proced)
+(define-key ck/launcher-map "a" #'magit-status)
 #+end_src
 
