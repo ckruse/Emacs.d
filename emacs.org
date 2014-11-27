@@ -1902,10 +1902,19 @@ We want to be able to edit CMake files in a sane way.
   :commands gist-region gist-region-private gist-buffer gist-buffer-private gist-region-or-buffer gist-region-or-buffer-private)
 #+end_src
 
-** extra functions for dired
+** =dired= customizations
+
+First we want some nice little extra functions for =dired=
 
 #+begin_src emacs-lisp
 (require 'dired-x)
+#+end_src
+
+When using OS X, the =ls= doesn't support =--dired=
+
+#+begin_src emacs-lisp
+(when (featurep 'ns)
+  (setq dired-use-ls-dired nil))
 #+end_src
 
 ** Kill line with universal prefix
