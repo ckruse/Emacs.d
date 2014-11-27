@@ -107,16 +107,25 @@
     from the [[http://aquamacs.org/][Aquamacs project]], modified it a little bit and now using
     it.
 
+    Although it might be weird because I use ZSH as my shell, I
+    couldn't get =compilation-mode= to work with ZSH but with bash.
+
 #+begin_src emacs-lisp
 (when (featurep 'ns)
+  (setq shell-file-name "bash")
   (load "~/.emacs.d/emulate-mac-keyboard-mode")
   (emulate-mac-us-keyboard-mode))
 #+end_src
 
-    Since I use [[http://brew.sh/][Homebrew]] my primary exec path is =/usr/local/bin=
+*** exec path initialization
 
 #+begin_src emacs-lisp
-(setq exec-path (append exec-path '("/usr/local/bin")))
+(defun set-exec-path-from-shell-PATH ()
+  (interactive)
+  (let ((path-from-shell (replace-regexp-in-string "[ \t\n]*$" "" (shell-command-to-string "$SHELL --login -i -c 'echo $PATH'"))))
+    (setenv "PATH" path-from-shell)
+    (setq exec-path (split-string path-from-shell path-separator))))
+(set-exec-path-from-shell-PATH)
 #+end_src
 
 *** Opening URLs
@@ -1421,13 +1430,11 @@ We want to be able to edit CMake files in a sane way.
 (cond
  ((file-exists-p "/usr/local/lib/erlang")
   (setq load-path (cons (erl-get-lib-path "/usr/local/lib/erlang/lib") load-path))
-  (setq erlang-root-dir "/usr/local/lib/erlang")
-  (setq exec-path (cons "/usr/local/lib/erlang/bin" exec-path)))
+  (setq erlang-root-dir "/usr/local/lib/erlang"))
 
  ((file-exists-p "/usr/lib/erlang")
   (setq load-path (cons (erl-get-lib-path "/usr/lib/erlang/lib") load-path))
-  (setq erlang-root-dir "/usr/lib/erlang")
-  (setq exec-path (cons "/usr/lib/erlang/bin" exec-path))))
+  (setq erlang-root-dir "/usr/lib/erlang")))
 
 (require 'erlang-start)
 #+end_src
