@@ -60,6 +60,7 @@
 (depends-on "helm-dash")
 
 (depends-on "git-timemachine")
+(depends-on "typo")
 
 
 (depends-on "wanderlust")
