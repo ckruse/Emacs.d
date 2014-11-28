@@ -304,11 +304,11 @@ electric indentation.
     (progn
       (set-default-font "Source Code Pro-11")
       (set-fontset-font "fontset-default" nil
-                        (font-spec :size 11 :name "Symbola")))
+                        (font-spec :size 11 :name "Source Code Pro")))
   (progn
     (set-default-font "Source Code Pro-09")
     (set-fontset-font "fontset-default" nil
-                      (font-spec :size 9 :name "Symbola"))))
+                      (font-spec :size 9 :name "Source Code Pro"))))
 #+end_src
 
 *** Theme
