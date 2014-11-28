@@ -507,8 +507,6 @@ point reaches the beginning or end of the buffer, stop there."
     (setq projectile-indexing-method 'find
           projectile-enable-caching t)
 
-    (global-set-key "\C-p" 'projectile-find-file)
-
     (defun build-ctags ()
       (interactive)
       (message "building project tags")
