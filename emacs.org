@@ -1476,6 +1476,8 @@ We want to be able to edit CMake files in a sane way.
 
 (setq flycheck-check-syntax-automatically '(mode-enabled new-line save))
 (setq flycheck-jshintrc "~/.emacs.d/jshint.json")
+(setq flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc))
+(setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc))
 #+end_src
 
 ** flyspell
