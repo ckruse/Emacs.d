@@ -11,6 +11,11 @@
 (setq erc-hide-list '("JOIN" "PART" "QUIT" "NICK"))
 (setq erc-track-exclude-server-buffer t)
 (setq erc-fill-column 160)
+(setq erc-max-buffer-size 30000)
+(setq erc-truncate-buffer-on-save t)
+
+(defvar erc-insert-post-hook)
+(add-hook 'erc-insert-post-hook 'erc-truncate-buffer)
 
 (setq erc-format-query-as-channel-p t
       ;;erc-track-priority-faces-only 'all
