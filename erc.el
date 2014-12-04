@@ -10,6 +10,7 @@
 ;; don't show any of this
 (setq erc-hide-list '("JOIN" "PART" "QUIT" "NICK"))
 (setq erc-track-exclude-server-buffer t)
+(setq erc-fill-column 160)
 
 (setq erc-format-query-as-channel-p t
       ;;erc-track-priority-faces-only 'all
