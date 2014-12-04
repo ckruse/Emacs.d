@@ -62,6 +62,8 @@
 (depends-on "git-timemachine")
 (depends-on "typo")
 
+(depends-on "znc")
+(depends-on "erc-hl-nicks")
 
 (depends-on "wanderlust")
 
