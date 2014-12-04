@@ -2033,7 +2033,7 @@ prefix argument."
               "Connect to ERC, or switch to last active buffer"
               (interactive)
               (if (get-buffer "*irc-freenode*") ;; ERC already active?
-                  (erc-track-switch-buffer 1) ;; yes: switch to last active
+                  (ck/erc-track-switch-buffer) ;; yes: switch to last active
                 (when (y-or-n-p "Start ERC?") ;; no: maybe start ERC
                   (znc-all))))
 

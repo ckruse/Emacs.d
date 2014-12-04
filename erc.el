@@ -53,4 +53,11 @@
       (setq ad-return-value (intern "erc-current-nick-face"))
     ad-do-it))
 
+(defun ck/erc-track-switch-buffer ()
+  (interactive)
+  (if (eq major-mode 'erc-mode)
+      (erc-track-switch-buffer 1)
+    (when (erc-track-get-active-buffer 1)
+      (erc-track-switch-buffer 1))))
+
 ;; eof
