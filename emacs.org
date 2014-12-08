@@ -280,19 +280,6 @@ electric indentation.
 (blink-cursor-mode 0)
 #+end_src
 
-** Shortcuts for opening often used files
-
-   Some of my more often used files (like my =org-mode= inbox file)
-   get it's own shortcut:
-
-#+begin_src emacs-lisp
-(define-prefix-command 'often-used-files-map)
-(define-key ctl-x-map (kbd "c o") 'often-used-files-map)
-
-(define-key often-used-files-map "p" (lambda () (interactive) (find-file "~/Documents/org/passwords.org.gpg")))
-(define-key often-used-files-map "i" (lambda () (interactive) (find-file "~/Documents/org/inbox.org")))
-#+end_src
-
 ** Theming and fonts
 
 *** Fonts
@@ -561,6 +548,19 @@ so much used to them that I can't get rid of them.
 
 (add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
 (define-key minibuffer-local-map (kbd "C--") 'dabbrev-expand)
+#+end_src
+
+** Shortcuts for opening often used files
+
+   Some of my more often used files (like my =org-mode= inbox file)
+   get it's own shortcut:
+
+#+begin_src emacs-lisp
+(define-prefix-command 'ck/often-used-files-map)
+(define-key my-keys-minor-mode-map "\C-ccf" 'ck/often-used-files-map)
+
+(define-key ck/often-used-files-map "p" (lambda () (interactive) (find-file "~/Documents/org/passwords.org.gpg")))
+(define-key ck/often-used-files-map "i" (lambda () (interactive) (find-file "~/Documents/org/inbox.org")))
 #+end_src
 
 ** Parens
