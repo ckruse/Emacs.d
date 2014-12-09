@@ -65,6 +65,4 @@
 (depends-on "znc")
 (depends-on "erc-hl-nicks")
 
-(depends-on "wanderlust")
-
 ;; eof

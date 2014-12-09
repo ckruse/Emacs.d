@@ -1902,18 +1902,6 @@ We want to be able to edit CMake files in a sane way.
   ;; '(whitespace-trailing ((t (:background "#f2777a" :weight bold))))))
 #+end_src
 
-** Wanderlust
-
-   This is what I use for email.
-
-#+begin_src emacs-lisp
-(use-package wl
-  :commands wl wl-other-frame wl-draft
-  :init
-  (custom-set-variables
-   '(wl-init-file "~/.emacs.d/wl")))
-#+end_src
-
 ** YAML support
 
 #+begin_src emacs-lisp
@@ -2039,4 +2027,83 @@ prefix argument."
                   (znc-all))))
 
             (global-set-key (kbd "C-c e") 'ck/erc-start-or-switch)))
+#+end_src
+** mu4e
+
+#+begin_src emacs-lisp
+  ;; make sure mu4e is in your load-path
+  (use-package mu4e
+    :commands mu4e
+    :config (progn
+              (setq mu4e-maildir "~/Mail"
+                    mu4e-sent-folder   "/Defunct/Sent"
+                    mu4e-drafts-folder "/Defunct/Drafts"
+                    mu4e-trash-folder  "/Defunct/Trash"
+
+                    mu4e-use-fancy-chars t
+                    mu4e-view-show-images t
+                    mu4e-attachment-dir "~/Downloads")
+
+              (require 'mu4e-contrib)
+
+              (setq mu4e-html2text-command 'mu4e-shr2text
+                    mime-edit-split-message nil
+                    mime-edit-pgp-signers '("C84EF897")
+                    mime-edit-pgp-encrypt-to-self t
+                    message-send-mail-function 'message-send-mail-with-sendmail
+                    sendmail-program "~/dev/mail/msmtp-enqueue.sh"
+                    message-sendmail-extra-arguments '("-a" "Defunct")
+                    mail-specify-envelope-from t
+                    message-sendmail-f-is-evil nil
+                    mail-envelope-from 'header
+                    mail-interactive t
+                    message-sendmail-envelope-from 'header
+                    user-full-name "Christian Kruse")
+
+              (defun file-string (file)
+                "Read the contents of a file and return as a string."
+                (with-current-buffer (find-file-noselect file)
+                  (buffer-string))) 
+
+              (defvar my-mu4e-account-alist
+                '(("Defunct"
+                   (mu4e-sent-folder "/Defunct/Sent")
+                   (mu4e-drafts-folder "/Defunct/Drafts")
+                   (mu4e-compose-signature (file-string "~/dev/mail/signature-defunct"))
+                   (user-mail-address "cjk@defunct.ch"))
+                  ("Termitel"
+                   (mu4e-sent-folder "/Termitel/Sent")
+                   (mu4e-drafts-folder "/Termitel/Drafts")
+                   (mu4e-compose-signature (file-string "~/dev/mail/signature-termitel"))
+                   (user-mail-address "c.kruse@termitel.de"))))
+
+              (defvar my-mu4e-account nil)
+
+              (defun my-mu4e-set-account ()
+                "Set the account for composing a message."
+                (let* ((account
+                        (if mu4e-compose-parent-message
+                            (let ((maildir (mu4e-message-field mu4e-compose-parent-message :maildir)))
+                              (string-match "/\\(.*?\\)/" maildir)
+                              (match-string 1 maildir))
+                          (completing-read (format "Compose with account: (%s) "
+                                                   (mapconcat #'(lambda (var) (car var))
+                                                              my-mu4e-account-alist "/"))
+                                           (mapcar #'(lambda (var) (car var)) my-mu4e-account-alist)
+                                           nil t nil nil (caar my-mu4e-account-alist))))
+                       (account-vars (cdr (assoc account my-mu4e-account-alist))))
+                  (setq mu-mu4e-account account)
+                  (if account-vars
+                      (mapc #'(lambda (var)
+                                (set (car var) (cadr var)))
+                            account-vars)
+                    (error "No email account found"))))
+
+              (defun my-mu4e-set-msmtp-account ()
+                (setq message-sendmail-extra-arguments
+                      (list "-a" mu-mu4e-account)))
+
+              (add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)
+              (add-hook 'mu4e-compose-mode-hook 'mml-secure-message-sign-pgpmime)
+              (add-hook 'message-send-mail-hook 'my-mu4e-set-msmtp-account)))
 #+end_src
