@@ -2034,7 +2034,9 @@ prefix argument."
   ;; make sure mu4e is in your load-path
   (use-package mu4e
     :commands mu4e
-    :init (define-key ck/launcher-map "m" #'mu4e)
+    :init (progn
+            (define-key ck/launcher-map "m" #'mu4e)
+            (setq mail-user-agent 'mu4e-user-agent))
     :config (progn
               (setq mu4e-maildir "~/Mail"
                     mu4e-sent-folder   "/Defunct/Sent"
