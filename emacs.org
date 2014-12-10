@@ -2108,6 +2108,15 @@ prefix argument."
                 (setq message-sendmail-extra-arguments
                       (list "-a" mu-mu4e-account)))
 
+              (setq mu4e-refile-folder
+                    (lambda (msg)
+                      (let ((maildir (mu4e-message-field msg :maildir))
+                            (account)
+                            (year (format-time-string "%Y" (mu4e-msg-field msg :date))))
+                        (string-match "/\\(.*?\\)/" maildir)
+                        (setq account (match-string 1 maildir))
+                         (concat "/" account "/Archiv." year))))
+
               (add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)
               (add-hook 'mu4e-compose-mode-hook 'mml-secure-message-sign-pgpmime)
               (add-hook 'message-send-mail-hook 'my-mu4e-set-msmtp-account)))
