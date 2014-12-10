@@ -2034,6 +2034,7 @@ prefix argument."
   ;; make sure mu4e is in your load-path
   (use-package mu4e
     :commands mu4e
+    :init (define-key ck/launcher-map "m" #'mu4e)
     :config (progn
               (setq mu4e-maildir "~/Mail"
                     mu4e-sent-folder   "/Defunct/Sent"
@@ -2042,7 +2043,8 @@ prefix argument."
 
                     mu4e-use-fancy-chars t
                     mu4e-view-show-images t
-                    mu4e-attachment-dir "~/Downloads")
+                    mu4e-attachment-dir "~/Downloads"
+                    mu4e-change-filenames-when-moving t)
 
               (require 'mu4e-contrib)
 
@@ -2086,11 +2088,11 @@ prefix argument."
                             (let ((maildir (mu4e-message-field mu4e-compose-parent-message :maildir)))
                               (string-match "/\\(.*?\\)/" maildir)
                               (match-string 1 maildir))
-                          (completing-read (format "Compose with account: (%s) "
-                                                   (mapconcat #'(lambda (var) (car var))
-                                                              my-mu4e-account-alist "/"))
-                                           (mapcar #'(lambda (var) (car var)) my-mu4e-account-alist)
-                                           nil t nil nil (caar my-mu4e-account-alist))))
+                          (ido-completing-read (format "Compose with account: (%s) "
+                                                       (mapconcat #'(lambda (var) (car var))
+                                                                  my-mu4e-account-alist "/"))
+                                               (mapcar #'(lambda (var) (car var)) my-mu4e-account-alist)
+                                               nil t nil nil (caar my-mu4e-account-alist))))
                        (account-vars (cdr (assoc account my-mu4e-account-alist))))
                   (setq mu-mu4e-account account)
                   (if account-vars
