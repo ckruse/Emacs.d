@@ -2118,6 +2118,11 @@ prefix argument."
                         (setq account (match-string 1 maildir))
                          (concat "/" account "/Archiv." year))))
 
+              (add-to-list 'mu4e-bookmarks
+                           '("(maildir:/Defunct/INBOX or maildir:/Termitel/INBOX) and flag:unread" "Unread in unified inbox" ?n))
+              (add-to-list 'mu4e-bookmarks
+                           '("maildir:/Defunct/INBOX or maildir:/Termitel/INBOX" "Unified inbox" ?i))
+
               (add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)
               (add-hook 'mu4e-compose-mode-hook 'mml-secure-message-sign-pgpmime)
               (add-hook 'message-send-mail-hook 'my-mu4e-set-msmtp-account)))
