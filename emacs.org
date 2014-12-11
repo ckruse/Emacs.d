@@ -1663,19 +1663,35 @@ We want to be able to edit CMake files in a sane way.
    We use RVM (and thus =rvm-mode=) and =projectile-rails=.
 
 #+begin_src emacs-lisp
-    (use-package rvm
-      :commands rvm-use-default
-      :init
-      (setq rvm--current-ruby nil)
-      (add-hook 'ruby-mode-hook (lambda ()
-                                  (interactive)
-                                  (when (not rvm--current-ruby)
-                                    (rvm-use-default)))))
+  (use-package rvm
+    :commands rvm-use-default
+    :init
+    (setq rvm--current-ruby nil)
+    (add-hook 'ruby-mode-hook (lambda ()
+                                (interactive)
+                                (when (not rvm--current-ruby)
+                                  (rvm-use-default)))))
 
-    (use-package projectile-rails
-      :commands projectile-rails-on
-      :init
-      (add-hook 'projectile-mode-hook 'projectile-rails-on))
+  (use-package projectile-rails
+    :commands projectile-rails-on
+    :init
+    (add-hook 'projectile-mode-hook 'projectile-rails-on))
+
+  (defun get-current-test-name ()
+    (save-excursion
+      (let ((pos)
+            (test-name))
+        (re-search-backward "test \"\\([^\"]+\\)\" do")
+        (setq test-name (buffer-substring-no-properties (match-beginning 1) (match-end 1)))
+        (concat "test_" (replace-regexp-in-string " " "_" test-name)))))
+
+
+  (defun run-test-at-point ()
+    (interactive)
+    (let ((root-dir (projectile-project-root)))
+      (compile (format "ruby -Ilib:test -I%s/test %s -n %s" root-dir (expand-file-name (buffer-file-name)) (get-current-test-name)))))
+
+  (global-set-key "\C-cct" 'run-test-at-point)
 #+end_src
 
 ** rainbow-delimiters
