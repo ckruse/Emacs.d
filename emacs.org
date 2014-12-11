@@ -2028,6 +2028,7 @@ prefix argument."
 
             (global-set-key (kbd "C-c e") 'ck/erc-start-or-switch)))
 #+end_src
+
 ** mu4e
 
 #+begin_src emacs-lisp
@@ -2047,7 +2048,10 @@ prefix argument."
                     mu4e-view-show-images t
                     mu4e-attachment-dir "~/Downloads"
                     mu4e-change-filenames-when-moving t
-                    mu4e-headers-full-search t)
+                    mu4e-headers-full-search t
+                    mu4e-get-mail-command "true"
+                    mu4e-update-interval 300
+                    mu4e-hide-index-messages t)
 
               (require 'mu4e-contrib)
 
@@ -2123,7 +2127,25 @@ prefix argument."
               (add-to-list 'mu4e-bookmarks
                            '("maildir:/Defunct/INBOX or maildir:/Termitel/INBOX" "Unified inbox" ?i))
 
+
+              (defvar ck/has-new-messages nil)
+
+              (defun ck/check-for-mail ()
+                  (let ((retval (call-process "mu" nil nil nil "find" "(" "maildir:/Defunct/INBOX" "or" "maildir:/Termitel/INBOX" ")" "and" "flag:unread")))
+                    (if (= retval 0)
+                        (setq ck/has-new-messages t)
+                      (setq ck/has-new-messages nil))))
+
+              (defvar ck/mu4e-timer
+                (run-at-time "1 sec" 180 'ck/check-for-mail))
+
+              (add-to-list 'global-mode-string
+                           '(:eval (when ck/has-new-messages
+                                     "**Mail** ")))
+
+              (add-hook 'mu4e-index-updated-hook 'ck/check-for-mail)
               (add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)
               (add-hook 'mu4e-compose-mode-hook 'mml-secure-message-sign-pgpmime)
               (add-hook 'message-send-mail-hook 'my-mu4e-set-msmtp-account)))
 #+end_src
+
