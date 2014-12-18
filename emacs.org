@@ -2165,3 +2165,12 @@ prefix argument."
               (add-hook 'message-send-mail-hook 'my-mu4e-set-msmtp-account)))
 #+end_src
 
+** =guide-key=
+
+#+begin_src emacs-lisp
+  (use-package guide-key
+    :init (progn
+            (setq guide-key/guide-key-sequence '("C-c r" "C-c p"))
+            (setq guide-key/recursive-key-sequence-flag t)
+            (guide-key-mode 1)))
+#+end_src

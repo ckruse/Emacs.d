@@ -65,4 +65,6 @@
 (depends-on "znc")
 (depends-on "erc-hl-nicks")
 
+(depends-on "guide-key")
+
 ;; eof
