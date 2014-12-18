@@ -1,0 +1,9 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: respond
+# key: respond
+# binding: direct-keybinding
+# --
+respond_to do |format|
+  format.html
+  format.json { render json: $0 }
+end
