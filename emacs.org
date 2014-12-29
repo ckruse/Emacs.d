@@ -1691,7 +1691,20 @@ We want to be able to edit CMake files in a sane way.
     (let ((root-dir (projectile-project-root)))
       (compile (format "ruby -Ilib:test -I%s/test %s -n %s" root-dir (expand-file-name (buffer-file-name)) (get-current-test-name)))))
 
-  (global-set-key "\C-cct" 'run-test-at-point)
+  (defun run-test-file ()
+    (interactive)
+    (let ((root-dir (projectile-project-root))
+          (filename (expand-file-name (buffer-file-name))))
+      (setq filename (replace-regexp-in-string root-dir "" filename))
+      (compile (format "rake test %s" filename))))
+
+  (defun run-test-suite ()
+    (interactive)
+    (compile "rake test"))
+
+  (global-set-key "\C-cctp" 'run-test-at-point)
+  (global-set-key "\C-cctf" 'run-test-file)
+  (global-set-key "\C-ccts" 'run-test-suite)
 #+end_src
 
 ** rainbow-delimiters
