@@ -66,5 +66,6 @@
 (depends-on "erc-hl-nicks")
 
 (depends-on "guide-key")
+(depends-on "edit-server")
 
 ;; eof

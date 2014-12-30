@@ -2188,3 +2188,12 @@ prefix argument."
             (setq guide-key/recursive-key-sequence-flag t)
             (guide-key-mode 1)))
 #+end_src
+
+** edit-server
+
+#+begin_src emacs-lisp
+  (use-package edit-server
+    :init (progn
+            (setq edit-server-new-frame nil)
+            (edit-server-start)))
+#+end_src
