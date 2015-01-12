@@ -10,6 +10,7 @@
 
 (depends-on "use-package")
 
+(depends-on "helm")
 (depends-on "gist")
 (depends-on "multiple-cursors")
 (depends-on "magit")
@@ -22,7 +23,7 @@
 (depends-on "yasnippet")
 (depends-on "projectile")
 (depends-on "projectile-rails")
-(depends-on "smex")
+(depends-on "helm-projectile")
 (depends-on "ido-ubiquitous")
 (depends-on "switch-window")
 (depends-on "expand-region")

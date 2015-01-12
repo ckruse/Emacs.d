@@ -481,6 +481,36 @@ point reaches the beginning or end of the buffer, stop there."
 (setq-default ssl-program-name "openssl s_client -ssl2 -connect %s:%p")
 #+end_src
 
+** helm
+
+   [[https://github.com/emacs-helm/helm][Helm]] is Emacs incremental completion and selection narrowing
+   framework.
+
+
+#+begin_src emacs-lisp
+  (use-package helm
+    :init (progn
+            (helm-mode 1)
+            (semantic-mode 1)
+
+            (setq helm-M-x-fuzzy-match t
+                  helm-buffers-fuzzy-matching t
+                  helm-recentf-fuzzy-match t
+                  helm-semantic-fuzzy-match t
+                  helm-imenu-fuzzy-match t)
+
+            (helm-autoresize-mode 1)
+            (setq helm-autoresize-max-height 20
+                  helm-autoresize-min-height 20)
+
+            (define-key my-keys-minor-mode-map (kbd "M-x") 'helm-M-x)
+            (define-key my-keys-minor-mode-map (kbd "C-x b") 'helm-mini)
+            (define-key my-keys-minor-mode-map (kbd "C-x C-f") 'helm-find-files)
+            (define-key my-keys-minor-mode-map (kbd "M-y") 'helm-show-kill-ring)
+            (define-key my-keys-minor-mode-map (kbd "C-c c s") 'helm-semantic-or-imenu)
+
+            (define-key my-keys-minor-mode-map (kbd "C-c M-x") 'execute-extended-command)))
+#+end_src
 
 ** Project management
 
@@ -488,30 +518,33 @@ point reaches the beginning or end of the buffer, stop there."
 
 #+begin_src emacs-lisp
   (use-package projectile
-    :init
-    (projectile-global-mode)
+    :init (progn
+            (projectile-global-mode)
 
-    (setq projectile-indexing-method 'find
-          projectile-enable-caching t)
+            (setq projectile-indexing-method 'find
+                  projectile-enable-caching t)
 
-    (defun build-ctags ()
-      (interactive)
-      (message "building project tags")
-      (let ((root (projectile-project-root))
-            (ctags (if (featurep 'ns)
-                       "/usr/local/bin/ctags"
-                     "/usr/bin/ctags")))
-        (if (string-match "/ios/" root)
-            (shell-command (concat "find " root " -name '*.[hm]' | xargs /usr/local/bin/etags"))
-          (shell-command (concat ctags " -e -R --extra=+fq --exclude=db --exclude=test --exclude=.git --exclude=public -f " root "/TAGS " root))))
-      (visit-project-tags)
-      (message "tags built successfully"))
+            (defun build-ctags ()
+              (interactive)
+              (message "building project tags")
+              (let ((root (projectile-project-root))
+                    (ctags (if (featurep 'ns)
+                               "/usr/local/bin/ctags"
+                             "/usr/bin/ctags")))
+                (if (string-match "/ios/" root)
+                    (shell-command (concat "find " root " -name '*.[hm]' | xargs /usr/local/bin/etags"))
+                  (shell-command (concat ctags " -e -R --extra=+fq --exclude=db --exclude=test --exclude=.git --exclude=public -f " root "/TAGS " root))))
+              (visit-project-tags)
+              (message "tags built successfully"))
 
-    (defun visit-project-tags ()
-      (interactive)
-      (let ((tags-file (concat (projectile-project-root) "/TAGS")))
-        (visit-tags-table tags-file)
-        (message (concat "Loaded " tags-file)))))
+            (defun visit-project-tags ()
+              (interactive)
+              (let ((tags-file (concat (projectile-project-root) "/TAGS")))
+                (visit-tags-table tags-file)
+                (message (concat "Loaded " tags-file))))))
+
+  (use-package helm-projectile
+    :init (helm-projectile-on))
 #+end_src
 
 ** Keyboard shortcuts
@@ -1814,23 +1847,6 @@ We want to be able to edit CMake files in a sane way.
   (add-to-list 'sml/replacer-regexp-list '("^~/\\(data/\\)?dev/" ":DEV:"))
   (add-to-list 'sml/replacer-regexp-list '("^~/\\(data/\\)?dev/postgres/" ":PG:"))
   (add-to-list 'sml/replacer-regexp-list '("^~/\\(data/\\)?Documents/" ":DOC:")))
-#+end_src
-
-** Smex
-
-   [[https://github.com/nonsequitur/smex/][Smex]] is a M-x enhancement for Emacs. Built on top of Ido, it
-   provides a convenient interface to your recently and most
-   frequently used commands. And to all the other commands, too.
-
-#+begin_src emacs-lisp
-(use-package smex
-  :init
-  (smex-initialize)
-
-  (define-key my-keys-minor-mode-map (kbd "M-x") 'smex)
-  (define-key my-keys-minor-mode-map (kbd "M-X") 'smex-major-mode-commands)
-
-  (define-key my-keys-minor-mode-map (kbd "C-c M-x") 'execute-extended-command))
 #+end_src
 
 ** SQL
