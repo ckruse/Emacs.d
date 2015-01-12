@@ -488,6 +488,8 @@ point reaches the beginning or end of the buffer, stop there."
 
 
 #+begin_src emacs-lisp
+  (defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode keymap.")
+
   (use-package helm
     :init (progn
             (helm-mode 1)
@@ -562,7 +564,6 @@ so much used to them that I can't get rid of them.
 (global-set-key [C-end] 'end-of-buffer)
 (global-set-key [s-down] 'end-of-buffer)
 
-(defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode keymap.")
 (define-key my-keys-minor-mode-map (kbd "M-<") 'pop-to-mark-command)
 (define-key my-keys-minor-mode-map (kbd "C--") 'dabbrev-expand)
 (define-key my-keys-minor-mode-map (kbd "C-c c C-c") 'comment-region)
