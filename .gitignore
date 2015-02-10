@@ -17,3 +17,6 @@ tramp
 /org-clock-save.el
 /elpa/
 /emacs.el
+/recentf
+/rake.cache
+/ido.last
