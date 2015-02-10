@@ -8,7 +8,7 @@
                                 "324" "329" "332" "333" "353" "477"))
 
 ;; don't show any of this
-(setq erc-hide-list '("JOIN" "PART" "QUIT" "NICK"))
+;(setq erc-hide-list '("JOIN" "PART" "QUIT" "NICK"))
 (setq erc-track-exclude-server-buffer t)
 (setq erc-fill-column 160)
 (setq erc-max-buffer-size 30000)
