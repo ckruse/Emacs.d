@@ -2085,6 +2085,7 @@ prefix argument."
             (define-key ck/launcher-map "m" #'mu4e)
             (setq mail-user-agent 'mu4e-user-agent))
     :config (progn
+              (require 'org-mu4e)
               (setq mu4e-maildir "~/Mail"
                     mu4e-sent-folder   "/Defunct/Sent"
                     mu4e-drafts-folder "/Defunct/Drafts"
