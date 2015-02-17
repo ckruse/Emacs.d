@@ -69,4 +69,5 @@
 (depends-on "guide-key")
 (depends-on "edit-server")
 
+(depends-on "mmm-mode")
 ;; eof

@@ -2228,3 +2228,24 @@ prefix argument."
 
   (define-key my-keys-minor-mode-map (kbd "C-c c C-c") 'endless/comment-line-or-region)
 #+end_src
+
+** =mmm-mode=
+
+#+begin_src emacs-lisp
+  (use-package mmm-mode
+    :init (progn
+            (setq mmm-global-mode 'maybe)
+            (set-face-background 'mmm-default-submode-face nil)
+
+            (mmm-add-classes
+             '((embedded-sql
+                :submode sql-mode
+                :front "<<-?SQL"
+                :front-offset (end-of-line 1)
+                :back "^[ \t]*SQL$"
+                :delimiter-mode nil)))
+
+            (mmm-add-mode-ext-class 'ruby-mode nil 'embedded-sql)
+            (setq mmm-never-modes
+                  (append '(ediff-mode) '(text-mode) mmm-never-modes))))
+#+end_src
