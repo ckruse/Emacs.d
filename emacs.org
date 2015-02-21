@@ -609,9 +609,9 @@ key again. I instantly fell in love with it.
   (define-key my-keys-minor-mode-map "\C-ccf"
     (defhydra often-used-files (:color blue)
       "often used files"
-                  ("p" (lambda () (interactive) (find-file "~/Documents/org/passwords.org.gpg")) "open passwords file")
-                  ("i" (lambda () (interactive) (find-file "~/Documents/org/inbox.org")) "Open org-mode inbox file")
-                  ("t" (lambda () (interactive) (find-file "~/Documents/org/work/termitel.org")) "Open termitel org-mode file")))
+                  ("p" (find-file "~/Documents/org/passwords.org.gpg") "open passwords file")
+                  ("i" (find-file "~/Documents/org/inbox.org") "Open org-mode inbox file")
+                  ("t" (find-file "~/Documents/org/work/termitel.org") "Open termitel org-mode file")))
 
 #+end_src
 
