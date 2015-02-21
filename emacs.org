@@ -1531,14 +1531,6 @@ We want to be able to edit CMake files in a sane way.
 (setq ispell-program-name "aspell")
 #+end_src
 
-** Go support
-
-   Sometimes we edit Go as well, so this is useful.
-
-#+begin_src emacs-lisp
-(use-package go-mode)
-#+end_src
-
 ** ibuffer
 
    [[http://www.emacswiki.org/emacs/IbufferMode][IBuffer]] is an advanced replacement for BufferMenu. Very neat for

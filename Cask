@@ -45,7 +45,6 @@
 (depends-on "rust-mode")
 (depends-on "haskell-mode")
 (depends-on "web-mode")
-(depends-on "go-mode")
 (depends-on "markdown-mode")
 (depends-on "lua-mode")
 (depends-on "coffee-mode")
