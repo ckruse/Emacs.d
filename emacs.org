@@ -2033,7 +2033,8 @@ prefix argument."
       ("h" man "man")
       ("s" eshell "eshell")
       ("t" proced "proced")
-      ("a" magit-status "magit-status")))
+      ("a" magit-status "magit-status")
+      ("m" mu4e "mu4e")))
 #+end_src
 
 ** =eshell= modifications
@@ -2085,7 +2086,6 @@ prefix argument."
   (use-package mu4e
     :commands mu4e
     :init (progn
-            (define-key ck/launcher-map "m" #'mu4e)
             (setq mail-user-agent 'mu4e-user-agent))
     :config (progn
               (require 'org-mu4e)
