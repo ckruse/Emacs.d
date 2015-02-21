@@ -69,4 +69,7 @@
 (depends-on "edit-server")
 
 (depends-on "mmm-mode")
+
+(depends-on "hydra")
+
 ;; eof
