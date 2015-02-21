@@ -652,30 +652,30 @@ the most prominent info:
 Parentheses]] for an intuitive narrow/widen behaviour.
 
 #+begin_src emacs-lisp
-(defun narrow-or-widen-dwim (p)
-  "If the buffer is narrowed, it widens. Otherwise, it narrows intelligently.
-Intelligently means: region, org-src-block, org-subtree, or defun,
-whichever applies first.
-Narrowing to org-src-block actually calls `org-edit-src-code'.
+  (defun narrow-or-widen-dwim (p)
+    "If the buffer is narrowed, it widens. Otherwise, it narrows intelligently.
+  Intelligently means: region, org-src-block, org-subtree, or defun,
+  whichever applies first.
+  Narrowing to org-src-block actually calls `org-edit-src-code'.
 
-With prefix P, don't widen, just narrow even if buffer is already
-narrowed."
-  (interactive "P")
-  (declare (interactive-only))
-  (cond ((and (buffer-narrowed-p) (not p)) (widen))
-        ((region-active-p)
-         (narrow-to-region (region-beginning) (region-end)))
-        ((derived-mode-p 'org-mode)
-         ;; `org-edit-src-code' is not a real narrowing command.
-         ;; Remove this first conditional if you don't want it.
-         (cond ((ignore-errors (org-edit-src-code))
-                (delete-other-windows))
-               ((org-at-block-p)
-                (org-narrow-to-block))
-               (t (org-narrow-to-subtree))))
-        (t (narrow-to-defun))))
+  With prefix P, don't widen, just narrow even if buffer is already
+  narrowed."
+    (interactive "P")
+    (declare (interactive-only))
+    (cond ((and (buffer-narrowed-p) (not p)) (widen))
+          ((region-active-p)
+           (narrow-to-region (region-beginning) (region-end)))
+          ((derived-mode-p 'org-mode)
+           ;; `org-edit-src-code' is not a real narrowing command.
+           ;; Remove this first conditional if you don't want it.
+           (cond ((ignore-errors (org-edit-src-code))
+                  (delete-other-windows))
+                 ((org-at-block-p)
+                  (org-narrow-to-block))
+                 (t (org-narrow-to-subtree))))
+          (t (narrow-to-defun))))
 
-(define-key my-keys-minor-mode-map (kbd "C-x n") 'narrow-or-widen-dwim)
+  (define-key my-keys-minor-mode-map (kbd "C-x n") 'narrow-or-widen-dwim)
 #+end_src
 
 ** ace-jump-mode
@@ -684,15 +684,15 @@ narrowed."
 
 #+begin_src emacs-lisp
   (use-package ace-jump-mode
-    :init
+    :init (progn
 
-    (define-key my-keys-minor-mode-map (kbd "C-c SPC") 'ace-jump-mode)
+            (define-key my-keys-minor-mode-map (kbd "C-c SPC") 'ace-jump-mode)
 
-    ;;
-    ;; enable a more powerful jump back function from ace jump mode
-    ;;
-    (ace-jump-mode-enable-mark-sync)
-    (define-key my-keys-minor-mode-map (kbd "C-x SPC") 'ace-jump-mode-pop-mark))
+            ;;
+            ;; enable a more powerful jump back function from ace jump mode
+            ;;
+            (ace-jump-mode-enable-mark-sync)
+            (define-key my-keys-minor-mode-map (kbd "C-x SPC") 'ace-jump-mode-pop-mark)))
 #+end_src
 
 *** switch-window
@@ -1489,30 +1489,30 @@ Just indentation in a sane way.
 We want to be able to edit CMake files in a sane way.
 
 #+begin_src emacs-lisp
-(use-package cmake-mode
-  :commands cmake-mode
-  :init
-
-  (add-to-list 'auto-mode-alist '(".cmake" . cmake-mode))
-  (add-to-list 'auto-mode-alist '("CMakeLists.txt" . cmake-mode)))
+  (use-package cmake-mode
+    :commands cmake-mode
+    :init (progn
+            (add-to-list 'auto-mode-alist '(".cmake" . cmake-mode))
+            (add-to-list 'auto-mode-alist '("CMakeLists.txt" . cmake-mode))))
 #+end_src
 
 ** Elang support
 
 #+begin_src emacs-lisp
-(defun erl-get-lib-path (path)
-  (format "%s/%s/emacs" path (car (directory-files path nil "^tools"))))
+  (defun erl-get-lib-path (path)
+    (format "%s/%s/emacs" path (car (directory-files path nil "^tools"))))
 
-(cond
- ((file-exists-p "/usr/local/lib/erlang")
-  (setq load-path (cons (erl-get-lib-path "/usr/local/lib/erlang/lib") load-path))
-  (setq erlang-root-dir "/usr/local/lib/erlang"))
+  (cond
+   ((file-exists-p "/usr/local/lib/erlang")
+    (setq load-path (cons (erl-get-lib-path "/usr/local/lib/erlang/lib") load-path))
+    (setq erlang-root-dir "/usr/local/lib/erlang")
+    (require 'erlang-start))
 
- ((file-exists-p "/usr/lib/erlang")
-  (setq load-path (cons (erl-get-lib-path "/usr/lib/erlang/lib") load-path))
-  (setq erlang-root-dir "/usr/lib/erlang")))
+   ((file-exists-p "/usr/lib/erlang")
+    (setq load-path (cons (erl-get-lib-path "/usr/lib/erlang/lib") load-path))
+    (setq erlang-root-dir "/usr/lib/erlang")
+    (require 'erlang-start)))
 
-(require 'erlang-start)
 #+end_src
 
 ** expand-region
@@ -1563,52 +1563,43 @@ We want to be able to edit CMake files in a sane way.
    switching buffers and such.
 
 #+begin_src emacs-lisp
-(use-package ibuffer
-  :commands ibuffer
-  :init
-  (define-key my-keys-minor-mode-map (kbd "C-x C-b") 'ibuffer)
+  (use-package ibuffer
+    :commands ibuffer
+    :init (progn
+            (define-key my-keys-minor-mode-map (kbd "C-x C-b") 'ibuffer)
 
-  (defun ck/define-projectile-filter-groups ()
-    (when (boundp 'projectile-known-projects)
-      (setq my/project-filter-groups
-            (mapcar
-             (lambda (it)
-               (let ((name (file-name-nondirectory (directory-file-name it))))
-                 `(,name (filename . ,(expand-file-name it)))))
-             projectile-known-projects))))
+            (defun ck/define-projectile-filter-groups ()
+              (when (boundp 'projectile-known-projects)
+                (setq my/project-filter-groups
+                      (mapcar
+                       (lambda (it)
+                         (let ((name (file-name-nondirectory (directory-file-name it))))
+                           `(,name (filename . ,(expand-file-name it)))))
+                       projectile-known-projects))))
 
-  (setq ibuffer-saved-filter-groups
-        (list
-         (cons "default"
-               (append
-                (ck/define-projectile-filter-groups)
-                '(("dired" (mode . dired-mode))
-                  ("Org" (or
-                          (mode . org-mode)))
-                  ("emacs" (or
-                            (name . "^\\*scratch\\*$")
-                            (name . "^\\*Messages\\*$")
-                            (name . "^\\*Help\\*$")
-                            (name . "^\\*Flycheck error messages\\*$")))
-                  ("wanderlust" (or
-                                 (mode . wl-folder-mode)
-                                 (mode . wl-summary-mode)
-                                 (mode . mime-view-mode)))
-                  ("ERC" (mode . erc-mode)))))))
+            (setq ibuffer-saved-filter-groups
+                  (list
+                   (cons "default"
+                         (append
+                          (ck/define-projectile-filter-groups)
+                          '(("dired" (mode . dired-mode))
+                            ("Org" (or
+                                    (mode . org-mode)))
+                            ("emacs" (or
+                                      (name . "^\\*scratch\\*$")
+                                      (name . "^\\*Messages\\*$")
+                                      (name . "^\\*Help\\*$")
+                                      (name . "^\\*Flycheck error messages\\*$")))
+                            ("wanderlust" (or
+                                           (mode . wl-folder-mode)
+                                           (mode . wl-summary-mode)
+                                           (mode . mime-view-mode)))
+                            ("ERC" (mode . erc-mode)))))))
 
-  (add-hook 'ibuffer-mode-hook
-            (lambda ()
-              (ibuffer-switch-to-saved-filter-groups "default")))
-  (setq ibuffer-show-empty-filter-groups nil))
-#+end_src
-
-** JS modifications
-
-   Just a few indentation settings.
-
-#+begin_src emacs-lisp
-(setq js-indent-level 2)
-(setq-default js-indent-level 2)
+            (add-hook 'ibuffer-mode-hook
+                      (lambda ()
+                        (ibuffer-switch-to-saved-filter-groups "default")))
+            (setq ibuffer-show-empty-filter-groups nil)))
 #+end_src
 
 ** magit
@@ -1616,11 +1607,11 @@ We want to be able to edit CMake files in a sane way.
    [[https://github.com/magit/magit][Magit]] is an Emacs git integration. I use it all the time, it rocks.
 
 #+begin_src emacs-lisp
-(use-package magit
-  :commands magit-status
-  :init
-  (when (featurep 'ns)
-    (setq magit-emacsclient-executable "/usr/local/bin/emacsclient")))
+  (use-package magit
+    :commands magit-status
+    :init (progn
+            (when (featurep 'ns)
+              (setq magit-emacsclient-executable "/usr/local/bin/emacsclient"))))
 #+end_src
 
 ** mail-mode
@@ -1659,11 +1650,11 @@ We want to be able to edit CMake files in a sane way.
    Editing markdown in fundamental or text-mode sucks.
 
 #+begin_src emacs-lisp
-(use-package markdown-mode
-  :commands markdown-mode
-  :init
-  (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
-  (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode)))
+  (use-package markdown-mode
+    :commands markdown-mode
+    :init (progn
+            (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+            (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))))
 #+end_src
 
 ** multiple-cursor
@@ -1698,17 +1689,17 @@ We want to be able to edit CMake files in a sane way.
    Just indentation, nothing special.
 
 #+begin_src emacs-lisp
-(use-package php-mode
-  :commands php-mode
-  :init
-  (defun ck-init-php ()
-    (setq c-basic-offset 2)
-    (c-set-offset 'arglist-cont 0)
-    (c-set-offset 'arglist-intro 2)
-    (c-set-offset 'case-label 2)
-    (c-set-offset 'arglist-close 0))
+  (use-package php-mode
+    :commands php-mode
+    :init (progn
+            (defun ck-init-php ()
+              (setq c-basic-offset 2)
+              (c-set-offset 'arglist-cont 0)
+              (c-set-offset 'arglist-intro 2)
+              (c-set-offset 'case-label 2)
+              (c-set-offset 'arglist-close 0))
 
-  (add-hook 'php-mode-hook 'ck-init-php))
+            (add-hook 'php-mode-hook 'ck-init-php)))
 #+end_src
 
 ** Rails integration
@@ -1718,12 +1709,12 @@ We want to be able to edit CMake files in a sane way.
 #+begin_src emacs-lisp
   (use-package rvm
     :commands rvm-use-default
-    :init
-    (setq rvm--current-ruby nil)
-    (add-hook 'ruby-mode-hook (lambda ()
-                                (interactive)
-                                (when (not rvm--current-ruby)
-                                  (rvm-use-default)))))
+    :init (progn
+            (setq rvm--current-ruby nil)
+            (add-hook 'ruby-mode-hook (lambda ()
+                                        (interactive)
+                                        (when (not rvm--current-ruby)
+                                          (rvm-use-default))))))
 
   (use-package projectile-rails
     :commands projectile-rails-on
@@ -1754,10 +1745,6 @@ We want to be able to edit CMake files in a sane way.
   (defun run-test-suite ()
     (interactive)
     (compile "rake test"))
-
-  (global-set-key "\C-cctp" 'run-test-at-point)
-  (global-set-key "\C-cctf" 'run-test-file)
-  (global-set-key "\C-ccts" 'run-test-suite)
 #+end_src
 
 ** rainbow-delimiters
@@ -1780,71 +1767,71 @@ We want to be able to edit CMake files in a sane way.
    Mainly =auto-mode-alist= and indentation.
 
 #+begin_src emacs-lisp
-(use-package ruby-mode
-  :commands ruby-mode
-  :init
-  (add-hook 'ruby-mode-hook 'turn-on-font-lock)
-  (add-hook 'ruby-mode-hook (lambda ()
-                              (setq tab-width 2
-                                    indent-tabs-mode nil
-                                        ;ruby-deep-arglist nil
-                                        ;ruby-deep-indent-paren nil
-                                    ruby-insert-encoding-magic-comment nil)))
+  (use-package ruby-mode
+    :commands ruby-mode
+    :init (progn
+            (add-hook 'ruby-mode-hook 'turn-on-font-lock)
+            (add-hook 'ruby-mode-hook (lambda ()
+                                        (setq tab-width 2
+                                              indent-tabs-mode nil
+                                          ;ruby-deep-arglist nil
+                                          ;ruby-deep-indent-paren nil
+                                              ruby-insert-encoding-magic-comment nil)))
 
-  (add-to-list 'auto-mode-alist '("\\.rb$" . ruby-mode))
-  (add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
-  (add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
-  (add-to-list 'auto-mode-alist '("\\.gemspec$" . ruby-mode))
-  (add-to-list 'auto-mode-alist '("\\.ru$" . ruby-mode))
-  (add-to-list 'auto-mode-alist '("Gemfile$" . ruby-mode))
-  (add-to-list 'auto-mode-alist '("\\.prawn$" . ruby-mode))
+            (add-to-list 'auto-mode-alist '("\\.rb$" . ruby-mode))
+            (add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
+            (add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
+            (add-to-list 'auto-mode-alist '("\\.gemspec$" . ruby-mode))
+            (add-to-list 'auto-mode-alist '("\\.ru$" . ruby-mode))
+            (add-to-list 'auto-mode-alist '("Gemfile$" . ruby-mode))
+            (add-to-list 'auto-mode-alist '("\\.prawn$" . ruby-mode))
 
-  (define-key my-keys-minor-mode-map (kbd "C-c r r") 'inf-ruby)
+            (define-key my-keys-minor-mode-map (kbd "C-c r r") 'inf-ruby)
 
 
-  (defadvice ruby-indent-line (after line-up-args activate)
-    (let (indent prev-indent arg-indent)
-      (save-excursion
-        (back-to-indentation)
-        (when (zerop (car (syntax-ppss)))
-          (setq indent (current-column))
-          (skip-chars-backward " \t\n")
-          (when (eq ?, (char-before))
-            (ruby-backward-sexp)
-            (back-to-indentation)
-            (setq prev-indent (current-column))
-            (skip-syntax-forward "w_.")
-            (skip-chars-forward " ")
-            (setq arg-indent (+ (ruby-current-indentation) ruby-indent-level))))) ;; (current-column)
-      (when prev-indent
-        (let ((offset (- (current-column) indent)))
-          (cond ((< indent prev-indent)
-                 (indent-line-to prev-indent))
-                ((= indent prev-indent)
-                 (indent-line-to arg-indent)))
-          (when (> offset 0) (forward-char offset)))))))
+            (defadvice ruby-indent-line (after line-up-args activate)
+              (let (indent prev-indent arg-indent)
+                (save-excursion
+                  (back-to-indentation)
+                  (when (zerop (car (syntax-ppss)))
+                    (setq indent (current-column))
+                    (skip-chars-backward " \t\n")
+                    (when (eq ?, (char-before))
+                      (ruby-backward-sexp)
+                      (back-to-indentation)
+                      (setq prev-indent (current-column))
+                      (skip-syntax-forward "w_.")
+                      (skip-chars-forward " ")
+                      (setq arg-indent (+ (ruby-current-indentation) ruby-indent-level))))) ;; (current-column)
+                (when prev-indent
+                  (let ((offset (- (current-column) indent)))
+                    (cond ((< indent prev-indent)
+                           (indent-line-to prev-indent))
+                          ((= indent prev-indent)
+                           (indent-line-to arg-indent)))
+                    (when (> offset 0) (forward-char offset))))))))
 #+end_src
 
 ** Rust support
 
 #+begin_src emacs-lisp
-(use-package rust-mode
-  :commands rust-mode
-  :init
-  (setq rust-indent-unit 2)
-  (setq-default rust-indent-unit 2))
+  (use-package rust-mode
+    :commands rust-mode
+    :init (progn
+            (setq rust-indent-unit 2)
+            (setq-default rust-indent-unit 2)))
 #+end_src
 
 ** SCSS mode
 
 #+begin_src emacs-lisp
-(use-package scss-mode
-  :commands scss-mode
-  :init
-  (add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
+  (use-package scss-mode
+    :commands scss-mode
+    :init (progn
+            (add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
 
-  (setq-default scss-compile-at-save nil)
-  (setq-default css-indent-offset 2))
+            (setq-default scss-compile-at-save nil)
+            (setq-default css-indent-offset 2)))
 #+end_src
 
 ** smart-mode-line
@@ -1852,61 +1839,61 @@ We want to be able to edit CMake files in a sane way.
    Unclutters my mode line (e.g. hides minor modes).
 
 #+begin_src emacs-lisp
-(use-package smart-mode-line
-  :commands smart-mode-line
-  :init
-  (if after-init-time (sml/setup)
-    (add-hook 'after-init-hook 'sml/setup))
+  (use-package smart-mode-line
+    :commands smart-mode-line
+    :init (progn
+            (if after-init-time (sml/setup)
+              (add-hook 'after-init-hook 'sml/setup)))
 
-  :config
-  (custom-set-variables
-   '(sml/hidden-modes (quote (" hl-p" " my-keys" " pair" " HRB" " AC" " GitGutter" " Flymake" " yas" " SP" " WS" " MRev")))
-   '(custom-safe-themes (quote ("6a37be365d1d95fad2f4d185e51928c789ef7a4ccf17e7ca13ad63a8bf5b922f" default))))
+    :config (progn
+              (custom-set-variables
+               '(sml/hidden-modes (quote (" hl-p" " my-keys" " pair" " HRB" " AC" " GitGutter" " Flymake" " yas" " SP" " WS" " MRev")))
+               '(custom-safe-themes (quote ("6a37be365d1d95fad2f4d185e51928c789ef7a4ccf17e7ca13ad63a8bf5b922f" default))))
 
-  (add-to-list 'sml/replacer-regexp-list '("^~/\\(data/\\)?[Ss]ites/" ":WEB:"))
-  (add-to-list 'sml/replacer-regexp-list '("^~/\\(data/\\)?dev/" ":DEV:"))
-  (add-to-list 'sml/replacer-regexp-list '("^~/\\(data/\\)?dev/postgres/" ":PG:"))
-  (add-to-list 'sml/replacer-regexp-list '("^~/\\(data/\\)?Documents/" ":DOC:")))
+              (add-to-list 'sml/replacer-regexp-list '("^~/\\(data/\\)?[Ss]ites/" ":WEB:"))
+              (add-to-list 'sml/replacer-regexp-list '("^~/\\(data/\\)?dev/" ":DEV:"))
+              (add-to-list 'sml/replacer-regexp-list '("^~/\\(data/\\)?dev/postgres/" ":PG:"))
+              (add-to-list 'sml/replacer-regexp-list '("^~/\\(data/\\)?Documents/" ":DOC:"))))
 #+end_src
 
 ** SQL
 
 #+begin_src emacs-lisp
-(add-hook 'sql-interactive-mode-hook
-          (lambda ()
-            (toggle-truncate-lines t)))
+  (add-hook 'sql-interactive-mode-hook
+            (lambda ()
+              (toggle-truncate-lines t)))
 
-(add-hook 'sql-mode-hook 'sqlup-mode)
-(add-hook 'sql-interactive-mode-hook 'sqlup-mode)
+  (add-hook 'sql-mode-hook 'sqlup-mode)
+  (add-hook 'sql-interactive-mode-hook 'sqlup-mode)
 
-(define-key my-keys-minor-mode-map (kbd "C-c u") 'sqlup-capitalize-keywords-in-region)
+  (define-key my-keys-minor-mode-map (kbd "C-c u") 'sqlup-capitalize-keywords-in-region)
 
-(defun sql-indent-string ()
-  "Indents the string under the cursor as SQL."
-  (interactive)
-  (save-excursion
-    (er/mark-inside-quotes)
-    (let* ((text (buffer-substring-no-properties (region-beginning) (region-end)))
-           (pos (region-beginning))
-           (column (progn (goto-char pos) (current-column)))
-           (formatted-text (with-temp-buffer
-                             (insert text)
-                             (delete-trailing-whitespace)
-                             (sql-indent-buffer)
-                             (replace-string "\n" (concat "\n" (make-string column (string-to-char " "))) nil (point-min) (point-max))
-                             (buffer-string))))
-      (delete-region (region-beginning) (region-end))
-      (goto-char pos)
-      (insert formatted-text))))
+  (defun sql-indent-string ()
+    "Indents the string under the cursor as SQL."
+    (interactive)
+    (save-excursion
+      (er/mark-inside-quotes)
+      (let* ((text (buffer-substring-no-properties (region-beginning) (region-end)))
+             (pos (region-beginning))
+             (column (progn (goto-char pos) (current-column)))
+             (formatted-text (with-temp-buffer
+                               (insert text)
+                               (delete-trailing-whitespace)
+                               (sql-indent-buffer)
+                               (replace-string "\n" (concat "\n" (make-string column (string-to-char " "))) nil (point-min) (point-max))
+                               (buffer-string))))
+        (delete-region (region-beginning) (region-end))
+        (goto-char pos)
+        (insert formatted-text))))
 #+end_src
 
 ** Swift support
 
 #+begin_src emacs-lisp
-(use-package swift-mode
-  :commands swift-mode
-  :init
-  (setq swift-indent-offset 2))
+  (use-package swift-mode
+    :commands swift-mode
+    :init
+    (setq swift-indent-offset 2))
 #+end_src
 
 ** JavaScript
@@ -1914,11 +1901,11 @@ We want to be able to edit CMake files in a sane way.
 #+begin_src emacs-lisp
   (use-package js2-mode
     :commands js2-mode
-    :init
-    (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-    (add-to-list 'interpreter-mode-alist '("node" . js2-mode))
-    (custom-set-variables
-      '(js2-basic-offset 2)))
+    :init (progn
+            (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+            (add-to-list 'interpreter-mode-alist '("node" . js2-mode))
+            (custom-set-variables
+             '(js2-basic-offset 2))))
 #+end_src
 
 ** Tramp
@@ -1947,24 +1934,24 @@ We want to be able to edit CMake files in a sane way.
 ** whitespace-mode
 
 #+begin_src emacs-lisp
-(use-package whitespace
-  :init
-  (global-whitespace-mode t)
+  (use-package whitespace
+    :init (progn
+            (global-whitespace-mode t)
 
-  (setq show-trailing-whitespace t)
-  ;;(add-hook 'before-save-hook 'delete-trailing-whitespace)
-  ;;(setq whitespace-line-column 79)
-  (setq whitespace-style
-        '(face trailing indentation))
-  ;;      '(face lines-tail trailing indentation))
+            (setq show-trailing-whitespace t)
+            ;;(add-hook 'before-save-hook 'delete-trailing-whitespace)
+            ;;(setq whitespace-line-column 79)
+            (setq whitespace-style
+                  '(face trailing indentation))
+            ;;      '(face lines-tail trailing indentation))
 
-  ;;  indentation::tab indentation::space tabs tab-mark spaces space-mark
+            ;;  indentation::tab indentation::space tabs tab-mark spaces space-mark
 
-  (setq whitespace-global-modes '(c-mode c++-mode ruby-mode swift-mode
-                                  erlang-mode js2-mode elisp-mode)))
+            (setq whitespace-global-modes '(c-mode c++-mode ruby-mode swift-mode
+                                                   erlang-mode js2-mode elisp-mode))))
 
-  ;;(custom-set-faces
-  ;; '(whitespace-trailing ((t (:background "#f2777a" :weight bold))))))
+    ;;(custom-set-faces
+    ;; '(whitespace-trailing ((t (:background "#f2777a" :weight bold))))))
 #+end_src
 
 ** YAML support
@@ -2026,7 +2013,7 @@ prefix argument."
 
 (global-set-key [remap paredit-kill] (bol-with-prefix paredit-kill))
 (global-set-key [remap org-kill-line] (bol-with-prefix org-kill-line))
-(global-set-key [remap kill-line] (bol-with-prefix paredit-kill))
+(global-set-key [remap kill-line] (bol-with-prefix kill-line))
 #+end_src
 
 ** Launcher map for not-so-often used tools
