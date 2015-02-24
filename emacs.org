@@ -1663,9 +1663,8 @@ We want to be able to edit CMake files in a sane way.
 
 #+begin_src emacs-lisp
   (use-package multiple-cursors
-    :commands multiple-cursors
+    :commands mc/edit-lines mc/mark-next-like-this mc/mark-previous-like-this mc/mark-all-like-this
     :init (progn
-
             (define-key my-keys-minor-mode-map "\C-ccm"
               (defhydra multicursor (:color red)
                 "multicursor"
