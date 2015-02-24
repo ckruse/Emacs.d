@@ -1669,10 +1669,10 @@ We want to be able to edit CMake files in a sane way.
             (define-key my-keys-minor-mode-map "\C-ccm"
               (defhydra multicursor (:color red)
                 "multicursor"
-                ("v" 'mc/edit-lines "all lines")
-                ("d" 'mc/mark-next-like-this "next match")
-                ("p" 'mc/mark-previous-like-this "prev match")
-                ("D" 'mc/mark-all-like-this "all matches")))))
+                ("v" mc/edit-lines "all lines")
+                ("d" mc/mark-next-like-this "next match")
+                ("p" mc/mark-previous-like-this "prev match")
+                ("D" mc/mark-all-like-this "all matches")))))
 #+end_src
 
 ** Perl support
