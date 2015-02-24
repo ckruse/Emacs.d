@@ -593,7 +593,7 @@ key again. I instantly fell in love with it.
     :init (progn
             ;; testing hydra; keybindings for testing from within emacs
             (define-key my-keys-minor-mode-map "\C-cct"
-              (defhydra toggle (:color blue)
+              (defhydra tests (:color blue)
                 "testing"
                 ("p" run-test-at-point "run test at point")
                 ("f" run-test-file "run test file")
@@ -801,22 +801,18 @@ switching similiar to it. Very nice!
 
   (define-key my-keys-minor-mode-map "\C-cco"
     (defhydra org (:color blue)
-      "often used files"
-      ("p" (find-file "~/Documents/org/passwords.org.gpg") "open passwords file")
-      ("i" (find-file "~/Documents/org/inbox.org") "Open org-mode inbox file")
-      ("t" (find-file "~/Documents/org/work/termitel.org") "Open termitel org-mode file")
+      "org actions"
+      ("a" org-agenda "Agenda")
+      ("l" org-store-link "Store link")
+      ("b" org-iswitchb "Org switch buffer")
+      ("A" org-archive-subtree "Archive subtree" :color red)
 
-      ("a" 'org-agenda "Agenda")
-      ("l" 'org-store-link "Store link")
-      ("b" 'org-iswitchb "Org switch buffer")
-      ("A" 'org-archive-subtree "Archive subtree" :color red)
+      ("+" org-capture "Capture")
+      ("i" bh/punch-in "Punch in")
+      ("o" bh/punch-out "Punch out")
 
-      ("+" 'org-capture "Capture")
-      ("i" 'bh/punch-in "Punch in")
-      ("o" 'bh/punch-out "Punch out")
-
-      ("g" 'org-clock-goto "Goto clock")
-      ("I" 'org-clock-in "Clock in")))
+      ("g" org-clock-goto "Goto clock")
+      ("I" org-clock-in "Clock in")))
 
 
 
