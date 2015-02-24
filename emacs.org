@@ -802,9 +802,9 @@ switching similiar to it. Very nice!
   (define-key my-keys-minor-mode-map "\C-cco"
     (defhydra org (:color blue)
       "often used files"
-      ("p" (lambda () (interactive) (find-file "~/Documents/org/passwords.org.gpg")) "open passwords file")
-      ("i" (lambda () (interactive) (find-file "~/Documents/org/inbox.org")) "Open org-mode inbox file")
-      ("t" (lambda () (interactive) (find-file "~/Documents/org/work/termitel.org")) "Open termitel org-mode file")
+      ("p" (find-file "~/Documents/org/passwords.org.gpg") "open passwords file")
+      ("i" (find-file "~/Documents/org/inbox.org") "Open org-mode inbox file")
+      ("t" (find-file "~/Documents/org/work/termitel.org") "Open termitel org-mode file")
 
       ("a" 'org-agenda "Agenda")
       ("l" 'org-store-link "Store link")
