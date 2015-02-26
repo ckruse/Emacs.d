@@ -2029,7 +2029,8 @@ prefix argument."
       ("s" eshell "eshell")
       ("t" proced "proced")
       ("a" magit-status "magit-status")
-      ("m" mu4e "mu4e")))
+      ("m" mu4e "mu4e")
+      ("p" sql-postgres "sql-postgres")))
 #+end_src
 
 ** =eshell= modifications
