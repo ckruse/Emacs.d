@@ -1,0 +1,13 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: blog
+# key: blog
+# binding: direct-keybinding
+# --
+subject: $1
+slug: $2
+tags: $3
+posting_format: ${3:markdown}
+visible: ${4:1}
+excerpt: $5
+–-Content--
+$6
