@@ -6,8 +6,8 @@
 subject: $1
 slug: $2
 tags: $3
-posting_format: ${3:markdown}
-visible: ${4:1}
-excerpt: $5
+posting_format: ${4:markdown}
+visible: ${5:1}
+excerpt: $6
 –-Content--
-$6
+$7
