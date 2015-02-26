@@ -2036,12 +2036,14 @@ prefix argument."
 ** =eshell= modifications
 
 #+begin_src emacs-lisp
-(defun eshell-mode-hook-func ()
-  (setq eshell-path-env (concat (getenv "PATH") ":" eshell-path-env)))
-  ;(setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
-  ;(define-key eshell-mode-map (kbd "M-s") 'other-window-or-split))
- 
-(add-hook 'eshell-mode-hook 'eshell-mode-hook-func)
+  (defun eshell-mode-hook-func ()
+    (setq eshell-path-env (concat (getenv "PATH") ":" eshell-path-env))
+    (define-key eshell-mode-map [up] 'previous-line)
+    (define-key eshell-mode-map [down] 'next-line))
+    ;(setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
+    ;(define-key eshell-mode-map (kbd "M-s") 'other-window-or-split))
+
+  (add-hook 'eshell-mode-hook 'eshell-mode-hook-func)
 #+end_src
 ** =typo.el=, the library for typographics in Emacs
 
