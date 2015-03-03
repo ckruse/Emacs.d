@@ -16,7 +16,7 @@
 
       erc-timestamp-only-if-changed-flag nil
       erc-timestamp-format "[%H:%M] "
-      erc-fill-prefix nil
+      erc-fill-prefix      "       + "
       erc-insert-timestamp-function 'erc-insert-timestamp-left)
 
 (defvar erc-insert-post-hook)
