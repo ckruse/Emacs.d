@@ -9,10 +9,15 @@
 
 ;; don't show any of this
 ;(setq erc-hide-list '("JOIN" "PART" "QUIT" "NICK"))
-(setq erc-track-exclude-server-buffer t)
-(setq erc-fill-column 160)
-(setq erc-max-buffer-size 30000)
-(setq erc-truncate-buffer-on-save t)
+(setq erc-track-exclude-server-buffer t
+      erc-fill-column 160
+      erc-max-buffer-size 30000
+      erc-truncate-buffer-on-save t
+
+      erc-timestamp-only-if-changed-flag nil
+      erc-timestamp-format "[%H:%M] "
+      erc-fill-prefix nil
+      erc-insert-timestamp-function 'erc-insert-timestamp-left)
 
 (defvar erc-insert-post-hook)
 (add-hook 'erc-insert-post-hook 'erc-truncate-buffer)
