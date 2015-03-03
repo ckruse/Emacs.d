@@ -2026,7 +2026,7 @@ prefix argument."
       ("g" lgrep "lgrep")
       ("G" rgrep "rgrep")
       ("h" man "man")
-      ("s" eshell "eshell")
+      ("s" eshell-here "eshell")
       ("t" proced "proced")
       ("a" magit-status "magit-status")
       ("m" mu4e "mu4e")
@@ -2037,14 +2037,37 @@ prefix argument."
 ** =eshell= modifications
 
 #+begin_src emacs-lisp
+  (defun eshell-here ()
+    "Opens up a new shell in the directory associated with the
+  current buffer's file. The eshell is renamed to match that
+  directory to make multiple eshell windows easier."
+    (interactive)
+    (let* ((parent (if (buffer-file-name)
+                       (file-name-directory (buffer-file-name))
+                     default-directory))
+           (height (/ (window-total-height) 3))
+           (name   (car (last (split-string parent "/" t)))))
+      (split-window-vertically (- height))
+      (other-window 1)
+      (eshell "new")
+      (rename-buffer (concat "*eshell: " name "*"))))
+
+  (defun eshell/x ()
+    (interactive)
+    (insert "exit")
+    (eshell-send-input)
+    (delete-window))
+
   (defun eshell-mode-hook-func ()
     (setq eshell-path-env (concat (getenv "PATH") ":" eshell-path-env))
     (define-key eshell-mode-map [up] 'previous-line)
-    (define-key eshell-mode-map [down] 'next-line))
+    (define-key eshell-mode-map [down] 'next-line)
+    (define-key eshell-mode-map (kbd "\C-x k") 'eshell/x))
     ;(setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
     ;(define-key eshell-mode-map (kbd "M-s") 'other-window-or-split))
 
   (add-hook 'eshell-mode-hook 'eshell-mode-hook-func)
+
 #+end_src
 ** =typo.el=, the library for typographics in Emacs
 
