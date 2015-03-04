@@ -814,7 +814,8 @@ switching similiar to it. Very nice!
       ("o" bh/punch-out "Punch out")
 
       ("g" org-clock-goto "Goto clock")
-      ("I" org-clock-in "Clock in")))
+      ("I" org-clock-in "Clock in")
+      ("p" org-publish-all "Publish")))
 
 
 
