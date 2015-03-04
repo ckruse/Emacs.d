@@ -881,63 +881,25 @@ switching similiar to it. Very nice!
         ; org-mode-doc-extra are images and css files that need to be included
         ; org-mode-doc is the top-level project that gets published
         ; This uses the same target directory as the 'doc' project
-        (quote (("termitel"
-                 :base-directory "~/Documents/org/work/"
-                 :publishing-directory "/ssh:ckruse@jugulator.defunced.de:/var/www/cloud.defunct.ch/htdocs/todo/termitel"
-                 :recursive t
-                 :section-numbers nil
-                 :table-of-contents nil
-                 :base-extension "org"
-                 :publishing-function (org-html-publish-to-html org-org-publish-to-org)
-                 :html-head "<link rel=\"stylesheet\" href=\"http://cloud.defunct.ch/todo/org.css\" type=\"text/css\">"
-                 :plain-source t
-                 :htmlized-source t
-                 :style-include-default nil
-                 :auto-sitemap t
-                 :sitemap-filename "index.html"
-                 :sitemap-title "Termitel TODO"
-                 :sitemap-style "tree"
-                 :author-info t
-                 :creator-info t)
-
-                ("foss"
-                 :base-directory "~/Documents/org/foss/"
-                 :publishing-directory "/ssh:ckruse@jugulator.defunced.de:/var/www/cloud.defunct.ch/htdocs/todo/foss"
-                 :recursive t
-                 :section-numbers nil
-                 :table-of-contents nil
-                 :base-extension "org"
-                 :publishing-function (org-html-publish-to-html org-org-publish-to-org)
-                 :html-head "<link rel=\"stylesheet\" href=\"http://cloud.defunct.ch/todo/org.css\" type=\"text/css\">"
-                 :plain-source t
-                 :htmlized-source t
-                 :style-include-default nil
-                 :auto-sitemap t
-                 :sitemap-filename "index.html"
-                 :sitemap-title "FOSS TODO"
-                 :sitemap-style "tree"
-                 :author-info t
-                 :creator-info t)
-
-                ("private"
+        (quote (("org"
                  :base-directory "~/Documents/org/"
-                 :publishing-directory "/ssh:ckruse@jugulator.defunced.de:/var/www/cloud.defunct.ch/htdocs/todo/private"
+                 :publishing-directory "/ssh:ckruse@jugulator.defunced.de:/var/www/cloud.defunct.ch/htdocs/todo/"
                  :recursive t
                  :section-numbers nil
                  :table-of-contents nil
                  :base-extension "org"
-                 :publishing-function (org-html-publish-to-html org-org-publish-to-org)
-                 :html-head "<link rel=\"stylesheet\" href=\"http://cloud.defunct.ch/todo/org.css\" type=\"text/css\">"
+                 :publishing-function org-html-publish-to-html
+                 :html-head "<link rel=\"stylesheet\" href=\"https://cloud.defunct.ch/todo/org.css\" type=\"text/css\">"
                  :plain-source t
                  :htmlized-source t
                  :style-include-default nil
                  :auto-sitemap t
                  :sitemap-filename "index.html"
-                 :sitemap-title "Privat TODO"
+                 :sitemap-title "CKs Org"
                  :sitemap-style "tree"
                  :author-info t
                  :creator-info t
-                 :exclude "passwords\\|work\\|foss"))))
+                 :exclude "passwords"))))
 
 
 
