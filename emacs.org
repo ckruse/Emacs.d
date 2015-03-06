@@ -769,7 +769,7 @@ switching similiar to it. Very nice!
           (quote (("t" "todo" entry (file+headline "~/Documents/org/inbox.org" "Inbox")
                    "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
                   ("n" "note" entry (file+headline "~/Documents/org/notes.org" "Notizen")
-                   "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
+                   "* %?\n%U\n" :clock-in t :clock-resume t)
                   ("b" "blog entry" entry (file+headline "~/Documents/org/inbox.org" "Inbox")
                    "* TODO %? :blog:\n%U\n" :clock-in t :clock-resume t)
                   ("j" "Journal" entry (file+datetree "~/Documents/org/priv/diary.org")
