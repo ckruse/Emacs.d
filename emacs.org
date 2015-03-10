@@ -1995,7 +1995,8 @@ prefix argument."
       ("a" magit-status "magit-status")
       ("m" mu4e "mu4e")
       ("p" sql-postgres "sql-postgres")
-      ("b" (compile (format "~/dev/blog_pub/blog.rb %s" (expand-file-name (buffer-file-name)))))))
+      ("b" (compile (format "~/dev/blog_pub/blog.rb %s" (expand-file-name (buffer-file-name)))) "blog it")
+      ("z" (start-process "sync-mail" "*sync-mail*" "~/dev/mail/sync-mail") "sync mail")))
 #+end_src
 
 ** =eshell= modifications
