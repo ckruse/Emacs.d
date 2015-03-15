@@ -686,15 +686,16 @@ Parentheses]] for an intuitive narrow/widen behaviour.
 
 #+begin_src emacs-lisp
   (use-package ace-jump-mode
+    :commands (ace-jump-mode ace-jump-mode-pop-mark)
     :init (progn
-
             (define-key my-keys-minor-mode-map (kbd "C-c SPC") 'ace-jump-mode)
 
             ;;
             ;; enable a more powerful jump back function from ace jump mode
             ;;
-            (ace-jump-mode-enable-mark-sync)
-            (define-key my-keys-minor-mode-map (kbd "C-x SPC") 'ace-jump-mode-pop-mark)))
+            (define-key my-keys-minor-mode-map (kbd "C-x SPC") 'ace-jump-mode-pop-mark))
+    :config (progn
+              (ace-jump-mode-enable-mark-sync)))
 #+end_src
 
 *** switch-window
@@ -2225,19 +2226,20 @@ prefix argument."
 
 #+begin_src emacs-lisp
   (use-package mmm-mode
-    :init (progn
-            (setq mmm-global-mode 'maybe)
-            (set-face-background 'mmm-default-submode-face nil)
+    :config (progn
+              (setq mmm-global-mode 'maybe)
+              (set-face-background 'mmm-default-submode-face nil)
 
-            (mmm-add-classes
-             '((embedded-sql
-                :submode sql-mode
-                :front "<<-?SQL"
-                :front-offset (end-of-line 1)
-                :back "^[ \t]*SQL$"
-                :delimiter-mode nil)))
+              (mmm-add-classes
+               '((embedded-sql
+                  :submode sql-mode
+                  :front "<<-?SQL"
+                  :front-offset (end-of-line 1)
+                  :back "^[ \t]*SQL$"
+                  :delimiter-mode nil)))
 
-            (mmm-add-mode-ext-class 'ruby-mode nil 'embedded-sql)
-            (setq mmm-never-modes
-                  (append '(ediff-mode) '(text-mode) mmm-never-modes))))
+              (mmm-add-mode-ext-class 'ruby-mode nil 'embedded-sql)
+              (setq mmm-never-modes
+                    (append '(ediff-mode) '(text-mode) mmm-never-modes))))
 #+end_src
+
