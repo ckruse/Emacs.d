@@ -72,6 +72,4 @@
 
 (depends-on "hydra")
 
-(depends-on "helm-swoop")
-
 ;; eof

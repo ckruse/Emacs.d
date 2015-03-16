@@ -2241,18 +2241,6 @@ prefix argument."
                     (append '(ediff-mode) '(text-mode) mmm-never-modes))))
 #+end_src
 
-** helm-swoop
 
-#+begin_src emacs-lisp
-  (use-package helm-swoop
-    :commands (helm-swoop helm-swoop-back-to-last-point helm-multi-swoop
-               helm-multi-swoop-all helm-swoop-from-isearch)
-    :init (progn
-            (define-key my-keys-minor-mode-map "\C-s" 'helm-swoop)
-            ;(define-key my-keys-minor-mode-map "\C-S" 'helm-swoop-back-to-last-point)
-            (define-key my-keys-minor-mode-map "\C-c\M-s" 'helm-multi-swoop)
-            (define-key my-keys-minor-mode-map "\C-x\M-s" 'helm-multi-swoop-all)
 
-            (define-key isearch-mode-map (kbd "M-i") 'helm-swoop-from-isearch))
-    :config (define-key helm-swoop-map (kbd "M-i") 'helm-multi-swoop-all-from-helm-swoop))
 #+end_src
