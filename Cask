@@ -72,4 +72,5 @@
 
 (depends-on "hydra")
 
+(depends-on "gnus-alias")
 ;; eof

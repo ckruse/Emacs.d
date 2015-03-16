@@ -1994,7 +1994,7 @@ prefix argument."
       ("s" eshell-here "eshell")
       ("t" proced "proced")
       ("a" magit-status "magit-status")
-      ("m" mu4e "mu4e")
+      ("m" notmuch "notmuch")
       ("p" sql-postgres "sql-postgres")
       ("b" (compile (format "~/dev/blog_pub/blog.rb %s" (expand-file-name (buffer-file-name)))) "blog it")
       ("z" (start-process "sync-mail" "*sync-mail*" "~/dev/mail/sync-mail") "sync mail")))
@@ -2119,7 +2119,7 @@ prefix argument."
               (defun file-string (file)
                 "Read the contents of a file and return as a string."
                 (with-current-buffer (find-file-noselect file)
-                  (buffer-string))) 
+                  (buffer-string)))
 
               (defvar my-mu4e-account-alist
                 '(("Defunct"
@@ -2241,6 +2241,11 @@ prefix argument."
                     (append '(ediff-mode) '(text-mode) mmm-never-modes))))
 #+end_src
 
+** notmuchmail
 
+Because it’s not much mail!
 
+#+begin_src emacs-lisp
+  (use-package notmuch
+    :commands (notmuch))
 #+end_src
