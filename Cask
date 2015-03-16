@@ -73,4 +73,6 @@
 (depends-on "hydra")
 
 (depends-on "gnus-alias")
+(depends-on "bbdb")
+
 ;; eof
