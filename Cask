@@ -73,5 +73,6 @@
 
 (depends-on "gnus-alias")
 (depends-on "bbdb")
+(depends-on "bbdb-vcard")
 
 ;; eof

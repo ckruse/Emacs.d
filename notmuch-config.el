@@ -160,9 +160,12 @@
                   bbdb-electric-p t)
 
 
-            (when (equal system-type 'darwin)
-              (setq osxb-import-with-timer t)
-              (require 'osx-bbdb))))
+            (if (equal system-type 'darwin)
+                (progn
+                  (setq osxb-import-with-timer t)
+                  (require 'osx-bbdb))
+              (progn
+                (use-package bbdb-vcard)))))
 
 
 ;; eof
