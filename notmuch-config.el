@@ -88,7 +88,8 @@
                          ("c.kruse@mwbenson.de" . "Termitel/Sent")
                          ("c.kruse@mwbenson.ch" . "Termitel/Sent")
                          ("c.kruse@sourceflow.ch" . "Termitel/Sent")
-                         (".*" . "Defunct/Sent")))
+                         (".*" . "Defunct/Sent"))
+      notmuch-show-indent-messages-width 4)
 
 (require 'gnus-alias)
 (setq gnus-alias-debug-buffer-name 1)
