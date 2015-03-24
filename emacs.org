@@ -2310,3 +2310,15 @@ Because it’s not much mail!
   (use-package notmuch
     :commands (notmuch))
 #+end_src
+
+** Automatically open files as root
+
+When a file isn't writable, re-open it as root.
+
+#+begin_src emacs-lisp
+(defadvice helm-find-files (after find-file-sudo activate)
+  "Find file as root if necessary."
+  (unless (and buffer-file-name
+               (file-writable-p buffer-file-name))
+    (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
+#+end_src
