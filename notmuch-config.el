@@ -100,7 +100,7 @@
   (interactive)
   (let ((ident (gnus-alias-determine-identity t)))
     (if (not (equal ident ""))
-        (gnus-alias-select-identity ident)
+        (gnus-alias-use-identity ident)
       (gnus-alias-select-identity))
 
     (mml-secure-sign-pgpmime)))
