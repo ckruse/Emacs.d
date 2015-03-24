@@ -128,7 +128,8 @@
 ;;(setq gnus-alias-default-identity "Defunct")
 ;; Define rules to match work identity
 (setq gnus-alias-identity-rules
-      '(("Termitel" ("any" "c.kruse@\\(termitel\\.de\\|mwbenson\\.de\\|mwbenson\\.ch\\|sourceflow\\.ch\\)" both) "Termitel")))
+      '(("Defunct"  ("any" "cjk@\\(defunct\\.ch\\|wwwtech\\.de\\)" both) "Defunct")
+        ("Termitel" ("any" "c.kruse@\\(termitel\\.de\\|mwbenson\\.de\\|mwbenson\\.ch\\|sourceflow\\.ch\\)" both) "Termitel")))
 
 (require 'org-notmuch)
 
