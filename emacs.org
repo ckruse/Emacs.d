@@ -289,6 +289,20 @@ electric indentation.
 (blink-cursor-mode 0)
 #+end_src
 
+*** Make read-only regions inaccessible in minibuffer
+
+In emacs minibuffer prompt, when you press the left arrow key, the
+cursor will move back all the way over the prompt text. This is
+annoying because user often will hold down 【Alt+b】 to move back by
+word to edit, and when user starts to type something, emacs will say
+„This is read-only.“ Then you have to manually move cursor out of the
+prompt
+
+#+begin_src emacs-lisp
+(setq minibuffer-prompt-properties (quote (read-only t point-entered minibuffer-avoid-prompt face minibuffer-prompt)))
+#+end_src
+
+
 ** Theming and fonts
 
 *** Fonts
