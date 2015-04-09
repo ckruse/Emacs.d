@@ -2344,3 +2344,12 @@ When a file isn't writable, re-open it as root.
                (file-writable-p buffer-file-name))
     (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
 #+end_src
+** Punish for ineffective key usage
+
+#+begin_src emacs-lisp
+  (use-package jammer
+    :config (progn
+              (setq jammer-repeat-type 'quadratic)
+              (jammer-mode)))
+#+end_src
+

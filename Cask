@@ -75,4 +75,6 @@
 (depends-on "bbdb")
 (depends-on "bbdb-vcard")
 
+(depends-on "jammer")
+
 ;; eof
