@@ -235,6 +235,14 @@ I'd also like to overwrite an active region with a yank.
 (delete-selection-mode t)
 #+end_src
 
+When we copy something from an external application and then use cut
+in Emacs, the copied content is not in the kill ring. This changes
+that behaviour:
+
+#+begin_src emacs-lisp
+(setq save-interprogram-paste-before-kill t)
+#+end_src
+
 *** electric indentation
 
 I don't like to have to hit =tab= on every newline, so we enable
