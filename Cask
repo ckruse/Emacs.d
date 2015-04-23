@@ -10,7 +10,7 @@
 
 (depends-on "use-package")
 
-(depends-on "helm")
+(depends-on "smex")
 (depends-on "gist")
 (depends-on "multiple-cursors")
 (depends-on "magit")
@@ -23,7 +23,6 @@
 (depends-on "yasnippet")
 (depends-on "projectile")
 (depends-on "projectile-rails")
-(depends-on "helm-projectile")
 (depends-on "ido-ubiquitous")
 (depends-on "switch-window")
 (depends-on "expand-region")
@@ -56,9 +55,6 @@
 ;; flycheck adds on-the-fly syntax checking for a lot of languages
 (depends-on "flycheck")
 
-;; Dash, yay! Dash documentation system integration for emacs
-(depends-on "helm-dash")
-
 (depends-on "git-timemachine")
 (depends-on "typo")
 
@@ -75,6 +71,6 @@
 (depends-on "bbdb")
 (depends-on "bbdb-vcard")
 
-(depends-on "jammer")
+(depends-on "swiper")
 
 ;; eof

@@ -506,39 +506,6 @@ point reaches the beginning or end of the buffer, stop there."
 (setq-default ssl-program-name "openssl s_client -ssl2 -connect %s:%p")
 #+end_src
 
-** helm
-
-   [[https://github.com/emacs-helm/helm][Helm]] is Emacs incremental completion and selection narrowing
-   framework.
-
-
-#+begin_src emacs-lisp
-  (defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode keymap.")
-
-  (use-package helm
-    :init (progn
-            (helm-mode 1)
-            (semantic-mode 1)
-
-            (setq helm-M-x-fuzzy-match t
-                  helm-buffers-fuzzy-matching t
-                  helm-recentf-fuzzy-match t
-                  helm-semantic-fuzzy-match t
-                  helm-imenu-fuzzy-match t)
-
-            (helm-autoresize-mode 1)
-            (setq helm-autoresize-max-height 20
-                  helm-autoresize-min-height 20)
-
-            (define-key my-keys-minor-mode-map (kbd "M-x") 'helm-M-x)
-            (define-key my-keys-minor-mode-map (kbd "C-x b") 'helm-mini)
-            (define-key my-keys-minor-mode-map (kbd "C-x C-f") 'helm-find-files)
-            (define-key my-keys-minor-mode-map (kbd "M-y") 'helm-show-kill-ring)
-            (define-key my-keys-minor-mode-map (kbd "C-c c s") 'helm-semantic-or-imenu)
-
-            (define-key my-keys-minor-mode-map (kbd "C-c M-x") 'execute-extended-command)))
-#+end_src
-
 ** Project management
 
    I'm using [[https://github.com/bbatsov/projectile][projectile]] for project management.
@@ -569,9 +536,6 @@ point reaches the beginning or end of the buffer, stop there."
               (let ((tags-file (concat (projectile-project-root) "/TAGS")))
                 (visit-tags-table tags-file)
                 (message (concat "Loaded " tags-file))))))
-
-  (use-package helm-projectile
-    :init (helm-projectile-on))
 #+end_src
 
 ** Keyboard shortcuts
@@ -589,6 +553,7 @@ so much used to them that I can't get rid of them.
 (global-set-key [C-end] 'end-of-buffer)
 (global-set-key [s-down] 'end-of-buffer)
 
+(defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode keymap.")
 (define-key my-keys-minor-mode-map (kbd "M-<") 'pop-to-mark-command)
 (define-key my-keys-minor-mode-map (kbd "C--") 'dabbrev-expand)
 (define-key my-keys-minor-mode-map (kbd "s-.") 'find-tag)
@@ -1595,6 +1560,7 @@ We want to be able to edit CMake files in a sane way.
   (use-package magit
     :commands magit-status
     :init (progn
+            (setq magit-last-seen-setup-instructions "1.4.0")
             (when (featurep 'ns)
               (setq magit-emacsclient-executable "/usr/local/bin/emacsclient"))))
 #+end_src
@@ -2066,39 +2032,47 @@ prefix argument."
     :init (progn
             (typo-global-mode 1)
             (add-hook 'text-mode-hook 'typo-mode)
-            (add-hook 'circe-chat-mode-hook 'typo-mode)
+
+            (when (not (eq system-type 'darwin))
+              (add-hook 'circe-chat-mode-hook 'typo-mode))
+
             (setq typo-language "German")
             (setq-default typo-language "German")))
 #+end_src
 ** Circe, IRC over Emacs
 
 #+begin_src emacs-lisp
-  (load "~/dev/mail/znc.el")
-
-  (defun my-irc-login ()
-    "Login into my usual IRCs."
-    (interactive)
-    (circe "EPD-ME")
-    (circe "CCC")
-    (circe "Freenode"))
-
-  (defun my-circe-prompt ()
-    (lui-set-prompt
-     (concat (propertize (concat (buffer-name) ">")
-                         'face 'circe-prompt-face)
-             " ")))
-
-  (defun my-circe-set-margin ()
-    (setq
-     fringes-outside-margins t
-     right-margin-width 5
-     word-wrap t
-     wrap-prefix "    "))
-
   (use-package circe
     :commands (circe circe-set-display-handler)
-    :init (run-with-idle-timer 5 nil 'my-irc-login)
+    :disabled (eq system-type 'darwin)
+    :init (progn
+            (message "called!")
+            (defun my-irc-login ()
+              "Login into my usual IRCs."
+              (interactive)
+              (message "call!")
+              (circe "EPD-ME")
+              (circe "CCC")
+              (circe "Freenode"))
+
+            (load "~/dev/mail/znc.el")
+            (run-with-idle-timer 5 nil 'my-irc-login))
+
     :config (progn
+              (defun my-circe-prompt ()
+                (lui-set-prompt
+                 (concat (propertize (concat (buffer-name) ">")
+                                     'face 'circe-prompt-face)
+                         " ")))
+
+              (defun my-circe-set-margin ()
+                (setq
+                 fringes-outside-margins t
+                 right-margin-width 5
+                 word-wrap t
+                 wrap-prefix "    "))
+
+
               (add-hook 'circe-chat-mode-hook 'my-circe-prompt)
               (add-hook 'lui-mode-hook 'my-circe-set-margin)
 
@@ -2338,18 +2312,38 @@ Because it’s not much mail!
 When a file isn't writable, re-open it as root.
 
 #+begin_src emacs-lisp
-(defadvice helm-find-files (after find-file-sudo activate)
+(defadvice ido-find-file (after find-file-sudo activate)
   "Find file as root if necessary."
   (unless (and buffer-file-name
                (file-writable-p buffer-file-name))
     (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
 #+end_src
-** Punish for ineffective key usage
+
+** swiper
 
 #+begin_src emacs-lisp
-  (use-package jammer
+  (use-package swiper
+    :bind  ("C-s" . swiper)
+    :commands (swiper)
     :config (progn
-              (setq jammer-repeat-type 'quadratic)
-              (jammer-mode)))
+              (define-key ivy-minibuffer-map (kbd "<down>") 'ivy-next-line)
+              (define-key ivy-minibuffer-map (kbd "<up>") 'ivy-previous-line)))
 #+end_src
 
+** smex
+
+#+begin_src emacs-lisp
+  (use-package smex
+    :commands ck/smex
+    :bind ("M-x" . ck/smex)
+    :config (progn
+              (smex-initialize)
+              (setq smex-save-file "~/.smex")
+              (smex-auto-update)
+
+              (defun ck/smex (x)
+                (interactive "p")
+                (if (= x 1)
+                    (smex)
+                  (smex-major-mode-commands)))))
+#+end_src
