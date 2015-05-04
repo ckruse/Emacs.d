@@ -71,6 +71,4 @@
 (depends-on "bbdb")
 (depends-on "bbdb-vcard")
 
-(depends-on "swiper")
-
 ;; eof

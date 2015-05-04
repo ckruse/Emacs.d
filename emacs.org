@@ -2319,17 +2319,6 @@ When a file isn't writable, re-open it as root.
     (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
 #+end_src
 
-** swiper
-
-#+begin_src emacs-lisp
-  (use-package swiper
-    :bind  ("C-s" . swiper)
-    :commands (swiper)
-    :config (progn
-              (define-key ivy-minibuffer-map (kbd "<down>") 'ivy-next-line)
-              (define-key ivy-minibuffer-map (kbd "<up>") 'ivy-previous-line)))
-#+end_src
-
 ** smex
 
 #+begin_src emacs-lisp
