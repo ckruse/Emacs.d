@@ -1248,7 +1248,8 @@ impression.
     (ido-mode t)
     (setq ido-enable-flex-matching t
           redisplay-dont-pause t
-          ido-use-faces nil)
+          ido-use-faces nil
+          ido-auto-merge-work-directories-length -1)
     (set-default 'imenu-auto-rescan t))
 
   (use-package flx-ido
