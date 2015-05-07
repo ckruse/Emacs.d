@@ -1739,6 +1739,12 @@ We want to be able to edit CMake files in a sane way.
 
             (define-key my-keys-minor-mode-map (kbd "C-c r r") 'inf-ruby)
 
+            (require 'ruby-hash-syntax)
+
+            (define-key my-keys-minor-mode-map "\C-ccr"
+                (defhydra tests (:color red)
+                  "Ruby"
+                  ("h" ruby-toggle-hash-syntax "Toggle ruby Hash syntax")))
 
             (defadvice ruby-indent-line (after line-up-args activate)
               (let (indent prev-indent arg-indent)
