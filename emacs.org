@@ -1353,7 +1353,7 @@ similiar to the autocompletion provided by XCode.
    :init
    (key-chord-mode 1)
    (key-chord-define-global "uu" 'undo)
-   (key-chord-define-global "yy" 'switch-window)
+   (key-chord-define-global "yy" 'ace-window)
    (key-chord-define-global "jl" 'ace-jump-word-mode)
    (key-chord-define-global "jl" 'ace-jump-line-mode))
 
