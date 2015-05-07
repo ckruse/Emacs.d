@@ -2337,3 +2337,15 @@ When a file isn't writable, re-open it as root.
                     (smex)
                   (smex-major-mode-commands)))))
 #+end_src
+
+** go-mode
+
+#+begin_src emacs-lisp
+  (use-package go-mode
+    :commands go-mode
+    :init (progn
+            (add-to-list 'auto-mode-alist (cons "\\.go\\'" 'go-mode)))
+    :config (progn
+              (require 'go-autocomplete)))
+#+end_src
+
