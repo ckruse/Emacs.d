@@ -686,15 +686,15 @@ Parentheses]] for an intuitive narrow/widen behaviour.
               (ace-jump-mode-enable-mark-sync)))
 #+end_src
 
-*** switch-window
+*** ace-window
 
-[[https://github.com/dimitri/switch-window][switch-window]] is a mode based on =ace-jump-mode= which makes buffer
+[[https://github.com/abo-abo/ace-window][ace-window]] is a mode based on =ace-jump-mode= which makes buffer
 switching similiar to it. Very nice!
 
 #+begin_src emacs-lisp
-  (use-package switch-window
+  (use-package ace-window
     :init
-    (define-key my-keys-minor-mode-map (kbd "C-x o") 'switch-window))
+    (define-key my-keys-minor-mode-map (kbd "C-x o") 'ace-window))
 #+end_src
 
 ** org-mode
