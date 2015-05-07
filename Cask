@@ -1,17 +1,15 @@
 ;; -*- coding: utf-8 mode: lisp -*-
 
-(source melpa)
+(source melpa-stable)
 (source marmalade)
 (source gnu)
 (source org)
-(source "e6h" "http://www.e6h.org/packages/")
 
 ;; tools
 
 (depends-on "use-package")
 
 (depends-on "smex")
-(depends-on "gist")
 (depends-on "multiple-cursors")
 (depends-on "magit")
 (depends-on "ace-jump-mode")
@@ -22,18 +20,13 @@
 (depends-on "ido-vertical-mode")
 (depends-on "yasnippet")
 (depends-on "projectile")
-(depends-on "projectile-rails")
 (depends-on "ido-ubiquitous")
-(depends-on "switch-window")
 (depends-on "expand-region")
 (depends-on "org-plus-contrib")
-(depends-on "htmlize")
 (depends-on "inf-ruby")
 (depends-on "color-theme-sanityinc-tomorrow")
 (depends-on "rainbow-delimiters")
 (depends-on "rvm")
-
-(depends-on "key-chord")
 
 ;; languages
 
@@ -41,7 +34,6 @@
 (depends-on "php-mode")
 (depends-on "scss-mode")
 (depends-on "yaml-mode")
-(depends-on "rust-mode")
 (depends-on "haskell-mode")
 (depends-on "web-mode")
 (depends-on "markdown-mode")
@@ -58,8 +50,6 @@
 (depends-on "git-timemachine")
 (depends-on "typo")
 
-(depends-on "circe")
-
 (depends-on "guide-key")
 (depends-on "edit-server")
 
@@ -67,8 +57,34 @@
 
 (depends-on "hydra")
 
-(depends-on "gnus-alias")
+(depends-on "ruby-hash-syntax")
+
+(depends-on "ace-window")
+
+(depends-on "org-trello")
+
+(depends-on "go-mode")
+(depends-on "go-autocomplete")
+
+;;;
+;;; unstable begins here
+;;;
+
+(source melpa)
+
+;; available on melpa-stable but dependency isn't
+(depends-on "projectile-rails")
+(depends-on "circe")
+
+;; not available on melpa-stable, yet
+
+(depends-on "rust-mode")
+(depends-on "gist")
+(depends-on "key-chord")
+(depends-on "htmlize")
+
 (depends-on "bbdb")
+(depends-on "gnus-alias")
 (depends-on "bbdb-vcard")
 
 ;; eof
