@@ -2058,9 +2058,7 @@ prefix argument."
 #+begin_src emacs-lisp
   (use-package circe
     :commands (circe circe-set-display-handler)
-    :disabled (eq system-type 'darwin)
     :init (progn
-            (message "called!")
             (defun my-irc-login ()
               "Login into my usual IRCs."
               (interactive)
@@ -2069,8 +2067,7 @@ prefix argument."
               (circe "CCC")
               (circe "Freenode"))
 
-            (load "~/dev/mail/znc.el")
-            (run-with-idle-timer 5 nil 'my-irc-login))
+            (load "~/dev/mail/znc.el"))
 
     :config (progn
               (defun my-circe-prompt ()
