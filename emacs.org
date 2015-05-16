@@ -2357,7 +2357,9 @@ When a file isn't writable, re-open it as root.
   (use-package go-mode
     :commands go-mode
     :init (progn
-            (add-to-list 'auto-mode-alist (cons "\\.go\\'" 'go-mode)))
+            (add-to-list 'auto-mode-alist (cons "\\.go\\'" 'go-mode))
+            (add-hook 'before-save-hook #'gofmt-before-save)
+            (setenv "GOPATH" (concat (getenv "HOME") "/dev/go")))
     :config (progn
               (require 'go-autocomplete)))
 #+end_src
