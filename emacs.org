@@ -2364,3 +2364,13 @@ When a file isn't writable, re-open it as root.
               (require 'go-autocomplete)))
 #+end_src
 
+** alchemist
+
+#+begin_src emacs-lisp
+  (use-package alchemist
+    :commands alchemist-mode alchemist-iex-run alchemist-iex-project-run
+    :config (progn
+              (setq alchemist-project-compile-when-needed t
+                    alchemist-complete-debug-mode nil
+                    alchemist-hooks-test-on-save t)))
+#+end_src
