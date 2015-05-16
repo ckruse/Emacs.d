@@ -1474,9 +1474,13 @@ We want to be able to edit CMake files in a sane way.
 [[https://github.com/magnars/expand-region.el][expand-region]] is an Emacs extension to increase selected region by semantic units.
 
 #+begin_src emacs-lisp
-(use-package expand-region
-  :init
-  (define-key my-keys-minor-mode-map (kbd "C-=") 'er/expand-region))
+  (use-package expand-region
+    :commands expand-region
+    :init (progn
+            (define-key my-keys-minor-mode-map "\C-cce"
+              (defhydra expand-region (:color red)
+                "expand region as a hydra"
+                ("e" er/expand-region "Expand region")))))
 #+end_src
 
 ** flycheck
