@@ -2129,7 +2129,7 @@ prefix argument."
                                              :tls t
                                              :channels ("#warpzone" "#postgresql" "#rubyonrails" "#erlang" "#emacs" "#ruby" "#cstar")
                                              :pass ,freenode-password))
-                    tracking-ignored-buffers '("#postgresql" "#rubyonrails" "#erlang" "#emacs" "#ruby"))
+                    tracking-ignored-buffers '("#postgresql" "#erlang" "#emacs" "#ruby"))
 
               (enable-circe-notifications)))
 #+end_src
