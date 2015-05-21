@@ -89,7 +89,14 @@
                          ("c.kruse@mwbenson.ch" . "Termitel/Sent")
                          ("c.kruse@sourceflow.ch" . "Termitel/Sent")
                          (".*" . "Defunct/Sent"))
-      notmuch-show-indent-messages-width 4)
+      notmuch-show-indent-messages-width 4
+      notmuch-saved-searches '((:name "inbox" :query "tag:inbox" :key "i")
+                               (:name "unread" :query "tag:unread" :key "u")
+                               (:name "flagged" :query "tag:flagged" :key "f")
+                               (:name "sent" :query "tag:sent" :key "t")
+                               (:name "drafts" :query "tag:draft" :key "d")
+                               (:name "all mail" :query "*" :key "a")
+                               (:name "CForum" :query "folder:Defunct/Lists.cforum")))
 
 (require 'gnus-alias)
 (setq gnus-alias-debug-buffer-name 1)
