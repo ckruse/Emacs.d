@@ -42,6 +42,7 @@
 (depends-on "swift-mode")
 (depends-on "js2-mode")
 
+(depends-on "elixir-mode")
 (depends-on "alchemist")
 
 (depends-on "sqlup-mode")
