@@ -24,7 +24,7 @@
 (depends-on "expand-region")
 (depends-on "org-plus-contrib")
 (depends-on "inf-ruby")
-(depends-on "color-theme-sanityinc-tomorrow")
+(depends-on "material-theme")
 (depends-on "rainbow-delimiters")
 (depends-on "rvm")
 
