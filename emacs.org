@@ -1248,27 +1248,29 @@ impression.
 
 #+begin_src emacs-lisp
   (use-package ido
-    :init
-
-    (ido-mode t)
-    (setq ido-enable-flex-matching t
-          redisplay-dont-pause t
-          ido-use-faces nil
-          ido-auto-merge-work-directories-length -1)
-    (set-default 'imenu-auto-rescan t))
+    :init (progn
+            (ido-mode t)
+            (ido-everywhere 1)
+            (setq ido-enable-flex-matching t
+                  redisplay-dont-pause t
+                  ido-use-faces nil
+                  ido-auto-merge-work-directories-length -1)
+            (set-default 'imenu-auto-rescan t)))
 
   (use-package flx-ido
-    :init
-    (flx-ido-mode 1))
+    :init (progn
+            (flx-ido-mode 1)))
 
   (use-package ido-vertical-mode
-    :init
-    (ido-vertical-mode)
+    :init (progn
+            (ido-vertical-mode)
 
-    (custom-set-variables
-     '(ido-vertical-define-keys 'C-n-C-p-up-and-down)))
+            (custom-set-variables
+             '(ido-vertical-define-keys 'C-n-C-p-up-and-down))))
 
-  (use-package ido-ubiquitous)
+  (use-package ido-ubiquitous
+    :init (progn
+            (ido-ubiquitous-mode 1)))
 #+end_src
 
 ** yasnippet
