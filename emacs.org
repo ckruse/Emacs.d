@@ -669,22 +669,17 @@ Parentheses]] for an intuitive narrow/widen behaviour.
   (define-key my-keys-minor-mode-map (kbd "C-x n") 'narrow-or-widen-dwim)
 #+end_src
 
-** ace-jump-mode
+** Avy
 
-[[https://github.com/winterTTr/ace-jump-mode][ace-jump-mode]] is a mode for easy movements to specific positions in the file.
+Avy is a mode for easy movements to specific positions in the file.
 
 #+begin_src emacs-lisp
-  (use-package ace-jump-mode
-    :commands (ace-jump-mode ace-jump-mode-pop-mark)
+  (use-package avy
+    :commands (avy-goto-word-1 avy-goto-line)
     :init (progn
-            (define-key my-keys-minor-mode-map (kbd "C-c SPC") 'ace-jump-mode)
-
-            ;;
-            ;; enable a more powerful jump back function from ace jump mode
-            ;;
-            (define-key my-keys-minor-mode-map (kbd "C-x SPC") 'ace-jump-mode-pop-mark))
-    :config (progn
-              (ace-jump-mode-enable-mark-sync)))
+            (define-key my-keys-minor-mode-map (kbd "C-c SPC") 'avy-goto-word-1)
+            (define-key my-keys-minor-mode-map (kbd "M-g g") 'avy-goto-line)
+            (define-key my-keys-minor-mode-map (kbd "M-g M-g") 'avy-goto-line)))
 #+end_src
 
 *** ace-window

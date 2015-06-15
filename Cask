@@ -12,7 +12,6 @@
 (depends-on "smex")
 (depends-on "multiple-cursors")
 (depends-on "magit")
-(depends-on "ace-jump-mode")
 (depends-on "smart-mode-line")
 (depends-on "smartparens")
 (depends-on "auto-complete")
@@ -62,6 +61,7 @@
 
 (depends-on "ruby-hash-syntax")
 
+(depends-on "avy")
 (depends-on "ace-window")
 
 (depends-on "org-trello")
