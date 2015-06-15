@@ -21,3 +21,5 @@ tramp
 /rake.cache
 /ido.last
 /.bbdb
+/bbdb
+/request/
