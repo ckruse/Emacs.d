@@ -82,6 +82,7 @@
       user-mail-address "cjk@defunct.ch"
       message-kill-buffer-on-exit t
       mail-user-agent 'message-user-agent
+      notmuch-always-prompt-for-sender t
       notmuch-fcc-dirs '(("cjk@defunct.ch" . "Defunct/Sent")
                          ("cjk@wwwtech.de" . "Defunct/Sent")
                          ("c.kruse@termitel.de" . "Termitel/Sent")
