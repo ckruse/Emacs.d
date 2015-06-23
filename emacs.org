@@ -600,9 +600,10 @@ key again. I instantly fell in love with it.
   (define-key my-keys-minor-mode-map "\C-ccf"
     (defhydra often-used-files (:color blue)
       "often used files"
-                  ("p" (find-file "~/Documents/org/passwords.org.gpg") "open passwords file")
-                  ("i" (find-file "~/Documents/org/inbox.org") "Open org-mode inbox file")
-                  ("t" (find-file "~/Documents/org/work/termitel.org") "Open termitel org-mode file")))
+      ;;("p" (find-file "~/Documents/org/passwords.org.gpg") "open passwords file")
+      ("p" (org-passwords) "open passwords file")
+      ("i" (find-file "~/Documents/org/inbox.org") "Open org-mode inbox file")
+      ("t" (find-file "~/Documents/org/work/termitel.org") "Open termitel org-mode file")))
 
 #+end_src
 
@@ -764,10 +765,12 @@ switching similiar to it. Very nice!
                  "* TODO Review %c\n%U\n" :immediate-finish t)
                 ("m" "Meeting" entry (file+headline "~/Documents/org/inbox.org" "Inbox")
                  "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
-                ("p" "Phone call" entry (file+headline "~/Documents/org/inbox.org" "Inbox")
+                ("c" "Phone call" entry (file+headline "~/Documents/org/inbox.org" "Inbox")
                  "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
                 ("h" "Habit" entry (file+headline "~/Documents/org/inbox.org" "Inbox")
-                 "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"<%Y-%m-%d %a .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
+                 "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"<%Y-%m-%d %a .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
+                ("p" "password" entry (file "~/Documents/org/passwords-new.gpg")
+                 "* %^{Title}\n  %^{URL}p %^{USERNAME}p %^{PASSWORD}p"))))
 
 
   ; Set default column view headings: Task Effort Clock_Summary
@@ -1232,6 +1235,19 @@ switching similiar to it. Very nice!
                (marker-buffer org-clock-default-task)
                (not org-clock-resolving-clocks-due-to-idleness))
       (bh/clock-in-parent-task)))
+
+  (require 'org-passwords)
+  (setq org-passwords-file "~/Documents/org/passwords-new.gpg")
+
+  (eval-after-load "org-passwords"
+    '(progn
+       (define-key org-passwords-mode-map (kbd "C-c u")
+         'org-passwords-copy-username)
+       (define-key org-passwords-mode-map (kbd "C-c p")
+         'org-passwords-copy-password)
+       (define-key org-passwords-mode-map (kbd "C-c o")
+         'org-passwords-open-url)))
+
 #+end_src
 
 ** ido
