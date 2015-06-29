@@ -554,22 +554,22 @@ so much used to them that I can't get rid of them.
 (global-set-key [C-end] 'end-of-buffer)
 (global-set-key [s-down] 'end-of-buffer)
 
-(defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode keymap.")
-(define-key my-keys-minor-mode-map (kbd "M-<") 'pop-to-mark-command)
-(define-key my-keys-minor-mode-map (kbd "C--") 'dabbrev-expand)
-(define-key my-keys-minor-mode-map (kbd "s-.") 'find-tag)
-(define-key my-keys-minor-mode-map (kbd "s-}") 'pop-tag-mark)
+(defvar ck/keys-minor-mode-map (make-keymap) "ck/keys-minor-mode keymap.")
+(define-key ck/keys-minor-mode-map (kbd "M-<") 'pop-to-mark-command)
+(define-key ck/keys-minor-mode-map (kbd "C--") 'dabbrev-expand)
+(define-key ck/keys-minor-mode-map (kbd "s-.") 'find-tag)
+(define-key ck/keys-minor-mode-map (kbd "s-}") 'pop-tag-mark)
 
-(define-minor-mode my-keys-minor-mode
+(define-minor-mode ck/keys-minor-mode
   "A minor mode so that my key settings override annoying major modes."
-  t " my-keys" 'my-keys-minor-mode-map)
+  t " ck/keys" 'ck/keys-minor-mode-map)
 
-(my-keys-minor-mode 1)
+(ck/keys-minor-mode 1)
 
-(defun my-minibuffer-setup-hook ()
-  (my-keys-minor-mode 0))
+(defun ck/minibuffer-setup-hook ()
+  (ck/keys-minor-mode 0))
 
-(add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
+(add-hook 'minibuffer-setup-hook 'ck/minibuffer-setup-hook)
 (define-key minibuffer-local-map (kbd "C--") 'dabbrev-expand)
 #+end_src
 
@@ -583,7 +583,7 @@ key again. I instantly fell in love with it.
   (use-package hydra
     :init (progn
             ;; testing hydra; keybindings for testing from within emacs
-            (define-key my-keys-minor-mode-map "\C-cct"
+            (define-key ck/keys-minor-mode-map "\C-cct"
               (defhydra tests (:color blue)
                 "testing"
                 ("p" run-test-at-point "run test at point")
@@ -597,7 +597,7 @@ key again. I instantly fell in love with it.
    get it's own shortcut:
 
 #+begin_src emacs-lisp
-  (define-key my-keys-minor-mode-map "\C-ccf"
+  (define-key ck/keys-minor-mode-map "\C-ccf"
     (defhydra often-used-files (:color blue)
       "often used files"
       ("p" (find-file "~/Documents/org/passwords.org.gpg") "open passwords file")
@@ -666,7 +666,7 @@ Parentheses]] for an intuitive narrow/widen behaviour.
                  (t (org-narrow-to-subtree))))
           (t (narrow-to-defun))))
 
-  (define-key my-keys-minor-mode-map (kbd "C-x n") 'narrow-or-widen-dwim)
+  (define-key ck/keys-minor-mode-map (kbd "C-x n") 'narrow-or-widen-dwim)
 #+end_src
 
 ** Avy
@@ -677,9 +677,9 @@ Avy is a mode for easy movements to specific positions in the file.
   (use-package avy
     :commands (avy-goto-word-1 avy-goto-line)
     :init (progn
-            (define-key my-keys-minor-mode-map (kbd "C-c SPC") 'avy-goto-word-1)
-            (define-key my-keys-minor-mode-map (kbd "M-g g") 'avy-goto-line)
-            (define-key my-keys-minor-mode-map (kbd "M-g M-g") 'avy-goto-line)))
+            (define-key ck/keys-minor-mode-map (kbd "C-c SPC") 'avy-goto-word-1)
+            (define-key ck/keys-minor-mode-map (kbd "M-g g") 'avy-goto-line)
+            (define-key ck/keys-minor-mode-map (kbd "M-g M-g") 'avy-goto-line)))
 #+end_src
 
 *** ace-window
@@ -690,7 +690,7 @@ switching similiar to it. Very nice!
 #+begin_src emacs-lisp
   (use-package ace-window
     :init
-    (define-key my-keys-minor-mode-map (kbd "C-x o") 'ace-window))
+    (define-key ck/keys-minor-mode-map (kbd "C-x o") 'ace-window))
 #+end_src
 
 ** org-mode
@@ -791,7 +791,7 @@ switching similiar to it. Very nice!
   (add-hook 'org-clock-out-hook 'bh/remove-empty-drawer-on-clock-out 'append)
 
 
-  (define-key my-keys-minor-mode-map "\C-cco"
+  (define-key ck/keys-minor-mode-map "\C-cco"
     (defhydra org (:color blue)
       "org actions"
       ("a" org-agenda "Agenda")
@@ -1478,7 +1478,7 @@ We want to be able to edit CMake files in a sane way.
   (use-package expand-region
     :commands expand-region
     :init (progn
-            (define-key my-keys-minor-mode-map "\C-cce"
+            (define-key ck/keys-minor-mode-map "\C-cce"
               (defhydra expand-region (:color red)
                 "expand region as a hydra"
                 ("e" er/expand-region "Expand region")))))
@@ -1525,7 +1525,7 @@ We want to be able to edit CMake files in a sane way.
   (use-package ibuffer
     :commands ibuffer
     :init (progn
-            (define-key my-keys-minor-mode-map (kbd "C-x C-b") 'ibuffer)
+            (define-key ck/keys-minor-mode-map (kbd "C-x C-b") 'ibuffer)
 
             (defun ck/define-projectile-filter-groups ()
               (when (boundp 'projectile-known-projects)
@@ -1625,7 +1625,7 @@ We want to be able to edit CMake files in a sane way.
   (use-package multiple-cursors
     :commands mc/edit-lines mc/mark-next-like-this mc/mark-previous-like-this mc/mark-all-like-this
     :init (progn
-            (define-key my-keys-minor-mode-map "\C-ccm"
+            (define-key ck/keys-minor-mode-map "\C-ccm"
               (defhydra multicursor (:color red)
                 "multicursor"
                 ("v" mc/edit-lines "all lines")
@@ -1745,11 +1745,11 @@ We want to be able to edit CMake files in a sane way.
             (add-to-list 'auto-mode-alist '("Gemfile$" . ruby-mode))
             (add-to-list 'auto-mode-alist '("\\.prawn$" . ruby-mode))
 
-            (define-key my-keys-minor-mode-map (kbd "C-c r r") 'inf-ruby)
+            (define-key ck/keys-minor-mode-map (kbd "C-c r r") 'inf-ruby)
 
             (require 'ruby-hash-syntax)
 
-            (define-key my-keys-minor-mode-map "\C-ccr"
+            (define-key ck/keys-minor-mode-map "\C-ccr"
                 (defhydra tests (:color red)
                   "Ruby"
                   ("h" ruby-toggle-hash-syntax "Toggle ruby Hash syntax")))
@@ -1812,7 +1812,7 @@ We want to be able to edit CMake files in a sane way.
 
     :config (progn
               (custom-set-variables
-               '(sml/hidden-modes (quote (" hl-p" " my-keys" " pair" " HRB" " AC" " GitGutter" " Flymake" " yas" " SP" " WS" " MRev"))))
+               '(sml/hidden-modes (quote (" hl-p" " ck/keys" " pair" " HRB" " AC" " GitGutter" " Flymake" " yas" " SP" " WS" " MRev"))))
 
               (add-to-list 'sml/replacer-regexp-list '("^~/\\(data/\\)?[Ss]ites/" ":WEB:"))
               (add-to-list 'sml/replacer-regexp-list '("^~/\\(data/\\)?dev/" ":DEV:"))
@@ -1830,7 +1830,7 @@ We want to be able to edit CMake files in a sane way.
   (add-hook 'sql-mode-hook 'sqlup-mode)
   (add-hook 'sql-interactive-mode-hook 'sqlup-mode)
 
-  (define-key my-keys-minor-mode-map (kbd "C-c u") 'sqlup-capitalize-keywords-in-region)
+  (define-key ck/keys-minor-mode-map (kbd "C-c u") 'sqlup-capitalize-keywords-in-region)
 
   (defun sql-indent-string ()
     "Indents the string under the cursor as SQL."
@@ -1986,7 +1986,7 @@ prefix argument."
    them easily.
 
 #+begin_src emacs-lisp
-  (define-key my-keys-minor-mode-map "\C-ccl"
+  (define-key ck/keys-minor-mode-map "\C-ccl"
     (defhydra launchers (:color blue)
       "Launchers"
       ("c" calc "Calc")
@@ -2059,7 +2059,7 @@ prefix argument."
   (use-package circe
     :commands (circe circe-set-display-handler)
     :init (progn
-            (defun my-irc-login ()
+            (defun ck/irc-login ()
               "Login into my usual IRCs."
               (interactive)
               (message "call!")
@@ -2070,13 +2070,13 @@ prefix argument."
             (load "~/dev/mail/znc.el"))
 
     :config (progn
-              (defun my-circe-prompt ()
+              (defun ck/circe-prompt ()
                 (lui-set-prompt
                  (concat (propertize (concat (buffer-name) ">")
                                      'face 'circe-prompt-face)
                          " ")))
 
-              (defun my-circe-set-margin ()
+              (defun ck/circe-set-margin ()
                 (setq
                  fringes-outside-margins t
                  right-margin-width 5
@@ -2084,8 +2084,8 @@ prefix argument."
                  wrap-prefix "    "))
 
 
-              (add-hook 'circe-chat-mode-hook 'my-circe-prompt)
-              (add-hook 'lui-mode-hook 'my-circe-set-margin)
+              (add-hook 'circe-chat-mode-hook 'ck/circe-prompt)
+              (add-hook 'lui-mode-hook 'ck/circe-set-margin)
 
               (require 'circe-color-nicks)
               (require 'circe-chanop)
@@ -2135,117 +2135,6 @@ prefix argument."
               (enable-circe-notifications)))
 #+end_src
 
-** mu4e
-
-#+begin_src emacs-lisp
-  ;; make sure mu4e is in your load-path
-  (use-package mu4e
-    :commands mu4e
-    :init (progn
-            (setq mail-user-agent 'mu4e-user-agent))
-    :config (progn
-              (require 'org-mu4e)
-              (setq mu4e-maildir "~/Mail"
-                    mu4e-sent-folder   "/Defunct/Sent"
-                    mu4e-drafts-folder "/Defunct/Drafts"
-                    mu4e-trash-folder  "/Defunct/Trash"
-
-                    mu4e-use-fancy-chars t
-                    mu4e-view-show-images t
-                    mu4e-attachment-dir "~/Downloads"
-                    mu4e-change-filenames-when-moving t
-                    mu4e-headers-full-search t
-                    mu4e-hide-index-messages t
-                    mu4e-view-show-addresses t
-                    mu4e-headers-include-related t)
-
-              (setq mu4e-headers-fields
-                    '( (:human-date    .   12)
-                       (:flags         .    6)
-                       (:maildir       .   22)
-                       (:mailing-list  .   10)
-                       (:from          .   22)
-                       (:subject       .   nil)))
-
-              (require 'mu4e-contrib)
-
-              (setq mu4e-html2text-command 'mu4e-shr2text
-                    mime-edit-split-message nil
-                    mime-edit-pgp-signers '("C84EF897")
-                    mime-edit-pgp-encrypt-to-self t
-                    message-send-mail-function 'message-send-mail-with-sendmail
-                    sendmail-program "~/dev/mail/msmtp-enqueue.sh"
-                    message-sendmail-extra-arguments '("-a" "Defunct")
-                    mail-specify-envelope-from t
-                    message-sendmail-f-is-evil nil
-                    mail-envelope-from 'header
-                    mail-interactive t
-                    message-sendmail-envelope-from 'header
-                    user-full-name "Christian Kruse"
-                    message-kill-buffer-on-exit t)
-
-              (defun file-string (file)
-                "Read the contents of a file and return as a string."
-                (with-current-buffer (find-file-noselect file)
-                  (buffer-string)))
-
-              (defvar my-mu4e-account-alist
-                '(("Defunct"
-                   (mu4e-sent-folder "/Defunct/Sent")
-                   (mu4e-drafts-folder "/Defunct/Drafts")
-                   (mu4e-compose-signature (file-string "~/dev/mail/signature-defunct"))
-                   (user-mail-address "cjk@defunct.ch"))
-                  ("Termitel"
-                   (mu4e-sent-folder "/Termitel/Sent")
-                   (mu4e-drafts-folder "/Termitel/Drafts")
-                   (mu4e-compose-signature (file-string "~/dev/mail/signature-termitel"))
-                   (user-mail-address "c.kruse@termitel.de"))))
-
-              (defvar my-mu4e-account nil)
-
-              (defun my-mu4e-set-account ()
-                "Set the account for composing a message."
-                (let* ((account
-                        (if mu4e-compose-parent-message
-                            (let ((maildir (mu4e-message-field mu4e-compose-parent-message :maildir)))
-                              (string-match "/\\(.*?\\)/" maildir)
-                              (match-string 1 maildir))
-                          (ido-completing-read (format "Compose with account: (%s) "
-                                                       (mapconcat #'(lambda (var) (car var))
-                                                                  my-mu4e-account-alist "/"))
-                                               (mapcar #'(lambda (var) (car var)) my-mu4e-account-alist)
-                                               nil t nil nil (caar my-mu4e-account-alist))))
-                       (account-vars (cdr (assoc account my-mu4e-account-alist))))
-                  (setq mu-mu4e-account account)
-                  (if account-vars
-                      (mapc #'(lambda (var)
-                                (set (car var) (cadr var)))
-                            account-vars)
-                    (error "No email account found"))))
-
-              (defun my-mu4e-set-msmtp-account ()
-                (setq message-sendmail-extra-arguments
-                      (list "-a" mu-mu4e-account)))
-
-              (setq mu4e-refile-folder
-                    (lambda (msg)
-                      (let ((maildir (mu4e-message-field msg :maildir))
-                            (account)
-                            (year (format-time-string "%Y" (mu4e-msg-field msg :date))))
-                        (string-match "/\\(.*?\\)/" maildir)
-                        (setq account (match-string 1 maildir))
-                         (concat "/" account "/Archiv." year))))
-
-              (add-to-list 'mu4e-bookmarks
-                           '("(maildir:/Defunct/INBOX or maildir:/Termitel/INBOX) and flag:unread" "Unread in unified inbox" ?n))
-              (add-to-list 'mu4e-bookmarks
-                           '("maildir:/Defunct/INBOX or maildir:/Termitel/INBOX" "Unified inbox" ?i))
-
-              (add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)
-              (add-hook 'mu4e-compose-mode-hook 'mml-secure-message-sign-pgpmime)
-              (add-hook 'message-send-mail-hook 'my-mu4e-set-msmtp-account)))
-#+end_src
-
 ** =guide-key=
 
 #+begin_src emacs-lisp
@@ -2285,7 +2174,7 @@ prefix argument."
       (forward-line 1)
       (back-to-indentation)))
 
-  (define-key my-keys-minor-mode-map (kbd "C-c c C-c") 'endless/comment-line-or-region)
+  (define-key ck/keys-minor-mode-map (kbd "C-c c C-c") 'endless/comment-line-or-region)
 #+end_src
 
 ** =mmm-mode=
