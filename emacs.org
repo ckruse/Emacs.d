@@ -2063,7 +2063,6 @@ prefix argument."
             (defun ck/irc-login ()
               "Login into my usual IRCs."
               (interactive)
-              (message "call!")
               (circe "EPD-ME")
               (circe "CCC")
               (circe "Freenode"))
