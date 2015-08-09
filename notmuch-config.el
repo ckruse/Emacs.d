@@ -91,13 +91,16 @@
                          ("c.kruse@sourceflow.ch" . "Termitel/Sent")
                          (".*" . "Defunct/Sent"))
       notmuch-show-indent-messages-width 4
-      notmuch-saved-searches '((:name "inbox" :query "tag:inbox" :key "i")
+      notmuch-saved-searches '((:name "CForum" :query "folder:Defunct/Lists.cforum")
+                               (:name "PostgreSQL" :query "tag:pg and tag:list")
+                               (:name "Gentoo" :query "tag:gentoo and tag:list")
+                               (:name "Rails" :query "tag:list and tag:rails")
+                               (:name "inbox" :query "tag:inbox" :key "i")
                                (:name "unread" :query "tag:unread" :key "u")
                                (:name "flagged" :query "tag:flagged" :key "f")
                                (:name "sent" :query "tag:sent" :key "t")
                                (:name "drafts" :query "tag:draft" :key "d")
-                               (:name "all mail" :query "*" :key "a")
-                               (:name "CForum" :query "folder:Defunct/Lists.cforum")))
+                               (:name "all mail" :query "*" :key "a")))
 
 (define-key notmuch-show-mode-map "\C-c\C-o" 'browse-url-at-point)
 
