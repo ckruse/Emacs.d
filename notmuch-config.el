@@ -99,6 +99,8 @@
                                (:name "all mail" :query "*" :key "a")
                                (:name "CForum" :query "folder:Defunct/Lists.cforum")))
 
+(define-key notmuch-show-mode-map "\C-c\C-o" 'browse-url-at-point)
+
 (require 'gnus-alias)
 (setq gnus-alias-debug-buffer-name 1)
 ;(add-hook 'message-setup-hook 'gnus-alias-determine-identity)
