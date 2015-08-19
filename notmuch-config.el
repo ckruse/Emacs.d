@@ -74,6 +74,9 @@
       mime-edit-split-message nil
       mime-edit-pgp-signers '("C84EF897")
       mime-edit-pgp-encrypt-to-self t
+      mml2015-encrypt-to-self t
+      mml2015-sign-with-sender t
+      notmuch-crypto-process-mime t
       message-send-mail-function 'message-send-mail-with-sendmail
       sendmail-program "~/dev/mail/msmtp-enqueue.sh"
       message-sendmail-f-is-evil nil
@@ -116,7 +119,7 @@
         (gnus-alias-use-identity ident)
       (gnus-alias-select-identity))
 
-    (mml-secure-sign-pgpmime)))
+    (mml-secure-message-sign-pgpmime)))
 
 (add-hook 'message-setup-hook 'ck/choose-identity)
 ;(add-hook 'message-setup-hook 'mml-secure-sign-pgpmime)
@@ -145,6 +148,20 @@
         ("Termitel" ("any" "c.kruse@\\(termitel\\.de\\|mwbenson\\.de\\|mwbenson\\.ch\\|sourceflow\\.ch\\)" both) "Termitel")))
 
 (require 'org-notmuch)
+
+;; decryption
+
+(defun jho/notmuch-show-decrypt-message ()
+  (interactive)
+  ;; make sure the content is not indented, as this confuses epa
+  (when notmuch-show-indent-content
+    (notmuch-show-toggle-thread-indentation))
+
+  (cl-letf ((extent (notmuch-show-message-extent))
+            ((symbol-function 'y-or-n-p) #'(lambda (msg) t)))
+    (epa-decrypt-armor-in-region (car extent) (cdr extent))))
+
+(define-key notmuch-show-mode-map (kbd "C-c C-e d") 'jho/notmuch-show-decrypt-message)
 
 ;;; bbdb
 
