@@ -341,7 +341,7 @@ prompt
   (custom-set-variables
    ;'(custom-enabled-themes (quote (sanityinc-tomorrow-eighties)))
    '(custom-enabled-themes (quote (material)))
-   '(custom-safe-themes    (quote ("4a162cd971cf3c059e827d6b5aa0bd07488cb5995782c0fa0ce20621bbc4a596"
+   '(custom-safe-themes    (quote ("f77b66fa762568d66fc00a5e2013aae76d78f0142669c55b7eb3c8e5d4d41e7d"
                                    "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa"
                                    default))))
 
