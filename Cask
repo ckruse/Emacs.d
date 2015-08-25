@@ -9,17 +9,18 @@
 
 (depends-on "use-package")
 
-(depends-on "smex")
+;(depends-on "smex")
 (depends-on "multiple-cursors")
 (depends-on "magit")
 (depends-on "smart-mode-line")
 (depends-on "smartparens")
 (depends-on "auto-complete")
-(depends-on "flx-ido")
-(depends-on "ido-vertical-mode")
+;(depends-on "auto-complete")
+;(depends-on "flx-ido")
+;(depends-on "ido-vertical-mode")
 (depends-on "yasnippet")
 (depends-on "projectile")
-(depends-on "ido-ubiquitous")
+;(depends-on "ido-ubiquitous")
 (depends-on "expand-region")
 (depends-on "org-plus-contrib")
 (depends-on "inf-ruby")
@@ -90,4 +91,6 @@
 (depends-on "gnus-alias")
 (depends-on "bbdb-vcard")
 
+(depends-on "helm")
+(depends-on "helm-projectile")
 ;; eof
