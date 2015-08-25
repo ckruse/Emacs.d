@@ -1320,33 +1320,33 @@ Autocomplete provides a nice autocompletion feature for Emacs,
 similiar to the autocompletion provided by XCode.
 
 #+begin_src emacs-lisp
-  (use-package auto-complete-config
-    :init
-    (ac-config-default)
+  ;; (use-package auto-complete-config
+  ;;   :init
+  ;;   (ac-config-default)
 
-    (setq web-mode-ac-sources-alist
-          '(("erb" . (ac-source-yasnippet))
-            ("php" . (ac-source-yasnippet))
-            ("css" . (ac-source-css-property))
-            ("html" . (ac-source-words-in-buffer ac-source-abbrev))))
+  ;;   (setq web-mode-ac-sources-alist
+  ;;         '(("erb" . (ac-source-yasnippet))
+  ;;           ("php" . (ac-source-yasnippet))
+  ;;           ("css" . (ac-source-css-property))
+  ;;           ("html" . (ac-source-words-in-buffer ac-source-abbrev))))
 
-    (add-to-list 'ac-modes 'objc-mode)
-    (add-to-list 'ac-modes 'web-mode)
-    (add-to-list 'ac-modes 'sql-mode)
-    (add-to-list 'ac-modes 'c-mode)
-    (add-to-list 'ac-modes 'swift-mode)
+  ;;   (add-to-list 'ac-modes 'objc-mode)
+  ;;   (add-to-list 'ac-modes 'web-mode)
+  ;;   (add-to-list 'ac-modes 'sql-mode)
+  ;;   (add-to-list 'ac-modes 'c-mode)
+  ;;   (add-to-list 'ac-modes 'swift-mode)
 
-    (add-hook 'web-mode-before-auto-complete-hooks
-              '(lambda ()
-                 (let ((web-mode-cur-language
-                        (web-mode-language-at-pos)))
-                   (if (string= web-mode-cur-language "php")
-                       (yas-activate-extra-mode 'php-mode)
-                     (yas-deactivate-extra-mode 'php-mode))
+  ;;   (add-hook 'web-mode-before-auto-complete-hooks
+  ;;             '(lambda ()
+  ;;                (let ((web-mode-cur-language
+  ;;                       (web-mode-language-at-pos)))
+  ;;                  (if (string= web-mode-cur-language "php")
+  ;;                      (yas-activate-extra-mode 'php-mode)
+  ;;                    (yas-deactivate-extra-mode 'php-mode))
 
-                   (if (string= web-mode-cur-language "erb")
-                       (yas-activate-extra-mode 'ruby-mode)
-                     (yas-deactivate-extra-mode 'ruby-mode))))))
+  ;;                  (if (string= web-mode-cur-language "erb")
+  ;;                      (yas-activate-extra-mode 'ruby-mode)
+  ;;                    (yas-deactivate-extra-mode 'ruby-mode))))))
 #+end_src
 
 ** key-chord
@@ -2246,9 +2246,9 @@ When a file isn't writable, re-open it as root.
     :init (progn
             (add-to-list 'auto-mode-alist (cons "\\.go\\'" 'go-mode))
             (add-hook 'before-save-hook #'gofmt-before-save)
-            (setenv "GOPATH" (concat (getenv "HOME") "/dev/go")))
-    :config (progn
-              (require 'go-autocomplete)))
+            (setenv "GOPATH" (concat (getenv "HOME") "/dev/go"))))
+    ;; :config (progn
+    ;;           (require 'go-autocomplete)))
 #+end_src
 
 
@@ -2300,3 +2300,26 @@ When a file isn't writable, re-open it as root.
             (helm-projectile-on)))
 #+end_src
 
+** company
+
+#+begin_src emacs-lisp
+  (use-package company
+    :init (progn
+            (global-company-mode)
+            (add-to-list 'company-frontends 'company-preview-frontend :append)
+            (setq company-idle-delay .3)))
+
+  (use-package robe
+    :commands robe-mode
+    :init (progn
+            (defadvice inf-ruby-console-auto (before activate-rvm-for-robe activate)
+              (rvm-activate-corresponding-ruby))
+
+            (add-hook 'ruby-mode-hook 'robe-mode)
+            (push 'company-robe company-backends)))
+
+  (use-package company-web-html
+    :init (progn
+            (add-hook 'web-mode-hook (lambda ()
+                                       (set (make-local-variable 'company-backends) '(company-web-html))))))
+#+end_src
