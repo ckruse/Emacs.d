@@ -14,6 +14,7 @@
 (depends-on "magit")
 (depends-on "smart-mode-line")
 (depends-on "smartparens")
+(depends-on "auto-complete")
 ;(depends-on "auto-complete")
 ;(depends-on "flx-ido")
 ;(depends-on "ido-vertical-mode")
@@ -67,7 +68,7 @@
 (depends-on "org-trello")
 
 (depends-on "go-mode")
-;(depends-on "go-autocomplete")
+(depends-on "go-autocomplete")
 
 ;;;
 ;;; unstable begins here
@@ -92,10 +93,4 @@
 
 (depends-on "helm")
 (depends-on "helm-projectile")
-
-(depends-on "company")
-(depends-on "robe")
-(depends-on "company-web")
-
-
 ;; eof
