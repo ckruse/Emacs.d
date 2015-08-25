@@ -97,7 +97,6 @@
       notmuch-saved-searches '((:name "inbox" :query "tag:inbox" :key "i")
                                (:name "CForum" :query "folder:Defunct/Lists.cforum")
                                (:name "PostgreSQL" :query "tag:pg and tag:list")
-                               (:name "Gentoo" :query "tag:gentoo and tag:list")
                                (:name "Rails" :query "tag:list and tag:rails")
                                (:name "unread" :query "tag:unread" :key "u")
                                (:name "flagged" :query "tag:flagged" :key "f")
