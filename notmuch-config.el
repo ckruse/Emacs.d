@@ -88,6 +88,8 @@
       notmuch-always-prompt-for-sender t
       notmuch-fcc-dirs '(("cjk@defunct.ch" . "Defunct/Sent")
                          ("cjk@wwwtech.de" . "Defunct/Sent")
+                         ("ckruse@wwwtech.de" . "Defunct/Sent")
+                         ("c.kruse@wwwtech.de" . "Defunct/Sent")
                          ("c.kruse@termitel.de" . "Termitel/Sent")
                          ("c.kruse@mwbenson.de" . "Termitel/Sent")
                          ("c.kruse@mwbenson.ch" . "Termitel/Sent")
@@ -143,7 +145,7 @@
 ;;(setq gnus-alias-default-identity "Defunct")
 ;; Define rules to match work identity
 (setq gnus-alias-identity-rules
-      '(("Defunct"  ("any" "cjk@\\(defunct\\.ch\\|wwwtech\\.de\\)" both) "Defunct")
+      '(("Defunct"  ("any" "\\(cjk\\|c.kruse\\|ckruse\\)@\\(defunct\\.ch\\|wwwtech\\.de\\)" both) "Defunct")
         ("Termitel" ("any" "c.kruse@\\(termitel\\.de\\|mwbenson\\.de\\|mwbenson\\.ch\\|sourceflow\\.ch\\)" both) "Termitel")))
 
 (require 'org-notmuch)
