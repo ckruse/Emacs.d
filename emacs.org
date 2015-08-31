@@ -2301,3 +2301,15 @@ When a file isn't writable, re-open it as root.
             (helm-projectile-on)))
 #+end_src
 
+** helm-dash
+
+#+begin_src emacs-lisp
+  (use-package helm-dash
+    :commands helm-dash helm-dash-at-point
+    :init (progn
+            (define-key ck/keys-minor-mode-map [f1] 'helm-dash-at-point)
+
+            (setq helm-dash-common-docsets '("HTML" "CSS" "Bootstrap 4" "JavaScript"
+                                             "jQuery" "Ruby on Rails" "Ruby" "Go"
+                                             "C" "C++" "Elixir"))))
+#+end_src
