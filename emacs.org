@@ -707,7 +707,6 @@ switching similiar to it. Very nice!
   (require 'ox-latex)
   (require 'ox-ascii)
   (require 'org-notmuch)
-  (require 'org-trello)
 
 
   (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\)$" . org-mode))
@@ -776,8 +775,6 @@ switching similiar to it. Very nice!
   ; global STYLE property values for completion
   (setq org-global-properties (quote (("Effort_ALL" . "0:15 0:30 0:45 1:00 2:00 3:00 4:00 5:00 6:00 0:00")
                                       ("STYLE_ALL" . "habit"))))
-
-  (custom-set-variables '(org-trello-files '("~/Documents/org/foss/cforum.org")))
 
   ;; Remove empty LOGBOOK drawers on clock out
   (defun bh/remove-empty-drawer-on-clock-out ()

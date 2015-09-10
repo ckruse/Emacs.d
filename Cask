@@ -65,8 +65,6 @@
 (depends-on "avy")
 (depends-on "ace-window")
 
-(depends-on "org-trello")
-
 (depends-on "go-mode")
 (depends-on "go-autocomplete")
 
