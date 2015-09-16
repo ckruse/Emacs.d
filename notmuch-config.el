@@ -98,7 +98,8 @@
       notmuch-show-indent-messages-width 4
       notmuch-saved-searches '((:name "inbox" :query "tag:inbox" :key "i")
                                (:name "CForum" :query "folder:Defunct/Lists.cforum")
-                               (:name "Warpzone" :query "folder:Defunct/Lists.ccc.warpzone")
+                               (:name "Warpzone" :query "tag:list and tag:warpzone and not tag:intern")
+                               (:name "Warpzone intern" :query "tag:list and tag:warpzone and tag:intern")
                                (:name "PostgreSQL" :query "tag:pg and tag:list")
                                (:name "Rails" :query "tag:list and tag:rails")
                                (:name "unread" :query "tag:unread" :key "u")
