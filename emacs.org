@@ -338,14 +338,17 @@ prompt
     I'm using the Tomorrow theme in the eighties variant.
 
 #+begin_src emacs-lisp
-  (custom-set-variables
-   ;'(custom-enabled-themes (quote (sanityinc-tomorrow-eighties)))
-   '(custom-enabled-themes (quote (material)))
-   '(custom-safe-themes    (quote ("e068fe5ad47d55ddb6dedd5dd91b020645ec42cc14190ff6a35e003d6ea6f449"
-                                   "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa"
-                                   default))))
+    (custom-set-variables
+     ;'(custom-enabled-themes (quote (sanityinc-tomorrow-eighties)))
+     '(custom-enabled-themes (quote (sanityinc-tomorrow-eighties sanityinc-tomorrow-night)))
+     '(custom-safe-themes    (quote ("628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d"
+                                     "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a"
+                                     "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa"
+                                     default))))
 
-  (load-theme 'material t)
+    (load-theme 'sanityinc-tomorrow-eighties t)
+    (setq current-theme 'sanityinc-tomorrow-eighties)
+
 #+end_src
 
 ** Helpers
