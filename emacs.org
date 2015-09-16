@@ -19,6 +19,12 @@
 (org-babel-load-file (expand-file-name "~/.emacs.d/emacs.org"))
 #+end_src
 
+** Keymap for my shortcuts
+
+#+begin_src emacs-lisp
+  (defvar ck/keys-minor-mode-map (make-keymap) "ck/keys-minor-mode keymap.")
+#+end_src
+
 ** Personal information
 
 #+begin_src emacs-lisp
@@ -349,6 +355,17 @@ prompt
     (load-theme 'sanityinc-tomorrow-eighties t)
     (setq current-theme 'sanityinc-tomorrow-eighties)
 
+    (defun ck/switch-theme ()
+      (interactive)
+      (if (eq current-theme 'sanityinc-tomorrow-eighties)
+          (progn
+            (load-theme 'sanityinc-tomorrow-day t)
+            (setq current-theme 'sanityinc-tomorrow-day))
+        (progn
+          (load-theme 'sanityinc-tomorrow-eighties t)
+          (setq current-theme 'sanityinc-tomorrow-eighties))))
+
+    (define-key ck/keys-minor-mode-map (kbd "C-c c c") 'ck/switch-theme)
 #+end_src
 
 ** Helpers
@@ -557,7 +574,6 @@ so much used to them that I can't get rid of them.
 (global-set-key [C-end] 'end-of-buffer)
 (global-set-key [s-down] 'end-of-buffer)
 
-(defvar ck/keys-minor-mode-map (make-keymap) "ck/keys-minor-mode keymap.")
 (define-key ck/keys-minor-mode-map (kbd "M-<") 'pop-to-mark-command)
 (define-key ck/keys-minor-mode-map (kbd "C--") 'dabbrev-expand)
 (define-key ck/keys-minor-mode-map (kbd "s-.") 'find-tag)
