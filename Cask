@@ -93,4 +93,6 @@
 (depends-on "helm-projectile")
 (depends-on "helm-dash")
 
+(depends-on "puppet-mode")
+
 ;; eof
