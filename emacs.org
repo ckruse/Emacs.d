@@ -2260,6 +2260,7 @@ When a file isn't writable, re-open it as root.
   (use-package go-mode
     :commands go-mode
     :init (progn
+            (add-to-list 'exec-path (concat (getenv "HOME") "/dev/go/bin"))
             (add-to-list 'auto-mode-alist (cons "\\.go\\'" 'go-mode))
             (add-hook 'before-save-hook #'gofmt-before-save)
             (setenv "GOPATH" (concat (getenv "HOME") "/dev/go")))
