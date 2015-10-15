@@ -25,6 +25,7 @@
 (depends-on "org-plus-contrib")
 (depends-on "inf-ruby")
 (depends-on "color-theme-sanityinc-tomorrow")
+(depends-on "leuven-theme")
 (depends-on "rainbow-delimiters")
 (depends-on "rvm")
 

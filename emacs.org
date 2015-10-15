@@ -318,15 +318,15 @@ prompt
 #+begin_src emacs-lisp
 (if (featurep 'ns)
     (progn
-      (set-default-font "Source Code Pro-11")
+      (set-default-font "Source Code Pro-12")
       (set-fontset-font "fontset-default" nil
-                        (font-spec :size 11 :name "Source Code Pro"))
+                        (font-spec :size 12 :name "Source Code Pro"))
       (set-face-attribute 'default nil
                           :family "Source Code Pro"
-                          :height 110
+                          :height 120
                           :weight 'normal
                           :width 'normal)
-      (push '(font . "Source Code Pro-11") default-frame-alist))
+      (push '(font . "Source Code Pro-12") default-frame-alist))
   (progn
     (set-default-font "Source Code Pro-09")
     (set-fontset-font "fontset-default" nil
@@ -352,8 +352,10 @@ prompt
                                      "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa"
                                      default))))
 
-    (load-theme 'sanityinc-tomorrow-eighties t)
-    (setq current-theme 'sanityinc-tomorrow-eighties)
+    ;;(load-theme 'sanityinc-tomorrow-eighties t)
+    ;;(setq current-theme 'sanityinc-tomorrow-eighties)
+    (load-theme 'leuven t)
+    (setq current-theme 'leuven)
 
     (defun ck/switch-theme ()
       (interactive)
@@ -1825,6 +1827,7 @@ We want to be able to edit CMake files in a sane way.
   (use-package smart-mode-line
     :commands smart-mode-line
     :init (progn
+            (setq sml/theme 'light)
             (if after-init-time (sml/setup)
               (add-hook 'after-init-hook 'sml/setup)))
 
