@@ -1833,7 +1833,7 @@ We want to be able to edit CMake files in a sane way.
 
     :config (progn
               (custom-set-variables
-               '(sml/hidden-modes (quote (" hl-p" " ck/keys" " pair" " HRB" " AC" " GitGutter" " Flymake" " yas" " SP" " WS" " MRev"))))
+               '(sml/hidden-modes (quote (" hl-p" " Helm" " Guide" " ck/keys" " pair" " HRB" " AC" " GitGutter" " FlyC" " FlyC-" " MMM" " Rails" " yas" " SP" " WS" " MRev"))))
 
               (add-to-list 'sml/replacer-regexp-list '("^~/\\(data/\\)?[Ss]ites/" ":WEB:"))
               (add-to-list 'sml/replacer-regexp-list '("^~/\\(data/\\)?dev/" ":DEV:"))
