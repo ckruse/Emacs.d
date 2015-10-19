@@ -352,10 +352,8 @@ prompt
                                      "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa"
                                      default))))
 
-    ;;(load-theme 'sanityinc-tomorrow-eighties t)
-    ;;(setq current-theme 'sanityinc-tomorrow-eighties)
-    (load-theme 'leuven t)
-    (setq current-theme 'leuven)
+    (load-theme 'sanityinc-tomorrow-eighties t)
+    (setq current-theme 'sanityinc-tomorrow-eighties)
 
     (defun ck/switch-theme ()
       (interactive)
@@ -1827,7 +1825,7 @@ We want to be able to edit CMake files in a sane way.
   (use-package smart-mode-line
     :commands smart-mode-line
     :init (progn
-            (setq sml/theme 'light)
+            ;;(setq sml/theme 'light)
             (if after-init-time (sml/setup)
               (add-hook 'after-init-hook 'sml/setup)))
 
