@@ -117,10 +117,11 @@
     couldn't get =compilation-mode= to work with ZSH but with bash.
 
 #+begin_src emacs-lisp
-(when (featurep 'ns)
-  (setq shell-file-name "bash")
-  (load "~/.emacs.d/emulate-mac-keyboard-mode")
-  (emulate-mac-us-keyboard-mode))
+  (when (or (featurep 'ns) (featurep 'mac))
+    (setq shell-file-name "bash")
+    (load "~/.emacs.d/emulate-mac-keyboard-mode")
+    (emulate-mac-us-keyboard-mode)
+    (setq mac-command-modifier 'super))
 #+end_src
 
 *** exec path initialization
@@ -140,7 +141,7 @@
     external programs (Firefox on Linux and =open= on OS X)
 
 #+begin_src emacs-lisp
-(if (featurep 'ns)
+(if (or (featurep 'ns) (featurep 'mac))
     (setq browse-url-browser-function 'browse-url-generic
           browse-url-generic-program "open")
   (setq browse-url-browser-function 'browse-url-generic
@@ -316,7 +317,7 @@ prompt
     I use [[https://github.com/adobe-fonts/source-code-pro][Source Code Pro]]. Period.
 
 #+begin_src emacs-lisp
-(if (featurep 'ns)
+(if (or (featurep 'ns) (featurep 'mac))
     (progn
       (set-default-font "Source Code Pro-12")
       (set-fontset-font "fontset-default" nil
@@ -543,7 +544,7 @@ point reaches the beginning or end of the buffer, stop there."
               (interactive)
               (message "building project tags")
               (let ((root (projectile-project-root))
-                    (ctags (if (featurep 'ns)
+                    (ctags (if (or (featurep 'ns) (featurep 'mac))
                                "/usr/local/bin/ctags"
                              "/usr/bin/ctags")))
                 (if (string-match "/ios/" root)
@@ -1584,7 +1585,7 @@ We want to be able to edit CMake files in a sane way.
   (use-package magit
     :commands magit-status
     :init (progn
-            (when (featurep 'ns)
+            (when (or (featurep 'ns) (featurep 'mac))
               (setq magit-emacsclient-executable "/usr/local/bin/emacsclient")))
     :config (progn
               (add-to-list 'magit-no-confirm 'stage-all-changes)
@@ -1964,7 +1965,7 @@ First we want some nice little extra functions for =dired=
 When using OS X, the =ls= doesn't support =--dired=
 
 #+begin_src emacs-lisp
-(when (featurep 'ns)
+(when (or (featurep 'ns) (featurep 'mac))
   (setq dired-use-ls-dired nil))
 #+end_src
 
