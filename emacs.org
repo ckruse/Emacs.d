@@ -2147,7 +2147,7 @@ prefix argument."
                                              :host "jugulator.defunced.de"
                                              :service 6660
                                              :tls t
-                                             :channels ("#warpzone" "#postgresql" "#rubyonrails" "#erlang" "#emacs" "#ruby" "#cstar")
+                                             :channels ("#warpzone" "#postgresql" "#rubyonrails" "#erlang" "#emacs" "#ruby")
                                              :pass ,freenode-password))
                     tracking-ignored-buffers '("#postgresql" "#erlang" "#emacs" "#ruby"))
 
