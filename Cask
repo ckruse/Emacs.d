@@ -76,7 +76,6 @@
 
 ;; available on melpa-stable but dependency isn't
 (depends-on "projectile-rails")
-(depends-on "circe")
 
 ;; not available on melpa-stable, yet
 
