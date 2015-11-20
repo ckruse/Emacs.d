@@ -726,6 +726,7 @@ switching similiar to it. Very nice!
   (require 'ox-html)
   (require 'ox-latex)
   (require 'ox-ascii)
+  (require 'org-notmuch)
 
 
   (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\)$" . org-mode))
@@ -2017,6 +2018,7 @@ prefix argument."
       ("s" eshell-here "eshell")
       ("t" proced "proced")
       ("a" magit-status "magit-status")
+      ("m" notmuch "notmuch")
       ("p" sql-postgres "sql-postgres")
       ("u" (start-process "dump" "*dump*" "~/dev/mail/dump.sh") "dump tags")
       ("U" (start-process "restore" "*dump*" "~/dev/mail/restore.sh") "restore tags")
@@ -2132,6 +2134,15 @@ prefix argument."
               (mmm-add-mode-ext-class 'ruby-mode nil 'embedded-sql)
               (setq mmm-never-modes
                     (append '(ediff-mode) '(text-mode) mmm-never-modes))))
+#+end_src
+
+** notmuchmail
+
+Because it’s not much mail!
+
+#+begin_src emacs-lisp
+  (use-package notmuch
+    :commands (notmuch))
 #+end_src
 
 ** Automatically open files as root
