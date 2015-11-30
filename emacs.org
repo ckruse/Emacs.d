@@ -2069,8 +2069,90 @@ prefix argument."
             (typo-global-mode 1)
             (add-hook 'text-mode-hook 'typo-mode)
 
+            (add-hook 'circe-chat-mode-hook 'typo-mode)
+
             (setq typo-language "German")
             (setq-default typo-language "German")))
+#+end_src
+** Circe, IRC over Emacs
+
+#+begin_src emacs-lisp
+  (use-package circe
+    :commands (circe circe-set-display-handler)
+    :init (progn
+            (defun ck/irc-login ()
+              "Login into my usual IRCs."
+              (interactive)
+              (circe "EPD-ME")
+              (circe "CCC")
+              (circe "Freenode"))
+
+            (load "~/dev/mail/znc.el"))
+
+    :config (progn
+              (defun ck/circe-prompt ()
+                (lui-set-prompt
+                 (concat (propertize (concat (buffer-name) ">")
+                                     'face 'circe-prompt-face)
+                         " ")))
+
+              (defun ck/circe-set-margin ()
+                (setq
+                 fringes-outside-margins t
+                 right-margin-width 5
+                 word-wrap t
+                 wrap-prefix "    "))
+
+
+              (add-hook 'circe-chat-mode-hook 'ck/circe-prompt)
+              (add-hook 'lui-mode-hook 'ck/circe-set-margin)
+
+              (require 'circe-color-nicks)
+              (require 'circe-chanop)
+              (require 'circe-notifications)
+
+              (enable-circe-color-nicks)
+              (defun lui-irc-propertize (&rest args))
+
+              (defadvice circe-command-SAY (after jjf-circe-unignore-target)
+                (let ((ignored (tracking-ignored-p (current-buffer) nil)))
+                  (when ignored
+                    (setq tracking-ignored-buffers
+                          (remove ignored tracking-ignored-buffers))
+                    (message "This buffer will now be tracked."))))
+              (ad-activate 'circe-command-SAY)
+
+              (setq circe-reduce-lurker-spam t
+                    lui-time-stamp-position 'right-margin
+                    lui-time-stamp-format "%H:%M"
+                    lui-fill-type nil
+                    circe-network-options `(
+                                            ("EPD-ME"
+                                             :nick "Christian"
+                                             :host "jugulator.defunced.de"
+                                             :service 6660
+                                             :tls t
+                                             :channels ("#selfhtml")
+                                             :pass ,epdme-password)
+
+                                            ("CCC"
+                                             :nick "cjk101010"
+                                             :host "jugulator.defunced.de"
+                                             :service 6660
+                                             :tls t
+                                             :channels ("#ccc")
+                                             :pass ,ccc-password)
+
+                                            ("Freenode"
+                                             :nick "cjk101010"
+                                             :host "jugulator.defunced.de"
+                                             :service 6660
+                                             :tls t
+                                             :channels ("#warpzone" "#postgresql" "#rubyonrails" "#erlang" "#emacs" "#ruby")
+                                             :pass ,freenode-password))
+                    tracking-ignored-buffers '("#postgresql" "#erlang" "#emacs" "#ruby"))
+
+              (enable-circe-notifications)))
 #+end_src
 
 ** =guide-key=
