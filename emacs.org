@@ -1345,8 +1345,23 @@ similiar to the autocompletion provided by XCode.
     (ac-config-default)
 
     (setq web-mode-ac-sources-alist
-          '(("erb" . (ac-source-yasnippet))
-            ("php" . (ac-source-yasnippet))
+          '(("erb" . (ac-source-yasnippet
+                      ac-source-abbrev
+                      ac-source-gtags
+                      ac-source-semantic
+                      ac-source-dictionary
+                      ac-source-words-in-same-mode-buffers
+                      ac-source-words-in-buffer
+                      ac-source-files-in-current-dir))
+            ("php" . (ac-source-yasnippet ac-source-php-auto-yasnippets
+                      ac-source-yasnippet
+                      ac-source-abbrev
+                      ac-source-gtags
+                      ac-source-semantic
+                      ac-source-dictionary
+                      ac-source-words-in-same-mode-buffers
+                      ac-source-words-in-buffer
+                      ac-source-files-in-current-dir))
             ("css" . (ac-source-css-property))
             ("html" . (ac-source-words-in-buffer ac-source-abbrev))))
 
