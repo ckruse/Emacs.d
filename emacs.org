@@ -580,6 +580,9 @@ so much used to them that I can't get rid of them.
 (define-key ck/keys-minor-mode-map (kbd "s-.") 'find-tag)
 (define-key ck/keys-minor-mode-map (kbd "s-}") 'pop-tag-mark)
 
+(when (not (or (featurep 'ns) (featurep 'mac)))
+  (define-key ck/keys-minor-mode-map (kbd "s-u") 'revert-buffer))
+
 (define-minor-mode ck/keys-minor-mode
   "A minor mode so that my key settings override annoying major modes."
   t " ck/keys" 'ck/keys-minor-mode-map)
