@@ -131,6 +131,7 @@
         (gnus-alias-use-identity ident)
       (gnus-alias-select-identity))
 
+    (goto-char (point-max))
     (search-backward "--text follows this line--")
     (end-of-line)
     (insert "\n")
