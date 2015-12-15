@@ -131,6 +131,10 @@
         (gnus-alias-use-identity ident)
       (gnus-alias-select-identity))
 
+    (search-backward "--text follows this line--")
+    (end-of-line)
+    (insert "\n")
+
     (mml-secure-message-sign-pgpmime)))
 
 (add-hook 'message-setup-hook 'ck/choose-identity)
