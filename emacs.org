@@ -2175,16 +2175,6 @@ prefix argument."
               (enable-circe-notifications)))
 #+end_src
 
-** =guide-key=
-
-#+begin_src emacs-lisp
-  (use-package guide-key
-    :init (progn
-            (setq guide-key/guide-key-sequence '("C-c r" "C-c p"))
-            (setq guide-key/recursive-key-sequence-flag t)
-            (guide-key-mode 1)))
-#+end_src
-
 ** edit-server
 
 #+begin_src emacs-lisp
@@ -2247,36 +2237,6 @@ Because it’s not much mail!
     :commands (notmuch))
 #+end_src
 
-** Automatically open files as root
-
-When a file isn't writable, re-open it as root.
-
-#+begin_src emacs-lisp
-(defadvice helm-find-files (after find-file-sudo activate) ; ido-find-file
-  "Find file as root if necessary."
-  (unless (and buffer-file-name
-               (file-writable-p buffer-file-name))
-    (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
-#+end_src
-
-** smex
-
-#+begin_src emacs-lisp
-  ;; (use-package smex
-  ;;   :commands ck/smex
-  ;;   :bind ("M-x" . ck/smex)
-  ;;   :config (progn
-  ;;             (smex-initialize)
-  ;;             (setq smex-save-file "~/.smex")
-  ;;             (smex-auto-update)
-
-  ;;             (defun ck/smex (x)
-  ;;               (interactive "p")
-  ;;               (if (= x 1)
-  ;;                   (smex)
-  ;;                 (smex-major-mode-commands)))))
-#+end_src
-
 ** go-mode
 
 #+begin_src emacs-lisp
@@ -2290,7 +2250,6 @@ When a file isn't writable, re-open it as root.
     :config (progn
               (require 'go-autocomplete)))
 #+end_src
-
 
 ** elixir-mode
 
@@ -2314,31 +2273,32 @@ When a file isn't writable, re-open it as root.
 
 #+begin_src emacs-lisp
   (use-package helm-config
-    :init (progn
-            (setq helm-split-window-in-side-p t
-                  helm-move-to-line-cycle-in-source t
-                  helm-ff-search-library-in-sexp t
-                  helm-scroll-amount 8
-                  helm-mode-fuzzy-match t
-                  helm-buffers-fuzzy-matching t)
+    :config (progn
+              (setq helm-split-window-in-side-p t
+                    helm-move-to-line-cycle-in-source t
+                    helm-ff-search-library-in-sexp t
+                    helm-scroll-amount 8
+                    helm-mode-fuzzy-match t
+                    helm-buffers-fuzzy-matching t)
 
-            (setq helm-autoresize-max-height 30
-                  helm-autoresize-min-height 30)
+              (setq helm-autoresize-max-height 30
+                    helm-autoresize-min-height 30)
 
-            (helm-mode 1)
+              (helm-mode 1)
 
-            (helm-autoresize-mode t)
+              (helm-autoresize-mode t)
 
-            (global-set-key (kbd "M-y") 'helm-show-kill-ring)
-            (global-set-key (kbd "C-x b") 'helm-mini)
+              (global-set-key (kbd "M-y") 'helm-show-kill-ring)
+              (global-set-key (kbd "C-x b") 'helm-mini)
 
-            (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
-            (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action)
-            (define-key helm-map (kbd "C-z")  'helm-select-action)))
+              (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+              (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action)
+              (define-key helm-map (kbd "C-z")  'helm-select-action)
 
-  (use-package helm-projectile
-    :init (progn
-            (helm-projectile-on)))
+              (use-package helm-projectile
+                :init (progn
+                        (helm-projectile-on)))))
+
 #+end_src
 
 ** helm-dash

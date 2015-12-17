@@ -53,7 +53,6 @@
 (depends-on "git-timemachine")
 (depends-on "typo")
 
-(depends-on "guide-key")
 (depends-on "edit-server")
 
 (depends-on "mmm-mode")
