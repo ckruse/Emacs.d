@@ -136,6 +136,10 @@
     (end-of-line)
     (insert "\n")
 
+    (search-forward "-- \n")
+    (goto-char (- (point) 4))
+    (insert "Liebe Grüsse,\n")
+
     (mml-secure-message-sign-pgpmime)))
 
 (add-hook 'message-setup-hook 'ck/choose-identity)
