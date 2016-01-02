@@ -2275,7 +2275,8 @@ Because it’s not much mail!
 #+begin_src emacs-lisp
   (use-package helm-config
     :config (progn
-              (setq helm-split-window-in-side-p t
+              (setq tramp-ssh-controlmaster-options "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no"
+                    helm-split-window-in-side-p t
                     helm-move-to-line-cycle-in-source t
                     helm-ff-search-library-in-sexp t
                     helm-scroll-amount 8
