@@ -1996,36 +1996,22 @@ prefix argument."
 
 #+begin_src emacs-lisp
   (define-key ck/keys-minor-mode-map "\C-ccl"
-    (if (or (featurep 'ns) (featurep 'mac))
-        (defhydra launchers (:color blue)
-          "Launchers"
-          ("c" calc "Calc")
-          ("d" ediff-buffers "ediff")
-          ("f" find-dired "find-dired")
-          ("g" lgrep "lgrep")
-          ("G" rgrep "rgrep")
-          ("h" man "man")
-          ("s" eshell-here "eshell")
-          ("t" proced "proced")
-          ("a" magit-status "magit-status")
-          ("p" sql-postgres "sql-postgres"))
-
-      (defhydra launchers (:color blue)
-          "Launchers"
-          ("c" calc "Calc")
-          ("d" ediff-buffers "ediff")
-          ("f" find-dired "find-dired")
-          ("g" lgrep "lgrep")
-          ("G" rgrep "rgrep")
-          ("h" man "man")
-          ("s" eshell-here "eshell")
-          ("t" proced "proced")
-          ("a" magit-status "magit-status")
-          ("p" sql-postgres "sql-postgres")
-          ("m" notmuch "notmuch")
-          ("u" (start-process "dump" "*dump*" "~/dev/mail/dump.sh") "dump tags")
-          ("U" (start-process "restore" "*dump*" "~/dev/mail/restore.sh") "restore tags")
-          ("z" (start-process "sync-mail" "*sync-mail*" "~/dev/mail/sync-mail") "sync mail"))))
+    (defhydra launchers (:color blue)
+      "Launchers"
+      ("c" calc "Calc")
+      ("d" ediff-buffers "ediff")
+      ("f" find-dired "find-dired")
+      ("g" lgrep "lgrep")
+      ("G" rgrep "rgrep")
+      ("h" man "man")
+      ("s" eshell-here "eshell")
+      ("t" proced "proced")
+      ("a" magit-status "magit-status")
+      ("p" sql-postgres "sql-postgres")
+      ("m" notmuch "notmuch")
+      ("u" (start-process "dump" "*dump*" "~/dev/mail/dump.sh") "dump tags")
+      ("U" (start-process "restore" "*dump*" "~/dev/mail/restore.sh") "restore tags")
+      ("z" (start-process "sync-mail" "*sync-mail*" "~/dev/mail/sync-mail") "sync mail")))
 
 #+end_src
 
@@ -2219,9 +2205,8 @@ prefix argument."
 Because it’s not much mail!
 
 #+begin_src emacs-lisp
-  (when (not (or (featurep 'ns) (featurep 'mac)))
-    (use-package notmuch
-      :commands (notmuch)))
+  (use-package notmuch
+    :commands (notmuch))
 #+end_src
 
 ** go-mode
