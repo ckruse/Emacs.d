@@ -723,7 +723,6 @@ switching similiar to it. Very nice!
    [[http://orgmode.org/][Organize your live in plain text!]]
 
 #+begin_src emacs-lisp
-  (setq load-path (cons "/usr/share/emacs/site-lisp/org" load-path))
   (require 'org-loaddefs)
   (require 'org-agenda)
 
@@ -731,7 +730,9 @@ switching similiar to it. Very nice!
   (require 'ox-html)
   (require 'ox-latex)
   (require 'ox-ascii)
-  (require 'org-notmuch)
+
+  (when (not (or (featurep 'ns) (featurep 'mac)))
+    (require 'org-notmuch))
 
 
   (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\)$" . org-mode))
@@ -1255,39 +1256,6 @@ switching similiar to it. Very nice!
                (not org-clock-resolving-clocks-due-to-idleness))
       (bh/clock-in-parent-task)))
 
-#+end_src
-
-** ido
-
-[[http://www.emacswiki.org/emacs/InteractivelyDoThings][ido]] is a really great addition to Emacs. It greatly improves nearly
-all minibuffer actions. Just have a look at [[https://www.youtube.com/watch?v=AfZX39jd6cw][YouTube]] to get an
-impression.
-
-#+begin_src emacs-lisp
-  ;; (use-package ido
-  ;;   :init (progn
-  ;;           (ido-mode t)
-  ;;           (ido-everywhere 1)
-  ;;           (setq ido-enable-flex-matching t
-  ;;                 redisplay-dont-pause t
-  ;;                 ido-use-faces nil
-  ;;                 ido-auto-merge-work-directories-length -1)
-  ;;           (set-default 'imenu-auto-rescan t)))
-
-  ;; (use-package flx-ido
-  ;;   :init (progn
-  ;;           (flx-ido-mode 1)))
-
-  ;; (use-package ido-vertical-mode
-  ;;   :init (progn
-  ;;           (ido-vertical-mode)
-
-  ;;           (custom-set-variables
-  ;;            '(ido-vertical-define-keys 'C-n-C-p-up-and-down))))
-
-  ;; (use-package ido-ubiquitous
-  ;;   :init (progn
-  ;;           (ido-ubiquitous-mode 1)))
 #+end_src
 
 ** yasnippet
@@ -2028,22 +1996,37 @@ prefix argument."
 
 #+begin_src emacs-lisp
   (define-key ck/keys-minor-mode-map "\C-ccl"
-    (defhydra launchers (:color blue)
-      "Launchers"
-      ("c" calc "Calc")
-      ("d" ediff-buffers "ediff")
-      ("f" find-dired "find-dired")
-      ("g" lgrep "lgrep")
-      ("G" rgrep "rgrep")
-      ("h" man "man")
-      ("s" eshell-here "eshell")
-      ("t" proced "proced")
-      ("a" magit-status "magit-status")
-      ("m" notmuch "notmuch")
-      ("p" sql-postgres "sql-postgres")
-      ("u" (start-process "dump" "*dump*" "~/dev/mail/dump.sh") "dump tags")
-      ("U" (start-process "restore" "*dump*" "~/dev/mail/restore.sh") "restore tags")
-      ("z" (start-process "sync-mail" "*sync-mail*" "~/dev/mail/sync-mail") "sync mail")))
+    (if (or (featurep 'ns) (featurep 'mac))
+        (defhydra launchers (:color blue)
+          "Launchers"
+          ("c" calc "Calc")
+          ("d" ediff-buffers "ediff")
+          ("f" find-dired "find-dired")
+          ("g" lgrep "lgrep")
+          ("G" rgrep "rgrep")
+          ("h" man "man")
+          ("s" eshell-here "eshell")
+          ("t" proced "proced")
+          ("a" magit-status "magit-status")
+          ("p" sql-postgres "sql-postgres"))
+
+      (defhydra launchers (:color blue)
+          "Launchers"
+          ("c" calc "Calc")
+          ("d" ediff-buffers "ediff")
+          ("f" find-dired "find-dired")
+          ("g" lgrep "lgrep")
+          ("G" rgrep "rgrep")
+          ("h" man "man")
+          ("s" eshell-here "eshell")
+          ("t" proced "proced")
+          ("a" magit-status "magit-status")
+          ("p" sql-postgres "sql-postgres")
+          ("m" notmuch "notmuch")
+          ("u" (start-process "dump" "*dump*" "~/dev/mail/dump.sh") "dump tags")
+          ("U" (start-process "restore" "*dump*" "~/dev/mail/restore.sh") "restore tags")
+          ("z" (start-process "sync-mail" "*sync-mail*" "~/dev/mail/sync-mail") "sync mail")))
+
 #+end_src
 
 ** =eshell= modifications
@@ -2084,96 +2067,98 @@ prefix argument."
 ** =typo.el=, the library for typographics in Emacs
 
 #+begin_src emacs-lisp
-  (use-package typo
-    :commands typo-global-mode
-    :init (progn
-            (typo-global-mode 1)
-            (add-hook 'text-mode-hook 'typo-mode)
+  (when (not (or (featurep 'ns) (featurep 'mac)))
+    (use-package typo
+      :commands typo-global-mode
+      :init (progn
+              (typo-global-mode 1)
+              (add-hook 'text-mode-hook 'typo-mode)
 
-            (add-hook 'circe-chat-mode-hook 'typo-mode)
+              (add-hook 'circe-chat-mode-hook 'typo-mode)
 
-            (setq typo-language "German")
-            (setq-default typo-language "German")))
+              (setq typo-language "German")
+              (setq-default typo-language "German"))))
 #+end_src
 ** Circe, IRC over Emacs
 
 #+begin_src emacs-lisp
-  (use-package circe
-    :commands (circe circe-set-display-handler)
-    :init (progn
-            (defun ck/irc-login ()
-              "Login into my usual IRCs."
-              (interactive)
-              (circe "EPD-ME")
-              (circe "CCC")
-              (circe "Freenode"))
+  (when (not (or (featurep 'ns) (featurep 'mac)))
+    (use-package circe
+      :commands (circe circe-set-display-handler)
+      :init (progn
+              (defun ck/irc-login ()
+                "Login into my usual IRCs."
+                (interactive)
+                (circe "EPD-ME")
+                (circe "CCC")
+                (circe "Freenode"))
 
-            (load "~/dev/mail/znc.el"))
+              (load "~/dev/mail/znc.el"))
 
-    :config (progn
-              (defun ck/circe-prompt ()
-                (lui-set-prompt
-                 (concat (propertize (concat (buffer-name) ">")
-                                     'face 'circe-prompt-face)
-                         " ")))
+      :config (progn
+                (defun ck/circe-prompt ()
+                  (lui-set-prompt
+                   (concat (propertize (concat (buffer-name) ">")
+                                       'face 'circe-prompt-face)
+                           " ")))
 
-              (defun ck/circe-set-margin ()
-                (setq
-                 fringes-outside-margins t
-                 right-margin-width 5
-                 word-wrap t
-                 wrap-prefix "    "))
+                (defun ck/circe-set-margin ()
+                  (setq
+                   fringes-outside-margins t
+                   right-margin-width 5
+                   word-wrap t
+                   wrap-prefix "    "))
 
 
-              (add-hook 'circe-chat-mode-hook 'ck/circe-prompt)
-              (add-hook 'lui-mode-hook 'ck/circe-set-margin)
+                (add-hook 'circe-chat-mode-hook 'ck/circe-prompt)
+                (add-hook 'lui-mode-hook 'ck/circe-set-margin)
 
-              (require 'circe-color-nicks)
-              (require 'circe-chanop)
-              (require 'circe-notifications)
+                (require 'circe-color-nicks)
+                (require 'circe-chanop)
+                (require 'circe-notifications)
 
-              (enable-circe-color-nicks)
-              (defun lui-irc-propertize (&rest args))
+                (enable-circe-color-nicks)
+                (defun lui-irc-propertize (&rest args))
 
-              (defadvice circe-command-SAY (after jjf-circe-unignore-target)
-                (let ((ignored (tracking-ignored-p (current-buffer) nil)))
-                  (when ignored
-                    (setq tracking-ignored-buffers
-                          (remove ignored tracking-ignored-buffers))
-                    (message "This buffer will now be tracked."))))
-              (ad-activate 'circe-command-SAY)
+                (defadvice circe-command-SAY (after jjf-circe-unignore-target)
+                  (let ((ignored (tracking-ignored-p (current-buffer) nil)))
+                    (when ignored
+                      (setq tracking-ignored-buffers
+                            (remove ignored tracking-ignored-buffers))
+                      (message "This buffer will now be tracked."))))
+                (ad-activate 'circe-command-SAY)
 
-              (setq circe-reduce-lurker-spam t
-                    lui-time-stamp-position 'right-margin
-                    lui-time-stamp-format "%H:%M"
-                    lui-fill-type nil
-                    circe-network-options `(
-                                            ("EPD-ME"
-                                             :nick "Christian"
-                                             :host "jugulator.defunced.de"
-                                             :service 6660
-                                             :tls t
-                                             :channels ("#selfhtml")
-                                             :pass ,epdme-password)
+                (setq circe-reduce-lurker-spam t
+                      lui-time-stamp-position 'right-margin
+                      lui-time-stamp-format "%H:%M"
+                      lui-fill-type nil
+                      circe-network-options `(
+                                              ("EPD-ME"
+                                               :nick "Christian"
+                                               :host "jugulator.defunced.de"
+                                               :service 6660
+                                               :tls t
+                                               :channels ("#selfhtml")
+                                               :pass ,epdme-password)
 
-                                            ("CCC"
-                                             :nick "cjk101010"
-                                             :host "jugulator.defunced.de"
-                                             :service 6660
-                                             :tls t
-                                             :channels ("#ccc")
-                                             :pass ,ccc-password)
+                                              ("CCC"
+                                               :nick "cjk101010"
+                                               :host "jugulator.defunced.de"
+                                               :service 6660
+                                               :tls t
+                                               :channels ("#ccc")
+                                               :pass ,ccc-password)
 
-                                            ("Freenode"
-                                             :nick "cjk101010"
-                                             :host "jugulator.defunced.de"
-                                             :service 6660
-                                             :tls t
-                                             :channels ("#warpzone" "#postgresql" "#rubyonrails" "#erlang" "#emacs" "#ruby")
-                                             :pass ,freenode-password))
-                    tracking-ignored-buffers '("#postgresql" "#erlang" "#emacs" "#ruby"))
+                                              ("Freenode"
+                                               :nick "cjk101010"
+                                               :host "jugulator.defunced.de"
+                                               :service 6660
+                                               :tls t
+                                               :channels ("#warpzone" "#postgresql" "#rubyonrails" "#erlang" "#emacs" "#ruby")
+                                               :pass ,freenode-password))
+                      tracking-ignored-buffers '("#postgresql" "#erlang" "#emacs" "#ruby"))
 
-              (enable-circe-notifications)))
+                (enable-circe-notifications))))
 #+end_src
 
 ** edit-server
@@ -2234,8 +2219,9 @@ prefix argument."
 Because it’s not much mail!
 
 #+begin_src emacs-lisp
-  (use-package notmuch
-    :commands (notmuch))
+  (when (not (or (featurep 'ns) (featurep 'mac)))
+    (use-package notmuch
+      :commands (notmuch)))
 #+end_src
 
 ** go-mode
