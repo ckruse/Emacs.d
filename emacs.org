@@ -2025,7 +2025,7 @@ prefix argument."
           ("m" notmuch "notmuch")
           ("u" (start-process "dump" "*dump*" "~/dev/mail/dump.sh") "dump tags")
           ("U" (start-process "restore" "*dump*" "~/dev/mail/restore.sh") "restore tags")
-          ("z" (start-process "sync-mail" "*sync-mail*" "~/dev/mail/sync-mail") "sync mail")))
+          ("z" (start-process "sync-mail" "*sync-mail*" "~/dev/mail/sync-mail") "sync mail"))))
 
 #+end_src
 
