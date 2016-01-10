@@ -60,6 +60,14 @@
   (byte-recompile-directory "~/emacs.d/site-lisp" 0))
 #+end_src
 
+*** is this os x?
+
+#+begin_src emacs-lisp
+  (defun ck/is-osx ()
+      (or (featurep 'ns)
+          (featurep 'mac)))
+#+end_src
+
 *** Start Emacs server
 
     I use =emacsclient= a lot to open files via command line (I
@@ -117,7 +125,7 @@
     couldn't get =compilation-mode= to work with ZSH but with bash.
 
 #+begin_src emacs-lisp
-  (when (or (featurep 'ns) (featurep 'mac))
+  (when (ck/is-osx)
     (setq shell-file-name "bash")
     (load "~/.emacs.d/emulate-mac-keyboard-mode")
     (emulate-mac-us-keyboard-mode)
@@ -141,7 +149,7 @@
     external programs (Firefox on Linux and =open= on OS X)
 
 #+begin_src emacs-lisp
-(if (or (featurep 'ns) (featurep 'mac))
+(if (ck/is-osx)
     (setq browse-url-browser-function 'browse-url-generic
           browse-url-generic-program "open")
   (setq browse-url-browser-function 'browse-url-generic
@@ -317,7 +325,7 @@ prompt
     I use [[https://github.com/adobe-fonts/source-code-pro][Source Code Pro]]. Period.
 
 #+begin_src emacs-lisp
-(if (or (featurep 'ns) (featurep 'mac))
+(if (ck/is-osx)
     (progn
       (set-default-font "Source Code Pro-12")
       (set-fontset-font "fontset-default" nil
@@ -544,7 +552,7 @@ point reaches the beginning or end of the buffer, stop there."
               (interactive)
               (message "building project tags")
               (let ((root (projectile-project-root))
-                    (ctags (if (or (featurep 'ns) (featurep 'mac))
+                    (ctags (if (ck/is-osx)
                                "/usr/local/bin/ctags"
                              "/usr/bin/ctags")))
                 (if (string-match "/ios/" root)
@@ -580,7 +588,7 @@ so much used to them that I can't get rid of them.
 (define-key ck/keys-minor-mode-map (kbd "s-.") 'find-tag)
 (define-key ck/keys-minor-mode-map (kbd "s-}") 'pop-tag-mark)
 
-(when (not (or (featurep 'ns) (featurep 'mac)))
+(when (not (ck/is-osx))
   (define-key ck/keys-minor-mode-map (kbd "s-u") 'revert-buffer))
 
 (define-minor-mode ck/keys-minor-mode
@@ -725,13 +733,14 @@ switching similiar to it. Very nice!
 #+begin_src emacs-lisp
   (require 'org-loaddefs)
   (require 'org-agenda)
+  (require 'org-protocol)
 
   ;; Explicitly load required exporters
   (require 'ox-html)
   (require 'ox-latex)
   (require 'ox-ascii)
 
-  (when (not (or (featurep 'ns) (featurep 'mac)))
+  (when (not (ck/is-osx))
     (require 'org-notmuch))
 
 
@@ -1573,7 +1582,7 @@ We want to be able to edit CMake files in a sane way.
   (use-package magit
     :commands magit-status
     :init (progn
-            (when (or (featurep 'ns) (featurep 'mac))
+            (when (ck/is-osx)
               (setq magit-git-executable "/usr/local/bin/git")
               (setq magit-emacsclient-executable "/usr/local/bin/emacsclient")))
     :config (progn
@@ -1954,7 +1963,7 @@ First we want some nice little extra functions for =dired=
 When using OS X, the =ls= doesn't support =--dired=
 
 #+begin_src emacs-lisp
-(when (or (featurep 'ns) (featurep 'mac))
+(when (ck/is-osx)
   (setq dired-use-ls-dired nil))
 #+end_src
 
@@ -1996,22 +2005,35 @@ prefix argument."
 
 #+begin_src emacs-lisp
   (define-key ck/keys-minor-mode-map "\C-ccl"
-    (defhydra launchers (:color blue)
-      "Launchers"
-      ("c" calc "Calc")
-      ("d" ediff-buffers "ediff")
-      ("f" find-dired "find-dired")
-      ("g" lgrep "lgrep")
-      ("G" rgrep "rgrep")
-      ("h" man "man")
-      ("s" eshell-here "eshell")
-      ("t" proced "proced")
-      ("a" magit-status "magit-status")
-      ("p" sql-postgres "sql-postgres")
-      ("m" notmuch "notmuch")
-      ("u" (start-process "dump" "*dump*" "~/dev/mail/dump.sh") "dump tags")
-      ("U" (start-process "restore" "*dump*" "~/dev/mail/restore.sh") "restore tags")
-      ("z" (start-process "sync-mail" "*sync-mail*" "~/dev/mail/sync-mail") "sync mail")))
+    (if (ck/is-osx)
+        (defhydra launchers (:color blue)
+          "Launchers"
+          ("c" calc "Calc")
+          ("d" ediff-buffers "ediff")
+          ("f" find-dired "find-dired")
+          ("g" lgrep "lgrep")
+          ("G" rgrep "rgrep")
+          ("h" man "man")
+          ("s" eshell-here "eshell")
+          ("t" proced "proced")
+          ("a" magit-status "magit-status")
+          ("p" sql-postgres "sql-postgres"))
+      (defhydra launchers (:color blue)
+        "Launchers"
+        ("c" calc "Calc")
+        ("d" ediff-buffers "ediff")
+        ("f" find-dired "find-dired")
+        ("g" lgrep "lgrep")
+        ("G" rgrep "rgrep")
+        ("h" man "man")
+        ("s" eshell-here "eshell")
+        ("t" proced "proced")
+        ("a" magit-status "magit-status")
+        ("p" sql-postgres "sql-postgres")
+        ("m" notmuch "notmuch")
+        ("u" (start-process "dump" "*dump*" "~/dev/mail/dump.sh") "dump tags")
+        ("U" (start-process "restore" "*dump*" "~/dev/mail/restore.sh") "restore tags")
+        ("z" (start-process "sync-mail" "*sync-mail*" "~/dev/mail/sync-mail") "sync mail"))))
 
 #+end_src
 
@@ -2053,7 +2075,7 @@ prefix argument."
 ** =typo.el=, the library for typographics in Emacs
 
 #+begin_src emacs-lisp
-  (when (not (or (featurep 'ns) (featurep 'mac)))
+  (when (not (ck/is-osx))
     (use-package typo
       :commands typo-global-mode
       :init (progn
@@ -2068,7 +2090,7 @@ prefix argument."
 ** Circe, IRC over Emacs
 
 #+begin_src emacs-lisp
-  (when (not (or (featurep 'ns) (featurep 'mac)))
+  (when (not (ck/is-osx))
     (use-package circe
       :commands (circe circe-set-display-handler)
       :init (progn
@@ -2205,8 +2227,9 @@ prefix argument."
 Because it’s not much mail!
 
 #+begin_src emacs-lisp
-  (use-package notmuch
-    :commands (notmuch))
+  (when (not (ck/is-osx))
+    (use-package notmuch
+      :commands (notmuch)))
 #+end_src
 
 ** go-mode
@@ -2277,14 +2300,15 @@ Because it’s not much mail!
 ** helm-dash
 
 #+begin_src emacs-lisp
-  (use-package helm-dash
-    :commands helm-dash helm-dash-at-point
-    :init (progn
-            (define-key ck/keys-minor-mode-map [f1] 'helm-dash-at-point)
+  (when (not (ck/is-osx))
+    (use-package helm-dash
+      :commands helm-dash helm-dash-at-point
+      :init (progn
+              (define-key ck/keys-minor-mode-map [f1] 'helm-dash-at-point)
 
-            (setq helm-dash-common-docsets '("HTML" "CSS" "Bootstrap 4" "JavaScript"
-                                             "jQuery" "Ruby on Rails" "Ruby" "Go"
-                                             "C" "C++" "Elixir"))))
+              (setq helm-dash-common-docsets '("HTML" "CSS" "Bootstrap 4" "JavaScript"
+                                               "jQuery" "Ruby on Rails" "Ruby" "Go"
+                                               "C" "C++" "Elixir")))))
 #+end_src
 ** puppet
 

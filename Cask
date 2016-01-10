@@ -94,6 +94,4 @@
 
 (depends-on "puppet-mode")
 
-(depends-on "notmuch")
-
 ;; eof
