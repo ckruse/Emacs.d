@@ -526,6 +526,17 @@ point reaches the beginning or end of the buffer, stop there."
 (global-set-key (kbd "C-x K") 'kill-all-buffers)
 #+end_src
 
+** Tramp
+
+   Tramp has problems with the ZSH, so ensure we use Bash.
+
+#+begin_src emacs-lisp
+  (eval-after-load 'tramp '(setenv "SHELL" "/bin/bash"))
+  (use-package tramp
+    :init (setq tramp-use-ssh-controlmaster-options nil
+                tramp-ssh-controlmaster-options nil))
+#+end_src
+
 ** SSL configuration
 
    There are some problems with the default SSL configuration in
@@ -1890,14 +1901,6 @@ We want to be able to edit CMake files in a sane way.
              '(js2-basic-offset 2))))
 #+end_src
 
-** Tramp
-
-   Tramp has problems with the ZSH, so ensure we use Bash.
-
-#+begin_src emacs-lisp
-(eval-after-load 'tramp '(setenv "SHELL" "/bin/bash"))
-#+end_src
-
 ** which-function-mode
 
    This little mode displays the function the point is currently
@@ -2269,8 +2272,7 @@ Because it’s not much mail!
 #+begin_src emacs-lisp
   (use-package helm-config
     :config (progn
-              (setq tramp-ssh-controlmaster-options "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no"
-                    helm-split-window-in-side-p t
+              (setq helm-split-window-in-side-p t
                     helm-move-to-line-cycle-in-source t
                     helm-ff-search-library-in-sexp t
                     helm-scroll-amount 8
