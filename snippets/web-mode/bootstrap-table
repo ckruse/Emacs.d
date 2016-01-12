@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: bootstrap-table
+# key: btable
+# binding: direct-keybinding
+# --
+<table class="table table-condensed table-striped table-hover">
+$0
+</table>

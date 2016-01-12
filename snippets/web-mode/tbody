@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: tbody
+# key: tbody
+# binding: direct-keybinding
+# --
+<tbody>
+  $0
+</tbody>
