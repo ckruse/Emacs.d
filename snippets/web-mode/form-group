@@ -1,6 +1,6 @@
 # -*- mode: snippet; require-final-newline: nil -*-
 # name: form-group
-# key: fgroup
+# key: form-group
 # binding: direct-keybinding
 # --
 <div class="form-group">

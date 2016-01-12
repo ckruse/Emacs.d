@@ -1,0 +1,12 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: fgroup
+# key: fgroup
+# binding: direct-keybinding
+# --
+<div class="fgroup">
+  <%= f.label :$1 %>
+  <div class="controls">
+    <%= f.${text_field} :$1 %>
+  </div>
+</div>
+$0
