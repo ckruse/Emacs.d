@@ -52,7 +52,7 @@
       mml2015-encrypt-to-self t
       mml2015-sign-with-sender t
       gnus-gcc-mark-as-read t
-      )
+      message-user-fqdn "jugulator.defunced.de")
 
 (gnus-demon-add-handler 'gnus-group-get-new-news 2 t)
 (gnus-demon-init)
