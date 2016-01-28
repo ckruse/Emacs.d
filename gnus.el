@@ -104,17 +104,14 @@
   (gnus-alias-select-identity) ;;)
 
   (goto-char (point-min))
-  (search-forward "--text follows this line--")
-  (end-of-line)
-  (insert "\n")
-
   (search-forward "-- \n")
   (goto-char (- (point) 4))
-  (insert "Freundliche Grüsse,\n")
+  (insert "\nFreundliche Grüsse,\n")
 
   (mml-secure-message-sign-pgpmime)) ;;)
 
-(add-hook 'message-setup-hook 'ck/choose-identity)
+(add-hook 'gnus-message-setup-hook 'ck/choose-identity)
+;(add-hook 'gnus-message-setup-hook #'mml-secure-message-sign)
 
 
 (setq gnus-alias-identity-alist
@@ -156,6 +153,7 @@
   (defhydra hydra-gnus-group (:color blue)
     "Gnus action"
     ("a" ck/archive-article "Archive")
-    ("d" ck/delete-article "Trash")))
+    ("d" ck/delete-article "Trash")
+    ("f" gnus-summary-mail-forward "Forward")))
 
 ;; eof
