@@ -2099,22 +2099,22 @@ prefix argument."
               (load "~/dev/mail/znc.el"))
 
       :config (progn
-                (defun ck/circe-prompt ()
-                  (lui-set-prompt
-                   (concat (propertize (concat (buffer-name) ">")
-                                       'face 'circe-prompt-face)
-                           " ")))
+                ;; (defun ck/circe-prompt ()
+                ;;   (lui-set-prompt
+                ;;    (concat (propertize (concat (buffer-name) ">")
+                ;;                        'face 'circe-prompt-face)
+                ;;            " ")))
 
-                (defun ck/circe-set-margin ()
-                  (setq
-                   fringes-outside-margins t
-                   right-margin-width 5
-                   word-wrap t
-                   wrap-prefix "    "))
+                ;; (defun ck/circe-set-margin ()
+                ;;   (setq
+                ;;    fringes-outside-margins t
+                ;;    right-margin-width 5
+                ;;    word-wrap t
+                ;;    wrap-prefix "    "))
 
 
-                (add-hook 'circe-chat-mode-hook 'ck/circe-prompt)
-                (add-hook 'lui-mode-hook 'ck/circe-set-margin)
+                ;; (add-hook 'circe-chat-mode-hook 'ck/circe-prompt)
+                ;; (add-hook 'lui-mode-hook 'ck/circe-set-margin)
 
                 (require 'circe-color-nicks)
                 (require 'circe-chanop)
@@ -2132,9 +2132,10 @@ prefix argument."
                 (ad-activate 'circe-command-SAY)
 
                 (setq circe-reduce-lurker-spam t
-                      lui-time-stamp-position 'right-margin
+                      ;; lui-time-stamp-position 'right-margin
                       lui-time-stamp-format "%H:%M"
-                      lui-fill-type nil
+                      lui-fill-column 120
+                      ;; lui-fill-type nil
                       circe-network-options `(
                                               ("EPD-ME"
                                                :nick "Christian"
