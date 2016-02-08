@@ -1569,11 +1569,19 @@ We want to be able to edit CMake files in a sane way.
                                       (name . "^\\*Messages\\*$")
                                       (name . "^\\*Help\\*$")
                                       (name . "^\\*Flycheck error messages\\*$")))
-                            ("wanderlust" (or
-                                           (mode . wl-folder-mode)
-                                           (mode . wl-summary-mode)
-                                           (mode . mime-view-mode)))
-                            ("ERC" (mode . erc-mode)))))))
+                            ("Gnus" (or
+                                     (mode . message-mode)
+                                     (mode . bbdb-mode)
+                                     (mode . mail-mode)
+                                     (mode . gnus-group-mode)
+                                     (mode . gnus-summary-mode)
+                                     (mode . gnus-article-mode)
+                                     (name . "^\\.bbdb$")
+                                     (name . "^\\.newsrc-dribble")))
+                            ("Circe" (or
+                                      (mode . circe-channel-mode)
+                                      (mode . circe-mode)
+                                      (mode . circe-server-mode))))))))
 
             (add-hook 'ibuffer-mode-hook
                       (lambda ()
