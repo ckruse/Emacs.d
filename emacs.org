@@ -1925,6 +1925,7 @@ We want to be able to edit CMake files in a sane way.
 #+begin_src emacs-lisp
   (use-package whitespace
     :init (progn
+            (setq whitespace-global-modes '(c-mode c++-mode ruby-mode web-mode php-mode js2-mode css-mode scss-mode))
             (global-whitespace-mode t)
             (setq show-trailing-whitespace t)
             (setq whitespace-style '(face trailing))))
