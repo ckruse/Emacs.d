@@ -62,28 +62,33 @@
 (eval-after-load 'gnus-topic
   '(progn
      (setq gnus-topic-topology '(("Gnus" visible)
+                                 (("Inbox" visible nil nil))
                                  (("Defunct" visible nil nil))
                                  (("Termitel" visible nil nil))
                                  (("Lists" visible nil nil))
                                  (("misc")))
-           gnus-topic-alist '(("Defunct" "INBOX" "Drafts" "Sent" "Trash" "Archiv")
+           gnus-topic-alist '(("Inbox" "INBOX" "nnimap+Termitel:INBOX")
+                              ("Defunct" "Archiv" "Sent" "Drafts" "Trash")
                               ("Termitel" ; the key of topic
-                               "nnimap+Termitel:INBOX"
+                               "nnimap+Termitel:Archiv"
                                "nnimap+Termitel:Sent"
                                "nnimap+Termitel:Trash"
                                "nnimap+Termitel:Drafts"
-                               "nnimap+Termitel:Archiv"
                                "nnimap+Termitel:Log Alphatier"
                                "nnimap+Termitel:Notes")
                               ("Lists"
+                               "Lists.phoenix.talk"
+                               "Lists.arch.announce" "Lists.arch.general" "Lists.arch.dev-public"
                                "Lists.ccc.chaos-west" "Lists.ccc.chaostreff" "Lists.ccc.raif-intern"
-                               "Lists.ccc.warpzone" "Lists.ccc.warpzone-intern" "Lists.emacs.devel"
-                               "Lists.emacs.help" "Lists.emacs.org-mode" "Lists.gnome.devel"
-                               "Lists.pg.hackers" "Lists.phoenix.talk" "Lists.rails.security"
-                               "Lists.arch.announce" "Lists.arch.dev-public" "Lists.arch.general"
-                               "Lists.pg.committers" "Lists.phoenix.core" "Lists.arch.security"
-                               "Lists.cforum" "Lists.pg.bugs" "Lists.pg.www"
-                               "Lists.pg.announce" "Lists.pg.admin")
+                               "Lists.ccc.warpzone" "Lists.ccc.warpzone-intern"
+                               "Lists.emacs.devel" "Lists.emacs.help" "Lists.emacs.org-mode"
+                               "Lists.gnome.devel"
+                               "Lists.pg.hackers" "Lists.pg.committers" "Lists.pg.announce"
+                               "Lists.pg.admin" "Lists.pg.bugs" "Lists.pg.www"
+                               "Lists.phoenix.core"
+                               "Lists.arch.security"
+                               "Lists.cforum"
+                               "Lists.gnome.contacts" "Lists.rails.security")
                               ("misc" ; the key of topic
                                "nndraft:drafts"
                                "INBOX.spam")
