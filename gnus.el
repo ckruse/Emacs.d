@@ -104,17 +104,14 @@
 
 (defun ck/choose-identity ()
   (interactive)
-  ;; (let ((ident (gnus-alias-determine-identity t)))
-  ;;   (if (not (equal ident ""))
-  ;;       (gnus-alias-use-identity ident)
-  (gnus-alias-select-identity) ;;)
+  (gnus-alias-select-identity)
 
   (goto-char (point-min))
   (search-forward "-- \n")
   (goto-char (- (point) 4))
   (insert "\nFreundliche Grüsse,\n")
 
-  (mml-secure-message-sign-pgpmime)) ;;)
+  (mml-secure-message-sign-pgpmime))
 
 (add-hook 'gnus-message-setup-hook 'ck/choose-identity)
 ;(add-hook 'gnus-message-setup-hook #'mml-secure-message-sign)
