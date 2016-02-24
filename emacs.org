@@ -149,12 +149,11 @@
     external programs (Firefox on Linux and =open= on OS X)
 
 #+begin_src emacs-lisp
-(if (ck/is-osx)
+  (if (ck/is-osx)
+      (setq browse-url-browser-function 'browse-url-generic
+            browse-url-generic-program "open")
     (setq browse-url-browser-function 'browse-url-generic
-          browse-url-generic-program "open")
-  (setq browse-url-browser-function 'browse-url-generic
-        browse-url-generic-program "firefox")
-  )
+          browse-url-generic-program "xdg-open"))
 #+end_src
 
 *** Status bar
@@ -1580,6 +1579,7 @@ We want to be able to edit CMake files in a sane way.
                                      (name . "^\\.newsrc-dribble")))
                             ("Circe" (or
                                       (mode . circe-channel-mode)
+                                      (mode . circe-query-mode)
                                       (mode . circe-mode)
                                       (mode . circe-server-mode))))))))
 
