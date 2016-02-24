@@ -80,17 +80,15 @@
                                "nnimap+Termitel:Log Alphatier"
                                "nnimap+Termitel:Notes")
                               ("Lists"
-                               "Lists.phoenix.talk"
-                               "Lists.arch.announce" "Lists.arch.general" "Lists.arch.dev-public"
+                               "Lists.phoenix.talk" "Lists.phoenix.core"
+                               "Lists.cforum"
+                               "Lists.arch.security" "Lists.arch.announce" "Lists.arch.general" "Lists.arch.dev-public"
                                "Lists.ccc.chaos-west" "Lists.ccc.chaostreff" "Lists.ccc.raif-intern"
                                "Lists.ccc.warpzone" "Lists.ccc.warpzone-intern"
                                "Lists.emacs.devel" "Lists.emacs.help" "Lists.emacs.org-mode"
                                "Lists.gnome.devel"
                                "Lists.pg.hackers" "Lists.pg.committers" "Lists.pg.announce"
                                "Lists.pg.admin" "Lists.pg.bugs" "Lists.pg.www"
-                               "Lists.phoenix.core"
-                               "Lists.arch.security"
-                               "Lists.cforum"
                                "Lists.gnome.contacts" "Lists.rails.security")
                               ("misc" ; the key of topic
                                "nndraft:drafts"
