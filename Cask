@@ -94,4 +94,6 @@
 
 (depends-on "puppet-mode")
 
+(depends-on "qml-mode")
+
 ;; eof
