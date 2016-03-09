@@ -89,7 +89,7 @@
                                "Lists.gnome.devel"
                                "Lists.pg.hackers" "Lists.pg.committers" "Lists.pg.announce"
                                "Lists.pg.admin" "Lists.pg.bugs" "Lists.pg.www"
-                               "Lists.gnome.contacts" "Lists.rails.security")
+                               "Lists.gnome.contacts" "Lists.rails.security" "Lists.sailfish.devel")
                               ("misc" ; the key of topic
                                "nndraft:drafts"
                                "INBOX.spam")
