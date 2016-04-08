@@ -2025,7 +2025,6 @@ prefix argument."
         ("t" proced "proced")
         ("a" magit-status "magit-status")
         ("p" sql-postgres "sql-postgres")
-        ("m" gnus "gnus")
         ("u" (start-process "dump" "*dump*" "~/dev/mail/dump.sh") "dump tags")
         ("U" (start-process "restore" "*dump*" "~/dev/mail/restore.sh") "restore tags")
         ("z" (start-process "sync-mail" "*sync-mail*" "~/dev/mail/sync-mail") "sync mail"))))
@@ -2216,14 +2215,6 @@ prefix argument."
               (mmm-add-mode-ext-class 'ruby-mode nil 'embedded-sql)
               (setq mmm-never-modes
                     (append '(ediff-mode) '(text-mode) mmm-never-modes))))
-#+end_src
-
-** gnus
-
-Gnus should load from =~/.emacs.d/gnus.el=
-
-#+begin_src emacs-lisp
-(setq gnus-init-file (expand-file-name "~/.emacs.d/gnus.el"))
 #+end_src
 
 ** go-mode
