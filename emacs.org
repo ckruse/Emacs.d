@@ -1776,6 +1776,7 @@ We want to be able to edit CMake files in a sane way.
             (add-to-list 'auto-mode-alist '("\\.ru$" . ruby-mode))
             (add-to-list 'auto-mode-alist '("Gemfile$" . ruby-mode))
             (add-to-list 'auto-mode-alist '("\\.prawn$" . ruby-mode))
+            (add-to-list 'auto-mode-alist '("\\.xlsx\\.axlsx$" . ruby-mode))
 
             (define-key ck/keys-minor-mode-map (kbd "C-c r r") 'inf-ruby)
 
@@ -2235,7 +2236,9 @@ prefix argument."
 
 #+begin_src emacs-lisp
   (use-package elixir-mode
-    :commands elixir-mode)
+    :commands elixir-mode
+    :config (progn
+              (alchemist-mode)))
 #+end_src
 
 ** alchemist
