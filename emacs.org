@@ -2354,7 +2354,8 @@ prefix argument."
                     mu4e-hide-index-messages t
                     mu4e-hide-index-messages t
                     mu4e-view-show-addresses t
-                    mu4e-completing-read-function 'completing-read)
+                    mu4e-completing-read-function 'completing-read
+                    mu4e-msg2pdf "/usr/bin/msg2pdf")
 
               (setq mu4e-headers-fields
                     '( (:human-date    .   12)
@@ -2440,5 +2441,47 @@ prefix argument."
 
               (add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)
               (add-hook 'mu4e-compose-mode-hook 'mml-secure-message-sign-pgpmime)
-              (add-hook 'message-send-mail-hook 'my-mu4e-set-msmtp-account)))
+              (add-hook 'message-send-mail-hook 'my-mu4e-set-msmtp-account)
+
+              (defun mu4e/display-stuff-in-browser (stuff)
+                "Displays STUFF as HTML in an external browser."
+                (let ((tmp-file (format "%s/%d.html" temporary-file-directory (random t))))
+                  (with-temp-file tmp-file
+
+                    (insert
+                     "<html>"
+                     "<head><meta http-equiv=\"content-type\""
+                     "content=\"text/html;charset=UTF-8\">"
+                     stuff))
+                  (browse-url (concat "file://" tmp-file))))
+
+              (defun mu4e/msgv-action-view-in-browser (msg)
+                "View the body of the message in an external web browser."
+                (interactive)
+                (let ((html (mu4e-msg-field (mu4e-message-at-point t) :body-html))
+
+                      (txt (mu4e-message-field msg :body-txt)))
+                  (unless (or html txt)
+                    (mu4e-error "No html part for this message"))
+                  (mu4e/display-stuff-in-browser
+                   (or html (concat "<pre>" txt "</pre>")))))
+
+              (defun mu4e/headerv-action-view-in-browser (msg)
+
+                (interactive)
+                (save-window-excursion
+                  (mu4e-headers-view-message)
+                  (let* ((msg (mu4e-message-at-point))
+                         (html (mu4e-msg-field (mu4e-message-at-point t) :body-html))
+                         (txt (mu4e-message-field msg :body-txt)))
+                    (unless (or html txt)
+                      (mu4e-error "No html part for this message"))
+                    (mu4e/display-stuff-in-browser
+                     (or html (concat "<pre>" txt "</pre>"))))
+                  (sleep-for 0.1)))
+
+              (add-to-list 'mu4e-view-actions
+                           '("browser view" . mu4e/msgv-action-view-in-browser) t)
+              (add-to-list 'mu4e-headers-actions
+                           '("browser view" . mu4e/headerv-action-view-in-browser) t)))
 #+end_src
