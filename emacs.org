@@ -2315,3 +2315,14 @@ prefix argument."
 #+begin_src emacs-lisp
 (use-package puppet-mode)
 #+end_src
+** voilatile highlights
+
+#+begin_src emacs-lisp
+  (use-package volatile-highlights
+    :config (progn
+              (volatile-highlights-mode t)
+              (custom-set-faces
+               '(vhl/default-face ((t (:background "#515151" :foreground "#99cc99")))))
+              (setq Vhl/highlight-zero-width-ranges t)))
+#+end_src
+
