@@ -2026,6 +2026,7 @@ prefix argument."
         ("t" proced "proced")
         ("a" magit-status "magit-status")
         ("p" sql-postgres "sql-postgres")
+        ("m" mu4e "mu4e")
         ("u" (start-process "dump" "*dump*" "~/dev/mail/dump.sh") "dump tags")
         ("U" (start-process "restore" "*dump*" "~/dev/mail/restore.sh") "restore tags")
         ("z" (start-process "sync-mail" "*sync-mail*" "~/dev/mail/sync-mail") "sync mail"))))
@@ -2326,3 +2327,118 @@ prefix argument."
               (setq Vhl/highlight-zero-width-ranges t)))
 #+end_src
 
+** mu4e
+
+#+begin_src emacs-lisp
+  ;; make sure mu4e is in your load-path
+  (use-package mu4e
+    :commands mu4e
+    :init (progn
+            (setq mail-user-agent 'mu4e-user-agent))
+    :config (progn
+              (require 'org-mu4e)
+              (require 'mu4e-contrib)
+
+              (setq mu4e-maildir "~/Mail"
+                    mu4e-sent-folder   "/Defunct/Sent"
+                    mu4e-drafts-folder "/Defunct/Drafts"
+                    mu4e-trash-folder  "/Defunct/Trash"
+
+                    mu4e-use-fancy-chars t
+                    mu4e-view-show-images t
+                    mu4e-attachment-dir "~/Downloads"
+                    mu4e-change-filenames-when-moving t
+                    mu4e-headers-full-search t
+                    mu4e-get-mail-command "true"
+                    mu4e-update-interval 60
+                    mu4e-hide-index-messages t
+                    mu4e-hide-index-messages t
+                    mu4e-view-show-addresses t
+                    mu4e-completing-read-function 'completing-read)
+
+              (setq mu4e-headers-fields
+                    '( (:human-date    .   12)
+                       (:flags         .    6)
+                       (:maildir       .   22)
+                       (:mailing-list  .   10)
+                       (:from          .   22)
+                       (:subject       .   nil)))
+
+              (setq mu4e-html2text-command 'mu4e-shr2text
+                    mime-edit-split-message nil
+                    mime-edit-pgp-signers '("A99A9D73")
+                    mime-edit-pgp-encrypt-to-self t
+                    message-send-mail-function 'message-send-mail-with-sendmail
+                    sendmail-program "~/dev/mail/msmtp-enqueue.sh"
+                    message-sendmail-extra-arguments '("-a" "Defunct")
+                    mail-specify-envelope-from t
+                    message-sendmail-f-is-evil nil
+                    mail-envelope-from 'header
+                    mail-interactive t
+                    message-sendmail-envelope-from 'header
+                    user-full-name "Christian Kruse"
+                    message-kill-buffer-on-exit t
+                    mu4e-headers-include-related t)
+
+              (setq mu4e-refile-folder
+                    (lambda (msg)
+                      (let ((maildir (mu4e-message-field msg :maildir))
+                            (account))
+                        (string-match "/\\(.*?\\)/" maildir)
+                        (setq account (match-string 1 maildir))
+                        (concat "/" account "/Archiv"))))
+
+              (add-to-list 'mu4e-bookmarks
+                           '("(maildir:/Defunct/INBOX or maildir:/Termitel/INBOX) and flag:unread"
+                             "Unread in unified inbox" ?n))
+              (add-to-list 'mu4e-bookmarks
+                           '("maildir:/Defunct/INBOX or maildir:/Termitel/INBOX"
+                             "Unified inbox" ?i))
+
+              (defun file-string (file)
+                "Read the contents of a file and return as a string."
+                (with-current-buffer (find-file-noselect file)
+                  (buffer-string)))
+
+              (defvar my-mu4e-account-alist
+                '(("Defunct"
+                   (mu4e-sent-folder "/Defunct/Sent")
+                   (mu4e-drafts-folder "/Defunct/Drafts")
+                   (mu4e-compose-signature (file-string "~/dev/mail/signature-defunct"))
+                   (user-mail-address "cjk@defunct.ch"))
+                  ("Termitel"
+                   (mu4e-sent-folder "/Termitel/Sent")
+                   (mu4e-drafts-folder "/Termitel/Drafts")
+                   (mu4e-compose-signature (file-string "~/dev/mail/signature-termitel"))
+                   (user-mail-address "c.kruse@termitel.de"))))
+
+              (defvar my-mu4e-account nil)
+
+              (defun my-mu4e-set-account ()
+                "Set the account for composing a message."
+                (let* ((account
+                        (if mu4e-compose-parent-message
+                            (let ((maildir (mu4e-message-field mu4e-compose-parent-message :maildir)))
+                              (string-match "/\\(.*?\\)/" maildir)
+                              (match-string 1 maildir))
+                          (completing-read (format "Compose with account: (%s) "
+                                                   (mapconcat #'(lambda (var) (car var))
+                                                              my-mu4e-account-alist "/"))
+                                           (mapcar #'(lambda (var) (car var)) my-mu4e-account-alist)
+                                           nil t nil nil (caar my-mu4e-account-alist))))
+                       (account-vars (cdr (assoc account my-mu4e-account-alist))))
+                  (setq mu-mu4e-account account)
+                  (if account-vars
+                      (mapc #'(lambda (var)
+                                (set (car var) (cadr var)))
+                            account-vars)
+                    (error "No email account found"))))
+
+              (defun my-mu4e-set-msmtp-account ()
+                (setq message-sendmail-extra-arguments
+                      (list "-a" mu-mu4e-account)))
+
+              (add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)
+              (add-hook 'mu4e-compose-mode-hook 'mml-secure-message-sign-pgpmime)
+              (add-hook 'message-send-mail-hook 'my-mu4e-set-msmtp-account)))
+#+end_src
