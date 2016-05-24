@@ -148,7 +148,7 @@ Including font lock and directories
 
   (setq bh/keep-clock-running nil)
 
-  (defvar bh/organization-task-id "BADA377F-DABB-4C51-BC7B-99C574DCE45D")
+  (defvar bh/organization-task-id "9a1ade75-b3d0-43aa-b492-90f468182345")
 
   (add-hook 'org-clock-out-hook 'bh/clock-out-maybe 'append)
 #+end_src
