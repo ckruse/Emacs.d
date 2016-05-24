@@ -559,7 +559,8 @@ point reaches the beginning or end of the buffer, stop there."
               (unless (file-remote-p default-directory) ad-do-it))
 
             (setq projectile-indexing-method 'find
-                  projectile-enable-caching t)
+                  projectile-enable-caching t
+                  projectile-create-missing-test-files t)
 
             (defun build-ctags ()
               (interactive)
