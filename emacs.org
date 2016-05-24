@@ -555,6 +555,9 @@ point reaches the beginning or end of the buffer, stop there."
     :init (progn
             (projectile-global-mode)
 
+            (defadvice projectile-project-root (around ignore-remote first activate)
+              (unless (file-remote-p default-directory) ad-do-it))
+
             (setq projectile-indexing-method 'find
                   projectile-enable-caching t)
 
