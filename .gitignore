@@ -23,3 +23,4 @@ tramp
 /.bbdb
 /bbdb
 /request/
+/org-mode-conf.el
