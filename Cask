@@ -9,24 +9,17 @@
 
 (depends-on "use-package")
 
-;(depends-on "smex")
 (depends-on "multiple-cursors")
 (depends-on "magit")
 (depends-on "smart-mode-line")
 (depends-on "smartparens")
 (depends-on "auto-complete")
-;(depends-on "auto-complete")
-;(depends-on "flx-ido")
-;(depends-on "ido-vertical-mode")
 (depends-on "yasnippet")
 (depends-on "projectile")
-;(depends-on "ido-ubiquitous")
 (depends-on "expand-region")
 (depends-on "org-plus-contrib")
-(depends-on "inf-ruby")
 (depends-on "color-theme-sanityinc-tomorrow")
 (depends-on "rainbow-delimiters")
-(depends-on "rvm")
 
 ;; languages
 
@@ -43,14 +36,12 @@
 (depends-on "js2-mode")
 
 (depends-on "elixir-mode")
-(depends-on "alchemist")
 
 (depends-on "sqlup-mode")
 
 ;; flycheck adds on-the-fly syntax checking for a lot of languages
 (depends-on "flycheck")
 
-(depends-on "git-timemachine")
 (depends-on "typo")
 
 (depends-on "edit-server")
@@ -74,7 +65,6 @@
 (source melpa)
 
 ;; available on melpa-stable but dependency isn't
-(depends-on "projectile-rails")
 (depends-on "circe")
 
 ;; not available on melpa-stable, yet
@@ -86,7 +76,6 @@
 
 (depends-on "bbdb")
 (depends-on "gnus-alias")
-(depends-on "bbdb-vcard")
 
 (depends-on "helm")
 (depends-on "helm-projectile")
