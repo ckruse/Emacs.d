@@ -724,54 +724,25 @@ contents like CSS, JS and HTML in one file).
      '(web-mode-enable-auto-pairing nil))))
 #+end_src
 
-** autocomplete
+** company-mode
 
-Autocomplete provides a nice autocompletion feature for Emacs,
+Company provides a nice autocompletion feature for Emacs,
 similiar to the autocompletion provided by XCode.
 
 #+begin_src emacs-lisp
-  (use-package auto-complete-config
+  (use-package company-mode
     :init
-    (ac-config-default)
+    (progn
+      (require 'company-web-html)
 
-    (setq web-mode-ac-sources-alist
-          '(("erb" . (ac-source-yasnippet
-                      ac-source-abbrev
-                      ac-source-gtags
-                      ac-source-semantic
-                      ac-source-dictionary
-                      ac-source-words-in-same-mode-buffers
-                      ac-source-words-in-buffer
-                      ac-source-files-in-current-dir))
-            ("php" . (ac-source-yasnippet ac-source-php-auto-yasnippets
-                      ac-source-yasnippet
-                      ac-source-abbrev
-                      ac-source-gtags
-                      ac-source-semantic
-                      ac-source-dictionary
-                      ac-source-words-in-same-mode-buffers
-                      ac-source-words-in-buffer
-                      ac-source-files-in-current-dir))
-            ("css" . (ac-source-css-property))
-            ("html" . (ac-source-words-in-buffer ac-source-abbrev))))
+      (add-to-list 'company-backends 'company-ansible)
 
-    (add-to-list 'ac-modes 'objc-mode)
-    (add-to-list 'ac-modes 'web-mode)
-    (add-to-list 'ac-modes 'sql-mode)
-    (add-to-list 'ac-modes 'c-mode)
-    (add-to-list 'ac-modes 'swift-mode)
+      (setq company-tooltip-limit 20
+            company-tooltip-align-annotations 't
+            company-idle-delay .3
+            company-begin-commands '(self-insert-command))
 
-    (add-hook 'web-mode-before-auto-complete-hooks
-              '(lambda ()
-                 (let ((web-mode-cur-language
-                        (web-mode-language-at-pos)))
-                   (if (string= web-mode-cur-language "php")
-                       (yas-activate-extra-mode 'php-mode)
-                     (yas-deactivate-extra-mode 'php-mode))
-
-                   (if (string= web-mode-cur-language "erb")
-                       (yas-activate-extra-mode 'ruby-mode)
-                     (yas-deactivate-extra-mode 'ruby-mode))))))
+      (add-hook 'after-init-hook 'global-company-mode)))
 #+end_src
 
 ** key-chord

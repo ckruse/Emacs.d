@@ -13,13 +13,17 @@
 (depends-on "magit")
 (depends-on "smart-mode-line")
 (depends-on "smartparens")
-(depends-on "auto-complete")
 (depends-on "yasnippet")
 (depends-on "projectile")
 (depends-on "expand-region")
 (depends-on "org-plus-contrib")
 (depends-on "color-theme-sanityinc-tomorrow")
 (depends-on "rainbow-delimiters")
+
+
+(depends-on "company")
+(depends-on "company-web")
+(depends-on "company-ansible")
 
 ;; languages
 
