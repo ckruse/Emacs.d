@@ -509,7 +509,9 @@ point reaches the beginning or end of the buffer, stop there."
 
             (setq projectile-indexing-method 'find
                   projectile-enable-caching t
-                  projectile-create-missing-test-files t)))
+                  projectile-create-missing-test-files t
+                  projectile-completion-system 'helm)
+            (helm-projectile-on)))
 #+end_src
 
 ** Keyboard shortcuts
