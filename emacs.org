@@ -1043,6 +1043,51 @@ We want to be able to edit CMake files in a sane way.
             (add-hook 'php-mode-hook 'ck-init-php)))
 #+end_src
 
+** Rails integration
+
+   We use RVM (and thus =rvm-mode=) and =projectile-rails=.
+
+#+begin_src emacs-lisp
+  (use-package rvm
+    :commands rvm-use-default
+    :init (progn
+            (setq rvm--current-ruby nil)
+            (add-hook 'ruby-mode-hook (lambda ()
+                                        (interactive)
+                                        (when (not rvm--current-ruby)
+                                          (rvm-use-default))))))
+
+  (use-package projectile-rails
+    :commands projectile-rails-on
+    :init
+    (add-hook 'projectile-mode-hook 'projectile-rails-on))
+
+  (defun get-current-test-name ()
+    (save-excursion
+      (let ((pos)
+            (test-name))
+        (re-search-backward "test \"\\([^\"]+\\)\" do")
+        (setq test-name (buffer-substring-no-properties (match-beginning 1) (match-end 1)))
+        (concat "test_" (replace-regexp-in-string " " "_" test-name)))))
+
+
+  (defun run-test-at-point ()
+    (interactive)
+    (let ((root-dir (projectile-project-root)))
+      (compile (format "ruby -Ilib:test -I%s/test %s -n %s" root-dir (expand-file-name (buffer-file-name)) (get-current-test-name)))))
+
+  (defun run-test-file ()
+    (interactive)
+    (let ((root-dir (projectile-project-root))
+          (filename (expand-file-name (buffer-file-name))))
+      (setq filename (replace-regexp-in-string root-dir "" filename))
+      (compile (format "rake test %s" filename))))
+
+  (defun run-test-suite ()
+    (interactive)
+    (compile "rake test"))
+#+end_src
+
 ** rainbow-delimiters
 
    [[https://github.com/jlr/rainbow-delimiters][Rainbow delimiters]] is a “rainbow parentheses”-like mode which
@@ -1088,30 +1133,8 @@ We want to be able to edit CMake files in a sane way.
             (define-key ck/keys-minor-mode-map "\C-ccr"
                 (defhydra tests (:color red)
                   "Ruby"
-                  ("h" ruby-toggle-hash-syntax "Toggle ruby Hash syntax")))
-
-            ;; (defadvice ruby-indent-line (after line-up-args activate)
-            ;;   (let (indent prev-indent arg-indent)
-            ;;     (save-excursion
-            ;;       (back-to-indentation)
-            ;;       (when (zerop (car (syntax-ppss)))
-            ;;         (setq indent (current-column))
-            ;;         (skip-chars-backward " \t\n")
-            ;;         (when (eq ?, (char-before))
-            ;;           (ruby-backward-sexp)
-            ;;           (back-to-indentation)
-            ;;           (setq prev-indent (current-column))
-            ;;           (skip-syntax-forward "w_.")
-            ;;           (skip-chars-forward " ")
-            ;;           (setq arg-indent (+ (ruby-current-indentation) ruby-indent-level))))) ;; (current-column)
-            ;;     (when prev-indent
-            ;;       (let ((offset (- (current-column) indent)))
-            ;;         (cond ((< indent prev-indent)
-            ;;                (indent-line-to prev-indent))
-            ;;               ((= indent prev-indent)
-            ;;                (indent-line-to arg-indent)))
-            ;;         (when (> offset 0) (forward-char offset))))))
-            ))
+                  ("h" ruby-toggle-hash-syntax "Toggle ruby Hash syntax")
+                  ("r" inf-ruby "Toggle ruby Hash syntax")))))
 #+end_src
 
 ** Rust support

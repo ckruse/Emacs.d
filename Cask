@@ -54,7 +54,10 @@
 
 (depends-on "hydra")
 
+(depends-on "rvm")
+(depends-on "inf-ruby")
 (depends-on "ruby-hash-syntax")
+(depends-on "projectile-rails")
 
 (depends-on "avy")
 (depends-on "ace-window")
