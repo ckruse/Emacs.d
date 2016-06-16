@@ -352,28 +352,15 @@ prompt
     I'm using the Tomorrow theme in the eighties variant.
 
 #+begin_src emacs-lisp
-    (custom-set-variables
-     ;'(custom-enabled-themes (quote (sanityinc-tomorrow-eighties)))
-     '(custom-enabled-themes (quote (sanityinc-tomorrow-eighties sanityinc-tomorrow-night)))
-     '(custom-safe-themes    (quote ("628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d"
-                                     "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a"
-                                     "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa"
-                                     default))))
+  (custom-set-variables
+   ;'(custom-enabled-themes (quote (sanityinc-tomorrow-eighties)))
+   '(custom-enabled-themes (quote (sanityinc-tomorrow-eighties sanityinc-tomorrow-night)))
+   '(custom-safe-themes    (quote ("628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d"
+                                   "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a"
+                                   "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa"
+                                   default))))
 
-    (load-theme 'sanityinc-tomorrow-eighties t)
-    (setq current-theme 'sanityinc-tomorrow-eighties)
-
-    (defun ck/switch-theme ()
-      (interactive)
-      (if (eq current-theme 'sanityinc-tomorrow-eighties)
-          (progn
-            (load-theme 'sanityinc-tomorrow-day t)
-            (setq current-theme 'sanityinc-tomorrow-day))
-        (progn
-          (load-theme 'sanityinc-tomorrow-eighties t)
-          (setq current-theme 'sanityinc-tomorrow-eighties))))
-
-    (define-key ck/keys-minor-mode-map (kbd "C-c c c") 'ck/switch-theme)
+  (load-theme 'sanityinc-tomorrow-eighties t)
 #+end_src
 
 ** Helpers
