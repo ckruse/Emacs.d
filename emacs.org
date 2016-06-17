@@ -1380,21 +1380,6 @@ prefix argument."
   (add-hook 'eshell-mode-hook 'eshell-mode-hook-func)
 
 #+end_src
-** =typo.el=, the library for typographics in Emacs
-
-#+begin_src emacs-lisp
-  (when (not (ck/is-osx))
-    (use-package typo
-      :commands typo-global-mode
-      :init (progn
-              (typo-global-mode 1)
-              (add-hook 'text-mode-hook 'typo-mode)
-
-              (add-hook 'circe-chat-mode-hook 'typo-mode)
-
-              (setq typo-language "German")
-              (setq-default typo-language "German"))))
-#+end_src
 ** Circe, IRC over Emacs
 
 #+begin_src emacs-lisp
@@ -1603,16 +1588,6 @@ prefix argument."
 
 #+begin_src emacs-lisp
 (use-package puppet-mode)
-#+end_src
-** voilatile highlights
-
-#+begin_src emacs-lisp
-  (use-package volatile-highlights
-    :config (progn
-              (volatile-highlights-mode t)
-              (custom-set-faces
-               '(vhl/default-face ((t (:background "#515151" :foreground "#99cc99")))))
-              (setq Vhl/highlight-zero-width-ranges t)))
 #+end_src
 
 ** mu4e

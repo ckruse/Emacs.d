@@ -92,6 +92,4 @@
 
 (depends-on "qml-mode")
 
-(depends-on "volatile-highlights")
-
 ;; eof
