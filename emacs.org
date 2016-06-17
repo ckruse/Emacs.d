@@ -1030,6 +1030,40 @@ We want to be able to edit CMake files in a sane way.
             (add-hook 'php-mode-hook 'ck-init-php)))
 #+end_src
 
+** ruby support
+
+   Mainly =auto-mode-alist= and indentation.
+
+#+begin_src emacs-lisp
+  (use-package ruby-mode
+    :commands ruby-mode
+    :init (progn
+            (add-hook 'ruby-mode-hook 'turn-on-font-lock)
+            (add-hook 'ruby-mode-hook (lambda ()
+                                        (setq tab-width 2
+                                              indent-tabs-mode nil
+                                          ;ruby-deep-arglist nil
+                                          ;ruby-deep-indent-paren nil
+                                              ruby-insert-encoding-magic-comment nil)))
+
+            (add-to-list 'auto-mode-alist '("\\.rb$" . ruby-mode))
+            (add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
+            (add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
+            (add-to-list 'auto-mode-alist '("\\.gemspec$" . ruby-mode))
+            (add-to-list 'auto-mode-alist '("\\.ru$" . ruby-mode))
+            (add-to-list 'auto-mode-alist '("Gemfile$" . ruby-mode))
+            (add-to-list 'auto-mode-alist '("\\.prawn$" . ruby-mode))
+            (add-to-list 'auto-mode-alist '("\\.xlsx\\.axlsx$" . ruby-mode))
+
+            (require 'ruby-hash-syntax)
+
+            (define-key ck/keys-minor-mode-map "\C-ccr"
+                (defhydra tests (:color red)
+                  "Ruby"
+                  ("h" ruby-toggle-hash-syntax "Toggle ruby Hash syntax")
+                  ("r" inf-ruby "Toggle ruby Hash syntax")))))
+#+end_src
+
 ** Rails integration
 
    We use RVM (and thus =rvm-mode=) and =projectile-rails=.
@@ -1088,40 +1122,6 @@ We want to be able to edit CMake files in a sane way.
 (use-package rainbow-delimiters
   :init
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
-#+end_src
-
-** ruby support
-
-   Mainly =auto-mode-alist= and indentation.
-
-#+begin_src emacs-lisp
-  (use-package ruby-mode
-    :commands ruby-mode
-    :init (progn
-            (add-hook 'ruby-mode-hook 'turn-on-font-lock)
-            (add-hook 'ruby-mode-hook (lambda ()
-                                        (setq tab-width 2
-                                              indent-tabs-mode nil
-                                          ;ruby-deep-arglist nil
-                                          ;ruby-deep-indent-paren nil
-                                              ruby-insert-encoding-magic-comment nil)))
-
-            (add-to-list 'auto-mode-alist '("\\.rb$" . ruby-mode))
-            (add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
-            (add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
-            (add-to-list 'auto-mode-alist '("\\.gemspec$" . ruby-mode))
-            (add-to-list 'auto-mode-alist '("\\.ru$" . ruby-mode))
-            (add-to-list 'auto-mode-alist '("Gemfile$" . ruby-mode))
-            (add-to-list 'auto-mode-alist '("\\.prawn$" . ruby-mode))
-            (add-to-list 'auto-mode-alist '("\\.xlsx\\.axlsx$" . ruby-mode))
-
-            (require 'ruby-hash-syntax)
-
-            (define-key ck/keys-minor-mode-map "\C-ccr"
-                (defhydra tests (:color red)
-                  "Ruby"
-                  ("h" ruby-toggle-hash-syntax "Toggle ruby Hash syntax")
-                  ("r" inf-ruby "Toggle ruby Hash syntax")))))
 #+end_src
 
 ** Rust support
