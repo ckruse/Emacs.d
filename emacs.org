@@ -414,39 +414,33 @@ point reaches the beginning or end of the buffer, stop there."
 *** Go to matching paren (or the equivalent in ruby)
 
 #+begin_src emacs-lisp
-(defun goto-match-paren (arg)
-  "Go to the matching  if on (){}[], similar to vi style of % "
-  (interactive "p")
-  ;; first, check for "outside of bracket" positions expected by forward-sexp, etc
-  (cond ((looking-at "[\[\(\{]") (forward-sexp))
-        ((looking-back "[\]\)\}]" 1) (backward-sexp))
-        ;; now, try to succeed from inside of a bracket
-        ((looking-at "[\]\)\}]") (forward-char) (backward-sexp))
-        ((looking-back "[\[\(\{]" 1) (backward-char) (forward-sexp))
-        (t nil)))
+  (defun goto-match-paren (arg)
+    "Go to the matching  if on (){}[], similar to vi style of % "
+    (interactive "p")
+    ;; first, check for "outside of bracket" positions expected by forward-sexp, etc
+    (cond ((looking-at "[\[\(\{]") (forward-sexp))
+          ((looking-back "[\]\)\}]" 1) (backward-sexp))
+          ;; now, try to succeed from inside of a bracket
+          ((looking-at "[\]\)\}]") (forward-char) (backward-sexp))
+          ((looking-back "[\[\(\{]" 1) (backward-char) (forward-sexp))
+          (t nil)))
 
-(defun goto-matching-ruby-block (arg)
-  (cond
-   ((equal (current-word) "end")
-    (ruby-beginning-of-block))
+  (defun goto-matching-ruby-block (arg)
+    (cond
+     ((equal (current-word) "end")
+      (backward-sexp))
 
-   ((string-match (current-word) "\\(for\\|while\\|until\\|if\\|class\\|module\\|case\\|unless\\|def\\|begin\\|do\\)")
-    (ruby-end-of-block))))
+     ((string-match (current-word) "\\(for\\|while\\|until\\|if\\|class\\|module\\|case\\|unless\\|def\\|begin\\|do\\)")
+      (forward-sexp))))
 
-(defun dispatch-goto-matching (arg)
-  (interactive "p")
+  (defun dispatch-goto-matching (arg)
+    (interactive "p")
 
-  (if (or
-       (looking-at "[\[\(\{]")
-       (looking-at "[\]\)\}]")
-       (looking-back "[\[\(\{]" 1)
-       (looking-back "[\]\)\}]" 1))
-      (goto-match-paren arg)
+    (when (and (not (goto-match-paren arg))
+               (eq major-mode 'ruby-mode))
+      (goto-matching-ruby-block arg)))
 
-    (when (eq major-mode 'ruby-mode)
-      (goto-matching-ruby-block arg))))
-
-(global-set-key "\M--" 'dispatch-goto-matching)
+  (global-set-key "\M--" 'dispatch-goto-matching)
 #+end_src
 
 
