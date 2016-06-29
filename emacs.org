@@ -1528,9 +1528,7 @@ prefix argument."
 
 #+begin_src emacs-lisp
   (use-package elixir-mode
-    :commands elixir-mode
-    :config (progn
-              (alchemist-mode)))
+    :commands elixir-mode)
 #+end_src
 
 ** helm
