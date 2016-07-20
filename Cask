@@ -92,4 +92,6 @@
 
 (depends-on "qml-mode")
 
+(depends-on "notmuch")
+
 ;; eof
