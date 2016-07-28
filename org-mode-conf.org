@@ -556,22 +556,22 @@ I always forget to open up the agenda, so open it automatically when
 idle for 2 minutes
 
 #+begin_src emacs-lisp
-  (defun jump-to-org-agenda ()
-    (interactive)
-    (let ((buf (get-buffer "*Org Agenda*"))
-          wind)
-      (if buf
-          (if (setq wind (get-buffer-window buf))
-              (select-window wind)
-            (if (called-interactively-p)
-                (progn
-                  (select-window (display-buffer buf t t))
-                  (org-fit-window-to-buffer))
-              (with-selected-window (display-buffer buf)
-                (org-fit-window-to-buffer))))
-        (call-interactively 'org-todo-list))))
+  ;; (defun jump-to-org-agenda ()
+  ;;   (interactive)
+  ;;   (let ((buf (get-buffer "*Org Agenda*"))
+  ;;         wind)
+  ;;     (if buf
+  ;;         (if (setq wind (get-buffer-window buf))
+  ;;             (select-window wind)
+  ;;           (if (called-interactively-p)
+  ;;               (progn
+  ;;                 (select-window (display-buffer buf t t))
+  ;;                 (org-fit-window-to-buffer))
+  ;;             (with-selected-window (display-buffer buf)
+  ;;               (org-fit-window-to-buffer))))
+  ;;       (call-interactively 'org-todo-list))))
 
-  (run-with-idle-timer 60 t 'jump-to-org-agenda)
+  ;; (run-with-idle-timer 60 t 'jump-to-org-agenda)
 #+end_src
 
 ** A hydra for global key bindings regarding org
