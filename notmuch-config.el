@@ -71,7 +71,6 @@
       mail-specify-envelope-from 'header
       mail-envelope-from 'header
       notmuch-show-all-multipart/alternative-parts nil
-      mime-edit-split-message nil
       mime-edit-pgp-signers '("C84EF897")
       mime-edit-pgp-encrypt-to-self t
       mml2015-encrypt-to-self t
@@ -219,6 +218,10 @@
                   (require 'osx-bbdb))
               (progn
                 (use-package bbdb-vcard)))))
+
+
+(custom-set-faces
+ '(notmuch-search-unread-face ((t (:foreground "#afafff")))))
 
 
 ;; eof

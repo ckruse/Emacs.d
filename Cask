@@ -94,4 +94,8 @@
 
 (depends-on "notmuch")
 
+(depends-on "vala-mode")
+(depends-on "flycheck-vala")
+(depends-on "vala-snippets")
+
 ;; eof
