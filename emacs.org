@@ -649,8 +649,10 @@ switching similiar to it. Very nice!
 
 #+begin_src emacs-lisp
   (use-package ace-window
-    :init
-    (define-key ck/keys-minor-mode-map (kbd "C-x o") 'ace-window))
+    :init (progn
+            (define-key ck/keys-minor-mode-map (kbd "C-x o") 'ace-window))
+    :config (progn
+              (set-face-attribute 'aw-leading-char-face nil :foreground "deep sky blue" :weight 'bold :height 3.0)))
 #+end_src
 
 ** org-mode
