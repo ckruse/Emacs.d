@@ -150,14 +150,14 @@
          nil ;; Does not refer to any other identity
          "Christian Kruse <cjk@defunct.ch>" ;; Sender address
          nil ;; No organization header
-         (("Fcc" . " ~/Mail/Defunct/Sent"))
+         (("Fcc" . "Defunct/Sent"))
          nil ;; No extra body text
          "~/dev/mail/signature-defunct")
         ("Termitel"
          nil
          "Christian Kruse <c.kruse@termitel.de>"
          "Termitel GmbH"
-         (("Fcc" . " ~/Mail/Termitel/Sent"))
+         (("Fcc" . "Termitel/Sent"))
          nil
          "~/dev/mail/signature-termitel")))
 
