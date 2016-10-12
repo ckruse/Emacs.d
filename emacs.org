@@ -1191,6 +1191,73 @@ We want to be able to edit CMake files in a sane way.
         (delete-region (region-beginning) (region-end))
         (goto-char pos)
         (insert formatted-text))))
+
+  (setq-default sql-product-alist
+    '((ansi
+       :name "ANSI"
+       :font-lock sql-mode-ansi-font-lock-keywords
+       :statement sql-ansi-statement-starters)
+
+      (ms
+       :name "Microsoft"
+       :font-lock sql-mode-ms-font-lock-keywords
+       :sqli-program sql-ms-program
+       :sqli-options sql-ms-options
+       :sqli-login sql-ms-login-params
+       :sqli-comint-func sql-comint-ms
+       :prompt-regexp "^[0-9]*>"
+       :prompt-length 5
+       :syntax-alist ((?@ . "_"))
+       :terminator ("^go" . "go"))
+
+      (mysql
+       :name "MySQL"
+       :free-software t
+       :font-lock sql-mode-mysql-font-lock-keywords
+       :sqli-program sql-mysql-program
+       :sqli-options sql-mysql-options
+       :sqli-login sql-mysql-login-params
+       :sqli-comint-func sql-comint-mysql
+       :list-all "SHOW TABLES;"
+       :list-table "DESCRIBE %s;"
+       :prompt-regexp "^mysql> "
+       :prompt-length 6
+       :prompt-cont-regexp "^    -> "
+       :syntax-alist ((?# . "< b"))
+       :input-filter sql-remove-tabs-filter)
+
+      (postgres
+       :name "Postgres"
+       :free-software t
+       :font-lock sql-mode-postgres-font-lock-keywords
+       :sqli-program sql-postgres-program
+       :sqli-options sql-postgres-options
+       :sqli-login sql-postgres-login-params
+       :sqli-comint-func sql-comint-postgres
+       :list-all ("\\d+" . "\\dS+")
+       :list-table ("\\d+ %s" . "\\dS+ %s")
+       :completion-object sql-postgres-completion-object
+       :prompt-regexp "^[^#>]*=[#>] "
+       :prompt-length 5
+       :prompt-cont-regexp "^[^#>]*=[#>] "
+       :input-filter sql-remove-tabs-filter
+       :terminator ("\\(^\\s-*\\\\g$\\|;\\)" . "\\g"))
+
+      (sqlite
+       :name "SQLite"
+       :free-software t
+       :font-lock sql-mode-sqlite-font-lock-keywords
+       :sqli-program sql-sqlite-program
+       :sqli-options sql-sqlite-options
+       :sqli-login sql-sqlite-login-params
+       :sqli-comint-func sql-comint-sqlite
+       :list-all ".tables"
+       :list-table ".schema %s"
+       :completion-object sql-sqlite-completion-object
+       :prompt-regexp "^sqlite> "
+       :prompt-length 8
+       :prompt-cont-regexp "^   \\.\\.\\.> "
+       :terminator ";")))
 #+end_src
 
 ** Swift support
