@@ -1518,14 +1518,6 @@ prefix argument."
                                                :channels ("#selfhtml")
                                                :pass ,epdme-password)
 
-                                              ("CCC"
-                                               :nick "cjk101010"
-                                               :host "jugulator.defunced.de"
-                                               :service 6660
-                                               :tls t
-                                               :channels ("#ccc")
-                                               :pass ,ccc-password)
-
                                               ("Freenode"
                                                :nick "cjk101010"
                                                :host "jugulator.defunced.de"
