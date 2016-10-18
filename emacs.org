@@ -1466,7 +1466,6 @@ prefix argument."
                 "Login into my usual IRCs."
                 (interactive)
                 (circe "EPD-ME")
-                (circe "CCC")
                 (circe "Freenode"))
 
               (load "~/dev/mail/znc.el"))
