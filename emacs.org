@@ -1512,20 +1512,28 @@ prefix argument."
                       circe-network-options `(
                                               ("EPD-ME"
                                                :nick "Christian"
+                                               :pass ,epdme-password
                                                :host "jugulator.defunced.de"
-                                               :service 6660
-                                               :tls t
-                                               :channels ("#selfhtml")
-                                               :pass ,epdme-password)
+                                               :port 6660
+                                               :use-tls t
+                                               :channels ("#selfhtml"))
 
                                               ("Freenode"
                                                :nick "cjk101010"
+                                               :pass ,freenode-password
                                                :host "jugulator.defunced.de"
-                                               :service 6660
-                                               :tls t
-                                               :channels ("#warpzone" "#postgresql" "#rubyonrails" "#erlang" "#emacs" "#ruby")
-                                               :pass ,freenode-password))
-                      tracking-ignored-buffers '("#postgresql" "#erlang" "#emacs" "#ruby"))
+                                               :port 6660
+                                               :use-tls t
+                                               :channels ("#warpzone" "#postgresql" "#rubyonrails" "#erlang" "#emacs" "#ruby")))
+                      tracking-ignored-buffers '("#postgresql" "#erlang" "#emacs" "#ruby")
+                      helm-mode-no-completion-in-region-in-modes '(circe-channel-mode
+                                                                   circe-query-mode
+                                                                   circe-server-mode)
+
+                      lui-flyspell-p t
+                      lui-flyspell-alist '(("#selfhtml" "deutsch")
+                                           ("#warpzone" "deutsch")
+                                           (".*" "american")))
 
                 (enable-circe-notifications))))
 #+end_src
