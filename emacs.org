@@ -1504,6 +1504,7 @@ prefix argument."
                 (ad-activate 'circe-command-SAY)
 
                 (setq circe-reduce-lurker-spam t
+                      circe-use-cycle-completion t
                       ;; lui-time-stamp-position 'right-margin
                       lui-time-stamp-format "%H:%M"
                       lui-fill-column 120
