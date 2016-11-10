@@ -98,6 +98,5 @@
 (depends-on "flycheck-vala")
 (depends-on "vala-snippets")
 
-(depends-on "schrute")
 
 ;; eof

@@ -1663,20 +1663,3 @@ prefix argument."
 (use-package puppet-mode)
 #+end_src
 
-** Schrute
-
-Nice little minor mode to remember me of better ways how to do things.
-
-#+begin_src emacs-lisp
-  (use-package schrute
-    :init (progn
-            (setf schrute-shortcuts-commands '((avy-goto-line   . (next-line))
-                                               (avy-goto-line . (previous-line))
-                                               (avy-goto-line . (forward-paragraph))
-                                               (avy-goto-line . (backward-paragraph))
-                                               (avy-goto-word-1 . (left-char))
-                                               (avy-goto-word-1 . (right-char))
-                                               (avy-goto-word-1 . (left-word))
-                                               (avy-goto-word-1 . (right-word))))
-            (schrute-mode)))
-#+end_src
