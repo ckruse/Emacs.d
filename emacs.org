@@ -328,6 +328,14 @@ prompt
 #+end_src
 
 
+** customizations file
+
+Emacs should not polute my init.el
+
+#+begin_src emacs-lisp
+  (setq custom-file "/dev/null")
+#+end_src
+
 ** Theming and fonts
 
 *** Fonts
