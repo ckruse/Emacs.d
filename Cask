@@ -46,10 +46,6 @@
 ;; flycheck adds on-the-fly syntax checking for a lot of languages
 (depends-on "flycheck")
 
-(depends-on "typo")
-
-(depends-on "edit-server")
-
 (depends-on "mmm-mode")
 
 (depends-on "hydra")
@@ -71,9 +67,6 @@
 
 (source melpa)
 
-;; available on melpa-stable but dependency isn't
-(depends-on "circe")
-
 ;; not available on melpa-stable, yet
 
 (depends-on "rust-mode")
@@ -81,22 +74,8 @@
 (depends-on "key-chord")
 (depends-on "htmlize")
 
-(depends-on "bbdb")
-(depends-on "gnus-alias")
-
 (depends-on "helm")
 (depends-on "helm-projectile")
-(depends-on "helm-dash")
-
-(depends-on "puppet-mode")
-
-(depends-on "qml-mode")
-
-(depends-on "notmuch")
-
-(depends-on "vala-mode")
-(depends-on "flycheck-vala")
-(depends-on "vala-snippets")
 
 
 ;; eof

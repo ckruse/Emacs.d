@@ -947,21 +947,7 @@ We want to be able to edit CMake files in a sane way.
                                       (name . "^\\*scratch\\*$")
                                       (name . "^\\*Messages\\*$")
                                       (name . "^\\*Help\\*$")
-                                      (name . "^\\*Flycheck error messages\\*$")))
-                            ("Gnus" (or
-                                     (mode . message-mode)
-                                     (mode . bbdb-mode)
-                                     (mode . mail-mode)
-                                     (mode . gnus-group-mode)
-                                     (mode . gnus-summary-mode)
-                                     (mode . gnus-article-mode)
-                                     (name . "^\\.bbdb$")
-                                     (name . "^\\.newsrc-dribble")))
-                            ("Circe" (or
-                                      (mode . circe-channel-mode)
-                                      (mode . circe-query-mode)
-                                      (mode . circe-mode)
-                                      (mode . circe-server-mode))))))))
+                                      (name . "^\\*Flycheck error messages\\*$"))))))))
 
             (add-hook 'ibuffer-mode-hook
                       (lambda ()
@@ -1463,97 +1449,7 @@ prefix argument."
   (add-hook 'eshell-mode-hook 'eshell-mode-hook-func)
 
 #+end_src
-** Circe, IRC over Emacs
 
-#+begin_src emacs-lisp
-  (when (not (ck/is-osx))
-    (use-package circe
-      :commands (circe circe-set-display-handler)
-      :init (progn
-              (defun ck/irc-login ()
-                "Login into my usual IRCs."
-                (interactive)
-                (circe "EPD-ME")
-                (circe "Freenode"))
-
-              (load "~/dev/mail/znc.el"))
-
-      :config (progn
-                ;; (defun ck/circe-prompt ()
-                ;;   (lui-set-prompt
-                ;;    (concat (propertize (concat (buffer-name) ">")
-                ;;                        'face 'circe-prompt-face)
-                ;;            " ")))
-
-                ;; (defun ck/circe-set-margin ()
-                ;;   (setq
-                ;;    fringes-outside-margins t
-                ;;    right-margin-width 5
-                ;;    word-wrap t
-                ;;    wrap-prefix "    "))
-
-
-                ;; (add-hook 'circe-chat-mode-hook 'ck/circe-prompt)
-                ;; (add-hook 'lui-mode-hook 'ck/circe-set-margin)
-
-                (require 'circe-color-nicks)
-                (require 'circe-chanop)
-                (require 'circe-notifications)
-
-                (enable-circe-color-nicks)
-                (defun lui-irc-propertize (&rest args))
-
-                (defadvice circe-command-SAY (after jjf-circe-unignore-target)
-                  (let ((ignored (tracking-ignored-p (current-buffer) nil)))
-                    (when ignored
-                      (setq tracking-ignored-buffers
-                            (remove ignored tracking-ignored-buffers))
-                      (message "This buffer will now be tracked."))))
-                (ad-activate 'circe-command-SAY)
-
-                (setq circe-reduce-lurker-spam t
-                      circe-use-cycle-completion t
-                      ;; lui-time-stamp-position 'right-margin
-                      lui-time-stamp-format "%H:%M"
-                      lui-fill-column 120
-                      ;; lui-fill-type nil
-                      circe-network-options `(
-                                              ("EPD-ME"
-                                               :nick "Christian"
-                                               :pass ,epdme-password
-                                               :host "jugulator.defunced.de"
-                                               :port 6660
-                                               :use-tls t
-                                               :channels ("#selfhtml"))
-
-                                              ("Freenode"
-                                               :nick "cjk101010"
-                                               :pass ,freenode-password
-                                               :host "jugulator.defunced.de"
-                                               :port 6660
-                                               :use-tls t
-                                               :channels ("#warpzone" "#postgresql" "#rubyonrails" "#erlang" "#emacs" "#ruby")))
-                      tracking-ignored-buffers '("#postgresql" "#erlang" "#emacs" "#ruby")
-                      helm-mode-no-completion-in-region-in-modes '(circe-channel-mode
-                                                                   circe-query-mode
-                                                                   circe-server-mode)
-
-                      lui-flyspell-p t
-                      lui-flyspell-alist '(("#selfhtml" "deutsch")
-                                           ("#warpzone" "deutsch")
-                                           (".*" "american")))
-
-                (enable-circe-notifications))))
-#+end_src
-
-** edit-server
-
-#+begin_src emacs-lisp
-  (use-package edit-server
-    :init (progn
-            (setq edit-server-new-frame nil)
-            (edit-server-start)))
-#+end_src
 ** comment/uncomment line
 
 #+begin_src emacs-lisp
