@@ -1135,18 +1135,6 @@ We want to be able to edit CMake files in a sane way.
             (setq-default rust-indent-unit 2)))
 #+end_src
 
-** SCSS mode
-
-#+begin_src emacs-lisp
-  (use-package scss-mode
-    :commands scss-mode
-    :init (progn
-            (add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
-
-            (setq-default scss-compile-at-save nil)
-            (setq-default css-indent-offset 2)))
-#+end_src
-
 ** smart-mode-line
 
    Unclutters my mode line (e.g. hides minor modes).

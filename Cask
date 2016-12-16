@@ -29,7 +29,6 @@
 
 (depends-on "cmake-mode")
 (depends-on "php-mode")
-(depends-on "scss-mode")
 (depends-on "yaml-mode")
 (depends-on "haskell-mode")
 (depends-on "web-mode")
