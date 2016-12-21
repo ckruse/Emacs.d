@@ -29,7 +29,7 @@
 
 #+begin_src emacs-lisp
   (setq user-full-name "Christian Kruse"
-        user-mail-address "cjk@defunct.ch")
+        user-mail-address "christian@kruse.cool")
 #+end_src
 
 ** Emacs initialization
