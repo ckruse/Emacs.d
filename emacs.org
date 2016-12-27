@@ -132,6 +132,13 @@
     (setq mac-command-modifier 'super))
 #+end_src
 
+*** customizable variables
+
+#+begin_src emacs-lisp
+(defvar ck-font-name "Source Code Pro")
+(defvar ck-font-size 9)
+#+end_src
+
 *** host specific configuration options
 
 No computer is alike!
@@ -343,27 +350,16 @@ Emacs should not polute my init.el
     I use [[https://github.com/adobe-fonts/source-code-pro][Source Code Pro]]. Period.
 
 #+begin_src emacs-lisp
-(if (ck/is-osx)
-    (progn
-      (set-default-font "Source Code Pro-12")
-      (set-fontset-font "fontset-default" nil
-                        (font-spec :size 12 :name "Source Code Pro"))
-      (set-face-attribute 'default nil
-                          :family "Source Code Pro"
-                          :height 120
-                          :weight 'normal
-                          :width 'normal)
-      (push '(font . "Source Code Pro-12") default-frame-alist))
-  (progn
-    (set-default-font "Source Code Pro-09")
-    (set-fontset-font "fontset-default" nil
-                      (font-spec :size 9 :name "Source Code Pro"))
-    (set-face-attribute 'default nil
-                        :family "Source Code Pro"
-                        :height 90
-                        :weight 'normal
-                        :width 'normal)
-    (push '(font . "Source Code Pro-09") default-frame-alist)))
+  (setq fontspec (concat ck-font-name "-" (number-to-string ck-font-size)))
+  (set-default-font fontspec)
+  (set-fontset-font "fontset-default" nil
+                    (font-spec :size ck-font-size :name ck-font-name))
+  (set-face-attribute 'default nil
+                      :family ck-font-name
+                      :height (* ck-font-size 10)
+                      :weight 'normal
+                      :width 'normal)
+  (add-to-list 'default-frame-alist `(font . ,fontspec))
 #+end_src
 
 *** Theme
