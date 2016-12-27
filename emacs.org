@@ -503,9 +503,7 @@ point reaches the beginning or end of the buffer, stop there."
 
             (setq projectile-indexing-method 'find
                   projectile-enable-caching t
-                  projectile-create-missing-test-files t
-                  projectile-completion-system 'helm)
-            (helm-projectile-on)))
+                  projectile-create-missing-test-files t)))
 #+end_src
 
 ** Keyboard shortcuts
@@ -1521,6 +1519,7 @@ prefix argument."
 
               (use-package helm-projectile
                 :init (progn
+                        (setq projectile-completion-system 'helm)
                         (helm-projectile-on)))))
 
 #+end_src
