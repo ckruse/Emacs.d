@@ -1073,8 +1073,8 @@ We want to be able to edit CMake files in a sane way.
 
   (use-package projectile-rails
     :commands projectile-rails-on
-    :init
-    (add-hook 'projectile-mode-hook 'projectile-rails-on))
+    :init (progn
+            (projectile-rails-global-mode)))
 
   (defun get-current-test-name ()
     (save-excursion
