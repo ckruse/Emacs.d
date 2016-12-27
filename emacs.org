@@ -368,14 +368,12 @@ Emacs should not polute my init.el
 
 #+begin_src emacs-lisp
   (custom-set-variables
-   ;'(custom-enabled-themes (quote (sanityinc-tomorrow-eighties)))
-   '(custom-enabled-themes (quote (sanityinc-tomorrow-eighties sanityinc-tomorrow-night)))
-   '(custom-safe-themes    (quote ("628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d"
-                                   "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a"
-                                   "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa"
-                                   default))))
+   '(custom-safe-themes
+     '("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e"
+       "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa"
+       default)))
 
-  (load-theme 'sanityinc-tomorrow-eighties t)
+  (load-theme 'leuven t)
 #+end_src
 
 ** Helpers
@@ -1139,7 +1137,7 @@ We want to be able to edit CMake files in a sane way.
   (use-package smart-mode-line
     :commands smart-mode-line
     :init (progn
-            ;;(setq sml/theme 'light)
+            (setq sml/theme 'light)
             (if after-init-time (sml/setup)
               (add-hook 'after-init-hook 'sml/setup)))
 

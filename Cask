@@ -17,7 +17,7 @@
 (depends-on "projectile")
 (depends-on "expand-region")
 (depends-on "org-plus-contrib")
-(depends-on "color-theme-sanityinc-tomorrow")
+(depends-on "leuven-theme")
 (depends-on "rainbow-delimiters")
 
 
