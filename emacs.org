@@ -1530,3 +1530,17 @@ prefix argument."
 (use-package puppet-mode)
 #+end_src
 
+** Reformat XML
+
+Pretty-print XML with =xmllint=
+
+#+begin_src emacs-lisp
+  (defun ck-xml-format ()
+    "Format an XML buffer with `xmllint'."
+    (interactive)
+    (shell-command-on-region (point-min) (point-max)
+                             "xmllint -format -"
+                             (current-buffer) t
+                             "*Xmllint Error Buffer*" t))
+
+#+end_src
