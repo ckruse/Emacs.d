@@ -168,6 +168,7 @@ Including font lock and directories
 
   (setq org-html-doctype "html5")
   (setq org-html-head-include-default-style nil)
+  (setq org-html-validation-link nil)
 
   ;;(setq debug-on-error t)
   (setq org-publish-project-alist
