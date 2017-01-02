@@ -30,7 +30,7 @@ Including font lock and directories
 
 #+begin_src emacs-lisp
   (setq org-directory "~/Documents/org")
-  (setq org-mobile-directory "/scp:ckruse@jugulator.defunced.de:/var/www/cloud.defunct.ch/htdocs/org")
+  (setq org-mobile-directory "/scp:ckruse@cloud.defunct.ch:/home/ckruse/org-mobile")
   (setq org-agenda-files (quote ("~/Documents/org/" "~/Documents/org/priv"
                                  "~/Documents/org/work" "~/Documents/org/foss")))
   (setq org-mobile-inbox-for-pull "~/Documents/org/inbox.org")
@@ -179,7 +179,7 @@ Including font lock and directories
         ; This uses the same target directory as the 'doc' project
         (quote (("org"
                  :base-directory "~/Documents/org/"
-                 :publishing-directory "/ssh:ckruse@jugulator.defunced.de:/var/www/cloud.defunct.ch/htdocs/todo/"
+                 :publishing-directory "/ssh:ckruse@cloud.defunct.ch:/home/ckruse/org-export/"
                  :recursive t
                  :section-numbers nil
                  :table-of-contents nil
