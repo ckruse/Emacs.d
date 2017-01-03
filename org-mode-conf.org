@@ -169,6 +169,11 @@ Including font lock and directories
   (setq org-html-doctype "html5")
   (setq org-html-head-include-default-style nil)
   (setq org-html-validation-link nil)
+  (setq org-html-link-home "https://cloud.defunct.ch/todo/")
+  (setq org-html-home/up-format "<div id=\"org-div-home-and-up\">
+ <a accesskey=\"h\" href=\"%s\">UP</a>
+ <a accesskey=\"H\" href=\"%s\">Home</a>
+</div>")
 
   ;;(setq debug-on-error t)
   (setq org-publish-project-alist
