@@ -1544,3 +1544,8 @@ Pretty-print XML with =xmllint=
                              "*Xmllint Error Buffer*" t))
 
 #+end_src
+** css-mode config
+
+#+begin_src emacs-lisp
+  (setq css-indent-offset 2)
+#+end_src
