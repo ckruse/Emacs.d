@@ -30,7 +30,7 @@ Including font lock and directories
 
 #+begin_src emacs-lisp
   (setq org-directory "~/Documents/org")
-  (setq org-mobile-directory "/scp:ckruse@cloud.defunct.ch:/home/ckruse/org-mobile")
+  (setq org-mobile-directory "~/Dropbox/Apps/MobileOrg")
   (setq org-agenda-files (quote ("~/Documents/org/" "~/Documents/org/priv"
                                  "~/Documents/org/work" "~/Documents/org/foss")))
   (setq org-mobile-inbox-for-pull "~/Documents/org/inbox.org")
