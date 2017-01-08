@@ -153,7 +153,7 @@ Including font lock and directories
   (add-hook 'org-clock-out-hook 'bh/clock-out-maybe 'append)
 #+end_src
 
-** Eport configuration
+** Export configuration
 
 #+begin_src emacs-lisp
   (setq org-alphabetical-lists t)
