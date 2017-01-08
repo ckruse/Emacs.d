@@ -36,6 +36,10 @@ Including font lock and directories
   (setq org-mobile-inbox-for-pull "~/Documents/org/inbox.org")
   (setq org-default-notes-file (concat org-directory "/inbox.org"))
 
+  (setq org-log-into-drawer t)
+
+  (setq org-agenda-start-with-follow-mode t)
+
   (add-hook 'org-mode-hook 'turn-on-font-lock)
 #+end_src
 
