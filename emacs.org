@@ -144,7 +144,7 @@
 No computer is alike!
 
 #+begin_src emacs-lisp
-  (setq ck-machine-filename (concat system-name ".el"))
+  (setq ck-machine-filename (concat (replace-regexp-in-string "\\..*" "" system-name) ".el"))
   (setq ck-machine-local-file (expand-file-name ck-machine-filename user-emacs-directory))
   (when (file-readable-p ck-machine-local-file)
     (load-file ck-machine-local-file))
