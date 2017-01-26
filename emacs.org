@@ -960,6 +960,7 @@ We want to be able to edit CMake files in a sane way.
               (setq magit-emacsclient-executable "/usr/local/bin/emacsclient")))
     :config (progn
               (add-to-list 'magit-no-confirm 'stage-all-changes)
+              (add-to-list 'magit-no-confirm 'unstage-all-changes)
               (setq magit-save-repository-buffers nil
                     magit-push-always-verify nil
                     magit-revert-buffers 1
