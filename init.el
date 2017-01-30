@@ -5,7 +5,8 @@
 ;; You may delete these explanatory comments.
 (package-initialize)
 
-(require 'cask "~/.cask/cask.el")
+(add-to-list 'load-path "~/.cask/cask.el")
+(require 'cask)
 (cask-initialize)
 
 (require 'org)
