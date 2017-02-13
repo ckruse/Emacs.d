@@ -1355,6 +1355,23 @@ prefix argument."
 (global-set-key [remap kill-line] (bol-with-prefix kill-line))
 #+end_src
 
+** Copy filename to clipboard
+
+#+begin_src emacs-lisp
+  (defun ck-put-file-name-on-clipboard ()
+    "Put the current file name on the clipboard"
+    (interactive)
+    (let ((filename (if (equal major-mode 'dired-mode)
+                        default-directory
+                      (buffer-file-name))))
+      (when filename
+        (with-temp-buffer
+          (insert filename)
+          (clipboard-kill-region (point-min) (point-max)))
+        (message filename))))
+#+end_src
+
+
 ** Launcher map for not-so-often used tools
 
    Tools I don't use that often get its own launcher map so I remember
@@ -1373,7 +1390,8 @@ prefix argument."
       ("s" eshell-here "eshell")
       ("t" proced "proced")
       ("a" magit-status "magit-status")
-      ("p" sql-postgres "sql-postgres")))
+      ("p" sql-postgres "sql-postgres")
+      ("." ck-put-file-name-on-clipboard "copy filename to clipboard")))
 #+end_src
 
 ** =eshell= modifications
