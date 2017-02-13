@@ -71,7 +71,6 @@
 
 (depends-on "rust-mode")
 (depends-on "gist")
-(depends-on "key-chord")
 (depends-on "htmlize")
 
 (depends-on "helm")

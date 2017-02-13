@@ -741,71 +741,6 @@ similiar to the autocompletion provided by XCode.
       (add-hook 'after-init-hook 'global-company-mode)))
 #+end_src
 
-** key-chord
-
-#+begin_src emacs-lisp
-  (use-package key-chord
-   :init
-   (key-chord-mode 1)
-   (key-chord-define-global "uu" 'undo)
-   (key-chord-define-global "yy" 'ace-window)
-   (key-chord-define-global "jl" 'ace-jump-word-mode)
-   (key-chord-define-global "jl" 'ace-jump-line-mode))
-
-#+end_src
-
-** PostgreSQL
-
-PostgreSQL has its own, very specific indentation settings. We have to
-respect that.
-
-#+begin_src emacs-lisp
-(c-add-style "postgresql"
-             '("bsd"
-               (c-auto-align-backslashes . nil)
-               (c-basic-offset . 4)
-               (c-offsets-alist . ((case-label . +)
-                                   (label . -)
-                                   (statement-case-open . +)))
-               (fill-column . 78)
-               (indent-tabs-mode . t)
-               (tab-width . 4)))
-
-;; perl files
-
-(defun pgsql-perl-style ()
-  "Perl style adjusted for PostgreSQL project"
-  (interactive)
-  (setq perl-brace-imaginary-offset 0)
-  (setq perl-brace-offset 0)
-  (setq perl-continued-brace-offset 4)
-  (setq perl-continued-statement-offset 4)
-  (setq perl-indent-level 4)
-  (setq perl-label-offset -2)
-  (setq tab-width 4))
-
-(add-hook 'perl-mode-hook
-          (defun postgresql-perl-mode-hook ()
-            (when (string-match "/postgres\\(ql\\)?/" buffer-file-name)
-              (pgsql-perl-style))))
-
-;; doc files
-
-(add-hook 'sgml-mode-hook
-          (defun postgresql-sgml-mode-hook ()
-            (when (and buffer-file-name (string-match "/postgres\\(ql\\)?/" buffer-file-name))
-              (setq fill-column 78)
-              (setq indent-tabs-mode nil)
-              (setq sgml-basic-offset 1))))
-
-
-;;; Makefiles
-
-;; use GNU make mode instead of plain make mode
-(add-to-list 'auto-mode-alist '("/postgres\\(ql\\)?/.*Makefile.*" . makefile-gmake-mode))
-(add-to-list 'auto-mode-alist '("/postgres\\(ql\\)?/.*\\.mk\\'" . makefile-gmake-mode))
-#+end_src
-
 ** C/C++ modifications
 
 Just indentation in a sane way.
@@ -965,7 +900,6 @@ We want to be able to edit CMake files in a sane way.
                     magit-last-seen-setup-instructions "2.1.0")))
 #+end_src
 
-
 ** markdown support
 
    Editing markdown in fundamental or text-mode sucks.
@@ -1075,31 +1009,6 @@ We want to be able to edit CMake files in a sane way.
     :commands projectile-rails-on
     :init (progn
             (projectile-rails-global-mode)))
-
-  (defun get-current-test-name ()
-    (save-excursion
-      (let ((pos)
-            (test-name))
-        (re-search-backward "test \"\\([^\"]+\\)\" do")
-        (setq test-name (buffer-substring-no-properties (match-beginning 1) (match-end 1)))
-        (concat "test_" (replace-regexp-in-string " " "_" test-name)))))
-
-
-  (defun run-test-at-point ()
-    (interactive)
-    (let ((root-dir (projectile-project-root)))
-      (compile (format "ruby -Ilib:test -I%s/test %s -n %s" root-dir (expand-file-name (buffer-file-name)) (get-current-test-name)))))
-
-  (defun run-test-file ()
-    (interactive)
-    (let ((root-dir (projectile-project-root))
-          (filename (expand-file-name (buffer-file-name))))
-      (setq filename (replace-regexp-in-string root-dir "" filename))
-      (compile (format "rake test %s" filename))))
-
-  (defun run-test-suite ()
-    (interactive)
-    (compile "rake test"))
 #+end_src
 
 ** rainbow-delimiters
@@ -1324,37 +1233,6 @@ When using OS X, the =ls= doesn't support =--dired=
   (setq dired-use-ls-dired nil))
 #+end_src
 
-** Kill line with universal prefix
-
-   This macro provides the following functionality:
-   - when pressing C-k I get the original C-k behavior
-   - when pressing C-<n> C-k (where n is a numeric prefix) I kill the complete current + (n-1) lines
-
-   The idea is shamelessly stolen from [[http://endlessparentheses.com/kill-entire-line-with-prefix-argument.html][Endless Parenthesis]]
-
-#+begin_src emacs-lisp
-(defmacro bol-with-prefix (function)
-  "Define a new function which calls FUNCTION.
-Except it moves to beginning of line before calling FUNCTION when
-called with a prefix argument. The FUNCTION still receives the
-prefix argument."
-  (let ((name (intern (format "endless/%s-BOL" function))))
-    `(progn
-       (defun ,name (p)
-         ,(format 
-           "Call `%s', but move to BOL when called with a prefix argument."
-           function)
-         (interactive "P")
-         (when p
-           (forward-line 0))
-         (call-interactively ',function))
-       ',name)))
-
-(global-set-key [remap paredit-kill] (bol-with-prefix paredit-kill))
-(global-set-key [remap org-kill-line] (bol-with-prefix org-kill-line))
-(global-set-key [remap kill-line] (bol-with-prefix kill-line))
-#+end_src
-
 ** Copy filename to clipboard
 
 #+begin_src emacs-lisp
@@ -1370,7 +1248,6 @@ prefix argument."
           (clipboard-kill-region (point-min) (point-max)))
         (message filename))))
 #+end_src
-
 
 ** Launcher map for not-so-often used tools
 
