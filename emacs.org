@@ -1037,6 +1037,7 @@ We want to be able to edit CMake files in a sane way.
                                           ;ruby-deep-arglist nil
                                           ;ruby-deep-indent-paren nil
                                               ruby-insert-encoding-magic-comment nil)))
+            (add-hook 'ruby-mode-hook #'rubocop-mode)
 
             (add-to-list 'auto-mode-alist '("\\.rb$" . ruby-mode))
             (add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
