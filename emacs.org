@@ -777,7 +777,7 @@ We want to be able to edit CMake files in a sane way.
             (add-to-list 'auto-mode-alist '("CMakeLists.txt" . cmake-mode))))
 #+end_src
 
-** Elang support
+** Erlang support
 
 #+begin_src emacs-lisp
   (defun erl-get-lib-path (path)
