@@ -73,8 +73,8 @@
 (depends-on "gist")
 (depends-on "htmlize")
 
-(depends-on "helm")
-(depends-on "helm-projectile")
-
+(depends-on "counsel")
+(depends-on "flx")
+(depends-on "counsel-projectile")
 
 ;; eof
