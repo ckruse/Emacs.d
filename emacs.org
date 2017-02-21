@@ -1417,6 +1417,8 @@ Pretty-print XML with =xmllint=
               (setq magit-completing-read-function 'ivy-completing-read)
               (setq projectile-completion-system 'ivy)
 
+              (setq ivy-wrap t)
+
               (setq ivy-re-builders-alist
                     '((read-file-name-internal . ivy--regex-fuzzy)
                       (projectile-find-file . ivy--regex-fuzzy)
