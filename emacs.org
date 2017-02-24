@@ -1248,6 +1248,19 @@ When using OS X, the =ls= doesn't support =--dired=
           (insert filename)
           (clipboard-kill-region (point-min) (point-max)))
         (message filename))))
+
+  (defun ck-put-file-name-wo-path-on-clipboard ()
+    "Put the current file name on the clipboard"
+    (interactive)
+    (let ((filename (if (equal major-mode 'dired-mode)
+                        default-directory
+                      (buffer-file-name))))
+      (when filename
+        (setq filename (file-name-nondirectory filename))
+        (with-temp-buffer
+          (insert filename)
+          (clipboard-kill-region (point-min) (point-max)))
+        (message filename))))
 #+end_src
 
 ** Launcher map for not-so-often used tools
@@ -1269,7 +1282,8 @@ When using OS X, the =ls= doesn't support =--dired=
       ("t" proced "proced")
       ("a" magit-status "magit-status")
       ("p" sql-postgres "sql-postgres")
-      ("." ck-put-file-name-on-clipboard "copy filename to clipboard")))
+      ("." ck-put-file-name-wo-path-on-clipboard "copy filename to clipboard")
+      (":" ck-put-file-name-on-clipboard "copy filename with full path to clipboard")))
 #+end_src
 
 ** =eshell= modifications
