@@ -988,13 +988,12 @@ We want to be able to edit CMake files in a sane way.
             (define-key ck/keys-minor-mode-map "\C-ccr"
                 (defhydra tests (:color red)
                   "Ruby"
-                  ("h" ruby-toggle-hash-syntax "Toggle ruby Hash syntax")
-                  ("r" inf-ruby "Toggle ruby Hash syntax")))))
+                  ("h" ruby-toggle-hash-syntax "Toggle ruby Hash syntax")))))
 #+end_src
 
 ** Rails integration
 
-   We use RVM (and thus =rvm-mode=) and =projectile-rails=.
+   We use RVM (and thus =rvm-mode=).
 
 #+begin_src emacs-lisp
   (use-package rvm
@@ -1005,11 +1004,6 @@ We want to be able to edit CMake files in a sane way.
                                         (interactive)
                                         (when (not rvm--current-ruby)
                                           (rvm-use-default))))))
-
-  (use-package projectile-rails
-    :commands projectile-rails-on
-    :init (progn
-            (projectile-rails-global-mode)))
 #+end_src
 
 ** rainbow-delimiters
