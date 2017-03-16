@@ -75,4 +75,6 @@
 (depends-on "flx")
 (depends-on "counsel-projectile")
 
+(depends-on "po-mode")
+
 ;; eof
