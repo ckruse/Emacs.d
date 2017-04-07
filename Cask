@@ -34,7 +34,6 @@
 (depends-on "web-mode")
 (depends-on "markdown-mode")
 (depends-on "lua-mode")
-(depends-on "coffee-mode")
 (depends-on "swift-mode")
 (depends-on "js2-mode")
 
