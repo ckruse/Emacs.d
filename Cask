@@ -70,10 +70,11 @@
 (depends-on "gist")
 (depends-on "htmlize")
 
-(depends-on "counsel")
-(depends-on "flx")
-(depends-on "counsel-projectile")
+(depends-on "helm")
+(depends-on "helm-projectile")
 
 (depends-on "po-mode")
+
+(depends-on "flycheck-dogma")
 
 ;; eof

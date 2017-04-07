@@ -386,7 +386,7 @@ Emacs should not polute my init.el
 root-privileges (using tramp/sudo), if the file is not writable by
 user."
   (interactive)
-  (let ((file (read-file-name "Edit as root: ")))
+  (let ((file (helm-read-file-name "Edit as root: ")))
     (unless (file-writable-p file)
       (setq file (concat "/sudo:root@localhost:" file)))
     (find-file file)))
@@ -1045,7 +1045,7 @@ We want to be able to edit CMake files in a sane way.
 
     :config (progn
               (custom-set-variables
-               '(sml/hidden-modes (quote (" hl-p" " ivy" " RuboCop" " ck/keys" " pair" " HRB" " AC" " GitGutter" " FlyC" " FlyC-" " MMM" " Rails" " yas" " SP" " WS" " MRev" " ARev" " company"))))
+               '(sml/hidden-modes (quote (" hl-p" " Helm" " RuboCop" " ck/keys" " pair" " HRB" " AC" " GitGutter" " FlyC" " FlyC-" " MMM" " Rails" " yas" " SP" " WS" " MRev" " ARev" " company"))))
 
               (add-to-list 'sml/replacer-regexp-list '("^~/[Ss]ites/" ":WEB:"))
               (add-to-list 'sml/replacer-regexp-list '("^~/dev/" ":DEV:"))
@@ -1387,6 +1387,52 @@ When using OS X, the =ls= doesn't support =--dired=
     :commands elixir-mode)
 #+end_src
 
+** helm
+
+#+begin_src emacs-lisp
+  (use-package helm-config
+    :config (progn
+              (setq helm-split-window-in-side-p t
+                    helm-move-to-line-cycle-in-source t
+                    helm-ff-search-library-in-sexp t
+                    helm-scroll-amount 8
+                    helm-mode-fuzzy-match t
+                    helm-buffers-fuzzy-matching t)
+
+              (setq helm-autoresize-max-height 30
+                    helm-autoresize-min-height 30)
+
+              (helm-mode 1)
+
+              (setq helm-completing-read-handlers-alist '((describe-function . helm-completing-read-symbols)
+                                                          (describe-variable . helm-completing-read-symbols)
+                                                          (describe-symbol . helm-completing-read-symbols)
+                                                          (debug-on-entry . helm-completing-read-symbols)
+                                                          (find-function . helm-completing-read-symbols)
+                                                          (disassemble . helm-completing-read-symbols)
+                                                          (trace-function . helm-completing-read-symbols)
+                                                          (trace-function-foreground . helm-completing-read-symbols)
+                                                          (trace-function-background . helm-completing-read-symbols)
+                                                          (find-tag . helm-completing-read-with-cands-in-buffer)
+                                                          (ffap-alternate-file)
+                                                          (tmm-menubar)))
+
+              (helm-autoresize-mode t)
+
+              (global-set-key (kbd "M-y") 'helm-show-kill-ring)
+              (global-set-key (kbd "C-x b") 'helm-mini)
+
+              (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+              (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action)
+              (define-key helm-map (kbd "C-z") 'helm-select-action)
+
+              (use-package helm-projectile
+                :init (progn
+                        (setq projectile-completion-system 'helm)
+                        (helm-projectile-on)))))
+
+#+end_src
+
 ** puppet
 
 #+begin_src emacs-lisp
@@ -1411,27 +1457,6 @@ Pretty-print XML with =xmllint=
 
 #+begin_src emacs-lisp
   (setq css-indent-offset 2)
-#+end_src
-** counsel/ivy
-
-#+begin_src emacs-lisp
-  (use-package ivy
-    :config (progn
-              (ivy-mode 1)
-
-              ;;(setq ivy-use-virtual-buffers t)
-              ;;(setq ivy-virtual-abbreviate 'full)
-
-              (setq magit-completing-read-function 'ivy-completing-read)
-              (setq projectile-completion-system 'ivy)
-
-              (setq ivy-wrap t)
-
-              (setq ivy-re-builders-alist
-                    '((read-file-name-internal . ivy--regex-fuzzy)
-                      (projectile-find-file . ivy--regex-fuzzy)
-                      (execute-extended-command . ivy--regex-fuzzy)
-                      (t . ivy--regex-plus)))))
 #+end_src
 
 ** move lines/region up/down
