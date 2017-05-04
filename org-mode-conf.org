@@ -584,6 +584,21 @@ idle for 2 minutes
   ;; (run-with-idle-timer 60 t 'jump-to-org-agenda)
 #+end_src
 
+** list all org tags
+
+#+begin_src emacs-lisp
+  (defun ck/org-tags ()
+    (interactive)
+    (get-buffer-create "*org-tags*")
+    (set-buffer "*org-tags*")
+    (org-mode)
+    (let ((tags (sort (delete-dups (apply 'append (delete-dups (org-map-entries (lambda () org-scanner-tags) t 'agenda)))) 'string<)))
+      (dolist (tag tags)
+        (insert (concat "[[elisp:(org-tags-view nil \"" tag "\")][" tag  "]]\n"))))
+    (beginning-of-buffer)
+    (switch-to-buffer "*org-tags*"))
+#+end_src
+
 ** A hydra for global key bindings regarding org
 
 #+begin_src emacs-lisp
@@ -601,6 +616,7 @@ idle for 2 minutes
 
       ("g" org-clock-goto "Goto clock")
       ("I" org-clock-in "Clock in")
-      ("p" org-publish-all "Publish")))
+      ("p" org-publish-all "Publish")
+      ("t" ck/org-tags "list tags")))
 
 #+end_src
