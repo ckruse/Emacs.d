@@ -94,8 +94,6 @@ Including font lock and directories
                  "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
                 ("c" "Phone call" entry (file+headline "~/Documents/org/inbox.org" "Inbox")
                  "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
-                ("b" "Bookmark" entry (file+headline "~/Documents/org/bookmarks.org" "Inbox")
-                 "* %?")
                 ("p" "password" entry (file "~/Documents/org/passwords.gpg")
                  "* %^{Title}\n  %^{URL}p %^{USERNAME}p %^{PASSWORD}p"))))
 #+end_src
