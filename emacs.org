@@ -1498,3 +1498,14 @@ Pretty-print XML with =xmllint=
   (define-key ck/keys-minor-mode-map [\M-up] 'move-text-up)
   (define-key ck/keys-minor-mode-map [\M-down] 'move-text-down)
 #+end_src
+** TouchBar shortcuts
+
+#+begin_src emacs-lisp
+  (when (ck/is-osx)
+    (define-key ck/keys-minor-mode-map [f1] 'org-capture)
+    (define-key ck/keys-minor-mode-map [f2] (lambda ()
+                                              (interactive)
+                                              (find-file "~/Documents/org/inbox.org")))
+    (define-key ck/keys-minor-mode-map [f3] 'magit-status)
+    (define-key ck/keys-minor-mode-map [f5] 'er/expand-region))
+#+end_src
