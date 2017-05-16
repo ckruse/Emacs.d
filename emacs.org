@@ -997,13 +997,12 @@ We want to be able to edit CMake files in a sane way.
 
 #+begin_src emacs-lisp
   (use-package rvm
-    :commands rvm-use-default
+    :commands (rvm-use-default)
+    :defer 2
     :init (progn
             (setq rvm--current-ruby nil)
-            (add-hook 'ruby-mode-hook (lambda ()
-                                        (interactive)
-                                        (when (not rvm--current-ruby)
-                                          (rvm-use-default))))))
+            (when (not rvm--current-ruby)
+              (rvm-use-default))))
 #+end_src
 
 ** rainbow-delimiters
