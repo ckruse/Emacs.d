@@ -24,3 +24,5 @@ tramp
 /bbdb
 /request/
 /org-mode-conf.el
+/.last-package-update-day
+/network-security.data
