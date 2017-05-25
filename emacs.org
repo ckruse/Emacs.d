@@ -1031,6 +1031,17 @@ We want to be able to edit CMake files in a sane way.
               (rvm-use-default))))
 #+end_src
 
+  =rspec-mode= for some nice RSpec integration
+
+#+begin_src emacs-lisp
+  (use-package rspec-mode
+    :ensure t
+    :pin melpa-stable
+    :commands rspec-mode
+    :init (add-hook 'ruby-mode-hook #'rspec-mode)
+    :config (rspec-install-snippets))
+#+end_src
+
 ** Rust support
 
 #+begin_src emacs-lisp
