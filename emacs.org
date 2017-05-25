@@ -991,6 +991,7 @@ We want to be able to edit CMake files in a sane way.
             (use-package rubocop
               :pin melpa-stable
               :ensure t
+              :commands rubocop-mode
               :init
               (add-hook 'ruby-mode-hook #'rubocop-mode))
 
