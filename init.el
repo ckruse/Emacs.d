@@ -7,7 +7,7 @@
 
 (package-initialize)
 
-(unless (package-installed-p 'use-package)
+(unless (package-installed-p 'org-plus-contrib)
   (package-refresh-contents)
   (package-install 'org-plus-contrib))
 
