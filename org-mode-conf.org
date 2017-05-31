@@ -4,24 +4,6 @@
 
 * Org mode configuration
 
-** Load dependencies
-
-#+begin_src emacs-lisp
-  (use-package org
-      :ensure org-plus-contrib
-      :defer t
-      :commands org-mode
-      :config (progn
-                (require 'org-loaddefs)
-                (require 'org-agenda)
-                (require 'org-protocol)
-
-                ;; Explicitly load required exporters
-                (require 'ox-html)
-                (require 'ox-latex)
-                (require 'ox-ascii)))
-#+end_src
-
 
 ** Enable org-mode for =.org= and =.org_archive= files
 
