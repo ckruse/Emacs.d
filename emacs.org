@@ -1074,6 +1074,7 @@ We want to be able to edit CMake files in a sane way.
 
               (add-to-list 'sml/replacer-regexp-list '("^~/[Ss]ites/" ":WEB:"))
               (add-to-list 'sml/replacer-regexp-list '("^~/dev/" ":DEV:"))
+              (add-to-list 'sml/replacer-regexp-list '("^~/dev/termitel/" ":TERM:"))
               (add-to-list 'sml/replacer-regexp-list '("^~/dev/postgres/" ":PG:"))
               (add-to-list 'sml/replacer-regexp-list '("^~/Documents/" ":DOC:"))))
 #+end_src
