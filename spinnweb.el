@@ -1,2 +1,2 @@
-(setq ck-font-size 12)
+(setq ck-font-size 14)
 (setq ns-right-option-modifier nil)
