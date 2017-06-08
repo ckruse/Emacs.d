@@ -694,9 +694,10 @@ contents like CSS, JS and HTML in one file).
     (progn
       (defun ck/web-mode-hook ()
         "Hooks for Web mode."
-        (setq web-mode-markup-indent-offset 2)
-        (setq web-mode-css-indent-offset 2)
-        (setq web-mode-code-indent-offset 2))
+        (setq web-mode-markup-indent-offset 2
+              web-mode-css-indent-offset 2
+              web-mode-code-indent-offset 2
+              web-mode-enable-auto-indentation nil))
       (add-hook 'web-mode-hook 'ck/web-mode-hook)
       (custom-set-variables
        '(web-mode-disable-auto-pairing t)
