@@ -484,6 +484,7 @@ point reaches the beginning or end of the buffer, stop there."
   (use-package projectile
     :ensure t
     :pin melpa-stable
+    :defer 0
     :init (progn
             (projectile-global-mode)
 
@@ -574,6 +575,7 @@ key again. I instantly fell in love with it.
   (use-package smartparens-config
     :ensure smartparens
     :pin melpa-stable
+    :defer 0
     :init (progn
             (smartparens-global-mode)
             (show-smartparens-global-mode t)))
@@ -592,6 +594,7 @@ the most prominent info:
 
 #+begin_src emacs-lisp
   (use-package uniquify
+    :defer 0
     :init
     (setq uniquify-buffer-name-style 'post-forward uniquify-separator ":"))
 #+end_src
@@ -664,6 +667,7 @@ triggered snippets.
   (use-package yasnippet
     :ensure t
     :pin melpa-stable
+    :defer 0
     :init
     (yas-global-mode 1))
 #+end_src
@@ -715,6 +719,7 @@ similiar to the autocompletion provided by XCode.
   (use-package company-mode
     :ensure company
     :pin melpa-stable
+    :defer 0
     :commands global-comany-mode
     :init (progn
             (setq company-tooltip-limit 20
@@ -1024,7 +1029,7 @@ We want to be able to edit CMake files in a sane way.
     :ensure t
     :pin melpa-stable
     :commands rvm-use-default
-    :defer 2
+    :defer 0
     :init (progn
             (setq rvm--current-ruby nil)
             (when (not rvm--current-ruby)
@@ -1225,6 +1230,7 @@ We want to be able to edit CMake files in a sane way.
 
 #+begin_src emacs-lisp
   (use-package whitespace
+    :defer 0
     :init (progn
             (setq whitespace-global-modes '(c-mode c++-mode ruby-mode web-mode php-mode js2-mode css-mode scss-mode))
             (global-whitespace-mode t)
@@ -1436,6 +1442,7 @@ When using OS X, the =ls= doesn't support =--dired=
   (use-package helm-config
     :ensure helm
     :pin melpa-stable
+    :defer 0
     :config (progn
               (setq helm-split-window-in-side-p t
                     helm-move-to-line-cycle-in-source t
