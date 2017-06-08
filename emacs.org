@@ -542,15 +542,7 @@ key again. I instantly fell in love with it.
 #+begin_src emacs-lisp
   (use-package hydra
     :ensure t
-    :pin melpa-stable
-    :init (progn
-            ;; testing hydra; keybindings for testing from within emacs
-            (define-key ck/keys-minor-mode-map "\C-cct"
-              (defhydra tests (:color blue)
-                "testing"
-                ("p" run-test-at-point "run test at point")
-                ("f" run-test-file "run test file")
-                ("s" run-test-suite "run test suite")))))
+    :pin melpa-stable)
 #+end_src
 
 ** Shortcuts for opening often used files
