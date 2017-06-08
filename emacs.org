@@ -718,10 +718,10 @@ similiar to the autocompletion provided by XCode.
     :init (progn
             (setq company-tooltip-limit 20
                   company-tooltip-align-annotations 't
-                  company-idle-delay .3
+                  company-idle-delay .2
+                  company-minimum-prefix-length 2
                   company-begin-commands '(self-insert-command))
-
-            (add-hook 'after-init-hook 'global-company-mode))
+            (global-company-mode))
     :config (progn
               (use-package company-web-html
                 :ensure company-web
