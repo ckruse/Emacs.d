@@ -674,7 +674,6 @@ contents like CSS, JS and HTML in one file).
 #+begin_src emacs-lisp
   (use-package web-mode
     :ensure t
-    :pin melpa-stable
     :commands web-mode
 
     :init
@@ -1061,7 +1060,7 @@ We want to be able to edit CMake files in a sane way.
   (use-package smart-mode-line
     :ensure t
     :pin melpa-stable
-    :commands smart-mode-line
+    :commands smart-mode-line sml/setup
     :init (progn
             (setq sml/theme 'light)
             (if after-init-time (sml/setup)
