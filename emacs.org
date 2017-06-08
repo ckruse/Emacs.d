@@ -298,7 +298,8 @@ I don't like to have to hit =tab= on every newline, so we enable
 electric indentation.
 
 #+begin_src emacs-lisp
-(electric-indent-mode t)
+  ;(electric-indent-mode t)
+  (global-set-key (kbd "RET") 'newline-and-indent)
 #+end_src
 
 *** Highlight current line
