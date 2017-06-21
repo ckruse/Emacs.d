@@ -1057,12 +1057,14 @@ We want to be able to edit CMake files in a sane way.
    Unclutters my mode line (e.g. hides minor modes).
 
 #+begin_src emacs-lisp
+  (use-package smart-mode-line-powerline-theme
+    :ensure t)
   (use-package smart-mode-line
     :ensure t
     :pin melpa-stable
     :commands smart-mode-line sml/setup
     :init (progn
-            (setq sml/theme 'light)
+            (setq sml/theme 'light-powerline)
             (if after-init-time (sml/setup)
               (add-hook 'after-init-hook 'sml/setup)))
 
