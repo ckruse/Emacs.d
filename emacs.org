@@ -387,7 +387,8 @@ Emacs should not polute my init.el
 #+begin_src emacs-lisp
   (custom-set-variables
    '(custom-safe-themes
-     '("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e"
+     '("b9e9ba5aeedcc5ba8be99f1cc9301f6679912910ff92fdf7980929c2fc83ab4d"
+       "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e"
        "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa"
        default)))
 
