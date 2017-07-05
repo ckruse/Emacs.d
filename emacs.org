@@ -57,6 +57,7 @@
   (use-package auto-package-update
     :ensure t
     :pin melpa-stable
+    :defer 0
     :config
     (setq auto-package-update-delete-old-versions t
           auto-package-update-interval 7)
@@ -721,23 +722,24 @@ similiar to the autocompletion provided by XCode.
                   company-idle-delay .2
                   company-minimum-prefix-length 2
                   company-begin-commands '(self-insert-command))
-            (global-company-mode))
-    :config (progn
-              (use-package company-web-html
-                :ensure company-web
-                :pin melpa-stable
-                :commands company-web-html
-                :init (progn
-                        (add-hook 'web-mode-hook (lambda ()
-                                                   (set (make-local-variable 'company-backends) '(company-web-html))
-                                                   (company-mode t)))))
+            (global-company-mode)))
 
-              (use-package company-ansible
-                :ensure t
-                :pin melpa-stable
-                :commands company-ansible
-                :init (add-to-list 'company-backends 'company-ansible))))
+  (use-package company-web-html
+    :ensure company-web
+    :pin melpa-stable
+    :commands company-web-html
+    :after company-mode
+    :init (progn
+            (add-hook 'web-mode-hook (lambda ()
+                                       (set (make-local-variable 'company-backends) '(company-web-html))
+                                       (company-mode t)))))
 
+  (use-package company-ansible
+    :ensure t
+    :pin melpa-stable
+    :commands company-ansible
+    :after company-mode
+    :init (add-to-list 'company-backends 'company-ansible))
 #+end_src
 
 ** C/C++ modifications
@@ -987,13 +989,6 @@ We want to be able to edit CMake files in a sane way.
                                           ;ruby-deep-indent-paren nil
                                               ruby-insert-encoding-magic-comment nil)))
 
-            (use-package rubocop
-              :pin melpa-stable
-              :ensure t
-              :commands rubocop-mode
-              :init
-              (add-hook 'ruby-mode-hook #'rubocop-mode))
-
             (add-to-list 'auto-mode-alist '("\\.rb$" . ruby-mode))
             (add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
             (add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
@@ -1001,17 +996,27 @@ We want to be able to edit CMake files in a sane way.
             (add-to-list 'auto-mode-alist '("\\.ru$" . ruby-mode))
             (add-to-list 'auto-mode-alist '("Gemfile$" . ruby-mode))
             (add-to-list 'auto-mode-alist '("\\.prawn$" . ruby-mode))
-            (add-to-list 'auto-mode-alist '("\\.xlsx\\.axlsx$" . ruby-mode))
+            (add-to-list 'auto-mode-alist '("\\.xlsx\\.axlsx$" . ruby-mode))))
 
-            (use-package ruby-hash-syntax
-              :commands ruby-toggle-hash-syntax
-              :ensure t
-              :pin melpa-stable)
+  (use-package rubocop
+    :pin melpa-stable
+    :ensure t
+    :commands rubocop-mode
+    :after ruby-mode
+    :init
+    (add-hook 'ruby-mode-hook #'rubocop-mode))
 
-            (define-key ck/keys-minor-mode-map "\C-ccr"
-                (defhydra tests (:color red)
-                  "Ruby"
-                  ("h" ruby-toggle-hash-syntax "Toggle ruby Hash syntax")))))
+
+  (use-package ruby-hash-syntax
+    :commands ruby-toggle-hash-syntax
+    :ensure t
+    :pin melpa-stable
+    :after ruby-mode)
+
+  (define-key ck/keys-minor-mode-map "\C-ccr"
+    (defhydra tests (:color red)
+      "Ruby"
+      ("h" ruby-toggle-hash-syntax "Toggle ruby Hash syntax")))
 #+end_src
 
 ** Rails integration
@@ -1392,6 +1397,7 @@ When using OS X, the =ls= doesn't support =--dired=
   (use-package mmm-mode
     :ensure t
     :pin melpa-stable
+    :defer 0
     :config (progn
               (setq mmm-global-mode 'maybe)
               (set-face-background 'mmm-default-submode-face nil)
@@ -1472,15 +1478,15 @@ When using OS X, the =ls= doesn't support =--dired=
 
               (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
               (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action)
-              (define-key helm-map (kbd "C-z") 'helm-select-action)
+              (define-key helm-map (kbd "C-z") 'helm-select-action)))
 
-              (use-package helm-projectile
-                :ensure t
-                :pin melpa-stable
-                :init (progn
-                        (setq projectile-completion-system 'helm)
-                        (helm-projectile-on)))))
-
+  (use-package helm-projectile
+    :ensure t
+    :after helm
+    :pin melpa-stable
+    :init (progn
+            (setq projectile-completion-system 'helm)
+            (helm-projectile-on)))
 #+end_src
 
 ** Reformat XML
