@@ -21,7 +21,8 @@ Including font lock and directories
   (setq org-agenda-files (quote ("~/Documents/org/inbox.org"
                                  "~/Documents/org/foss-projects.org"
                                  "~/Documents/org/priv/todo.org"
-                                 "~/Documents/org/work/termitel.org")))
+                                 "~/Documents/org/work/termitel.org"
+                                 "~/Documents/org/work/termitel-someday.org")))
   (setq org-mobile-inbox-for-pull "~/Documents/org/inbox.org")
   (setq org-default-notes-file (concat org-directory "/inbox.org"))
 
@@ -200,7 +201,7 @@ Including font lock and directories
 #+begin_src emacs-lisp
   (setq org-refile-targets (quote ((nil :maxlevel . 2)
                                    (org-agenda-files :maxlevel . 2))))
-  (setq org-refile-use-outline-path t)
+  (setq org-refile-use-outline-path 'file)
   (setq org-outline-path-complete-in-steps nil)
   (setq org-refile-allow-creating-parent-nodes (quote confirm))
   ;(setq org-completion-use-ido t)
@@ -590,12 +591,16 @@ idle for 2 minutes
 
 #+begin_src emacs-lisp
   (setq org-agenda-custom-commands
-        '(("w" "Work todos" tags-todo ":work:termitel:"
-           ((org-agenda-overriding-header "Work todos")))
-          ("f" "FLOSS" tags-todo ":private:foss:"
+        '(("f" "FLOSS" tags-todo ":private:foss:"
            ((org-agenda-overriding-header "FLOSS")))
           ("t" "Priv-TODOs" tags-todo ":private:todo:"
-           ((org-agenda-overriding-header "Priv-TODOs")))))
+           ((org-agenda-overriding-header "Priv-TODOs")))
+          ("w" "Work todos" tags-todo "+work+termitel-someday-ettlingen"
+           ((org-agenda-overriding-header "Work todos")))
+          ("s" "Work todos: someday" tags-todo "+work+termitel+someday-ettlingen"
+           ((org-agenda-overriding-header "Work todos: someday")))
+          ("e" "Work todos: Ettlingen" tags-todo "+work+termitel+ettlingen"
+           ((org-agenda-overriding-header "Work todos: Ettlingen")))))
 
 #+end_src
 
