@@ -1432,9 +1432,12 @@ When using OS X, the =ls= doesn't support =--dired=
 ** elixir-mode
 
 #+begin_src emacs-lisp
-  (use-package elixir-mode
+  ;; (use-package elixir-mode
+  ;;   :load-path "~/dev/emacs-elixir/"
+  ;;   :commands elixir-mode)
+
+  (use-package alchemist
     :ensure t
-    :pin melpa-stable
     :commands elixir-mode)
 #+end_src
 
