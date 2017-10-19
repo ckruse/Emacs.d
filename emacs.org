@@ -1233,7 +1233,7 @@ We want to be able to edit CMake files in a sane way.
   (use-package whitespace
     :defer 0
     :init (progn
-            (setq whitespace-global-modes '(c-mode c++-mode ruby-mode web-mode php-mode js2-mode css-mode scss-mode))
+            (setq whitespace-global-modes '(c-mode c++-mode ruby-mode web-mode php-mode js2-mode css-mode scss-mode elixir-mode))
             (global-whitespace-mode t)
             (setq show-trailing-whitespace t)
             (setq whitespace-style '(face trailing))))
@@ -1432,13 +1432,16 @@ When using OS X, the =ls= doesn't support =--dired=
 ** elixir-mode
 
 #+begin_src emacs-lisp
-  ;; (use-package elixir-mode
-  ;;   :load-path "~/dev/emacs-elixir/"
-  ;;   :commands elixir-mode)
+  (use-package elixir-mode
+    :ensure t
+    :commands elixir-mode)
 
   (use-package alchemist
     :ensure t
-    :commands elixir-mode)
+    :commands alchemist-mode
+    :after elixir-mode
+    :init (progn
+            (add-hook 'elixir-mode-hook 'alchemist-mode)))
 #+end_src
 
 ** helm
