@@ -1448,7 +1448,16 @@ When using OS X, the =ls= doesn't support =--dired=
 #+begin_src emacs-lisp
   (use-package elixir-mode
     :ensure t
-    :commands elixir-mode)
+    :commands elixir-mode
+    :init
+    (use-package mix-format
+      :commands mix-format mix-format-before-save
+      :load-path "~/dev/mix-format.el/"
+      :init
+      (setq mixfmt-elixir (expand-file-name "~/elixir-master/bin/elixir")
+            mixfmt-mix (expand-file-name "~/elixir-master/bin/mix")))
+
+    (add-hook 'before-save-hook 'mix-format-before-save))
 
   (use-package alchemist
     :ensure t
