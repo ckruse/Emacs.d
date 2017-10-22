@@ -1465,8 +1465,7 @@ When using OS X, the =ls= doesn't support =--dired=
     :commands alchemist-mode
     :after elixir-mode
     :init (progn
-            (add-hook 'elixir-mode-hook 'alchemist-mode))
-    :config (setq alchemist-hooks-compile-on-save t))
+            (add-hook 'elixir-mode-hook 'alchemist-mode)))
 #+end_src
 
 ** helm
