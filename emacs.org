@@ -130,6 +130,7 @@
 (setq-default auto-save-default nil)
 (setq auto-save-list-file-prefix nil)
 (setq-default auto-save-list-file-prefix nil)
+(setq create-lockfiles nil)
 #+end_src
 
 *** OS X specific modifications
