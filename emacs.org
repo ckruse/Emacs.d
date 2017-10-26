@@ -1599,3 +1599,13 @@ Pretty-print XML with =xmllint=
     :commands po-mode
     :init (add-to-list 'auto-mode-alist '("\\.po\\'" . po-mode)))
 #+end_src
+** prettier integration
+
+#+begin_src emacs-lisp
+  (use-package prettier-js
+    :commands prettier-js-mode prettier-js
+    :init
+    (add-hook 'js2-mode-hook 'prettier-js-mode)
+    (add-hook 'css-mode-hook 'prettier-js-mode)
+    (add-hook 'scss-mode-hook 'prettier-js-mode))
+#+end_src
