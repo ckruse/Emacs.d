@@ -1609,3 +1609,20 @@ Pretty-print XML with =xmllint=
     (add-hook 'css-mode-hook 'prettier-js-mode)
     (add-hook 'scss-mode-hook 'prettier-js-mode))
 #+end_src
+** folding
+
+#+begin_src emacs-lisp
+  (use-package vimish-fold
+    :ensure t
+    :defer 0
+    :init
+    (define-key ck/keys-minor-mode-map "\C-ccv"
+      (defhydra folding (:color red)
+        "Folding"
+        ("f" vimish-fold "fold region")
+        ("u" vimish-fold-unfold "unfold region")
+        ("d" vimish-fold-delete "delete fold")
+        ("v" vimish-fold-toggle "toggle region")))
+    :config
+    (vimish-fold-global-mode 1))
+#+end_src
