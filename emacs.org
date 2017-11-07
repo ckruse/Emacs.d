@@ -1607,5 +1607,7 @@ Pretty-print XML with =xmllint=
     :init
     (add-hook 'js2-mode-hook 'prettier-js-mode)
     (add-hook 'css-mode-hook 'prettier-js-mode)
-    (add-hook 'scss-mode-hook 'prettier-js-mode))
+    (add-hook 'scss-mode-hook 'prettier-js-mode)
+    :config
+    (setq prettier-js-command "prettier-eslint"))
 #+end_src
