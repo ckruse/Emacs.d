@@ -1456,9 +1456,12 @@ When using OS X, the =ls= doesn't support =--dired=
       :load-path "~/dev/mix-format.el/"
       :init
       (setq mixfmt-elixir (expand-file-name "~/elixir-master/bin/elixir")
-            mixfmt-mix (expand-file-name "~/elixir-master/bin/mix")))
-
-    (add-hook 'before-save-hook 'mix-format-before-save))
+            mixfmt-mix (expand-file-name "~/elixir-master/bin/mix"))
+      (add-hook 'mix-format-hook '(lambda ()
+                                    (if (projectile-project-p)
+                                        (setq mixfmt-args (list "--dot-formatter" (concat (projectile-project-root) "/.formatter.exs")))
+                                      (setq mixfmt-args nil))))
+      (add-hook 'before-save-hook 'mix-format-before-save)))
 
   (use-package alchemist
     :ensure t
