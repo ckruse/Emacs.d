@@ -1023,17 +1023,13 @@ We want to be able to edit CMake files in a sane way.
     :init
     (add-hook 'ruby-mode-hook #'rubocop-mode))
 
-
-  (use-package ruby-hash-syntax
-    :commands ruby-toggle-hash-syntax
+  (use-package inf-ruby
     :ensure t
-    :pin melpa-stable
-    :after ruby-mode)
-
-  (define-key ck/keys-minor-mode-map "\C-ccr"
-    (defhydra tests (:color red)
-      "Ruby"
-      ("h" ruby-toggle-hash-syntax "Toggle ruby Hash syntax")))
+    :commands inf-ruby-mode
+    :after ruby-mode
+    :init
+    (add-hook 'ruby-mode-hook 'inf-ruby-minor-mode)
+    (add-hook 'compilation-filter-hook 'inf-ruby-auto-enter))
 #+end_src
 
 ** Rails integration
@@ -1061,6 +1057,17 @@ We want to be able to edit CMake files in a sane way.
     :commands rspec-mode
     :init (add-hook 'ruby-mode-hook #'rspec-mode)
     :config (rspec-install-snippets))
+#+end_src
+
+  =projectile-rails= for some fancy code navigation and Rails commands in emacs
+
+#+begin_src emacs-lisp
+  (use-package projectile-rails
+    :ensure t
+    :after projectile
+    :defer 0
+    :config
+    (projectile-rails-global-mode))
 #+end_src
 
 ** Rust support
