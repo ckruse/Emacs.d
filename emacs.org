@@ -403,7 +403,7 @@ Emacs should not polute my init.el
      'leuven
      `(hl-line ((t (:background "#F6FECD"))))))
 
-  (use-package cyberpunk
+  (use-package cyberpunk-theme
     :ensure t
     :init
     (load-theme 'cyberpunk t))
