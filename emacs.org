@@ -1036,6 +1036,15 @@ We want to be able to edit CMake files in a sane way.
     :init
     (add-hook 'ruby-mode-hook 'inf-ruby-minor-mode)
     (add-hook 'compilation-filter-hook 'inf-ruby-auto-enter))
+
+  (use-package robe
+    :ensure t
+    :commands robe-mode
+    :after inf-ruby
+    :init
+    (add-hook 'ruby-mode-hook 'robe-mode)
+    (eval-after-load 'company
+      '(push 'company-robe company-backends)))
 #+end_src
 
 ** Rails integration
