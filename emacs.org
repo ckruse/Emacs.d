@@ -393,7 +393,6 @@ Emacs should not polute my init.el
        default)))
 
   (use-package leuven-theme
-    :disabled
     :ensure t
     :init
     (load-theme 'leuven t)
@@ -401,10 +400,6 @@ Emacs should not polute my init.el
      'leuven
      `(hl-line ((t (:background "#F6FECD"))))))
 
-  (use-package monokai-theme
-    :ensure t
-    :init
-    (load-theme 'monokai t))
 #+end_src
 
 ** Helpers
