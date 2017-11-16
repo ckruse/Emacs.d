@@ -389,9 +389,7 @@ Emacs should not polute my init.el
 #+begin_src emacs-lisp
   (custom-set-variables
    '(custom-safe-themes
-     '("b9e9ba5aeedcc5ba8be99f1cc9301f6679912910ff92fdf7980929c2fc83ab4d"
-       "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e"
-       "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa"
+     '("c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" ; smart-mode-line-respectful
        default)))
 
   (use-package leuven-theme
@@ -430,31 +428,13 @@ user."
 *** Smarter beginning of line (like Sublime Text)
 
 #+begin_src emacs-lisp
-(defun smarter-move-beginning-of-line (arg)
-  "Move point back to indentation of beginning of line.
-
-Move point to the first non-whitespace character on this line.
-If point is already there, move to the beginning of the line.
-Effectively toggle between the first non-whitespace character and
-the beginning of the line.
-
-If ARG is not nil or 1, move forward ARG - 1 lines first.  If
-point reaches the beginning or end of the buffer, stop there."
-  (interactive "^p")
-  (setq arg (or arg 1))
-
-  ;; Move lines first
-  (when (/= arg 1)
-    (let ((line-move-visual nil))
-      (forward-line (1- arg))))
-
-  (let ((orig-point (point)))
-    (back-to-indentation)
-    (when (= orig-point (point))
-      (move-beginning-of-line 1))))
-
-(global-set-key [home] 'smarter-move-beginning-of-line)
-(global-set-key [s-left] 'smarter-move-beginning-of-line)
+  (use-package mwim
+    :ensure t
+    :commands mwim-beginning-of-code-or-line mwim-end-of-code-or-line
+    :bind (([home] . mwim-beginning-of-code-or-line)
+           ([s-left] . mwim-beginning-of-code-or-line)
+           ([end] . mwim-end-of-code-or-line)
+           ([s-right] . mwim-end-of-code-or-line)))
 #+end_src
 
 *** Kill all buffers
@@ -516,9 +496,6 @@ I've got some global keyboard shortcuts, inherited from the 90s. I got
 so much used to them that I can't get rid of them.
 
 #+begin_src emacs-lisp
-  (global-set-key [end] 'end-of-line)
-  (global-set-key [s-right] 'end-of-line)
-
   (global-set-key [C-home] 'beginning-of-buffer)
   (global-set-key [s-up] 'beginning-of-buffer)
 
@@ -527,8 +504,6 @@ so much used to them that I can't get rid of them.
 
   (define-key ck/keys-minor-mode-map (kbd "M-<") 'pop-to-mark-command)
   (define-key ck/keys-minor-mode-map (kbd "C--") 'dabbrev-expand)
-  (define-key ck/keys-minor-mode-map (kbd "s-.") 'find-tag)
-  (define-key ck/keys-minor-mode-map (kbd "s-}") 'pop-tag-mark)
 
   (when (not (ck/is-osx))
     (define-key ck/keys-minor-mode-map (kbd "s-u") 'revert-buffer))
@@ -585,6 +560,12 @@ key again. I instantly fell in love with it.
     :init (progn
             (smartparens-global-mode)
             (show-smartparens-global-mode t)))
+
+  (use-package rainbow-delimiters
+    :ensure t
+    :commands rainbow-delimiters-mode
+    :init
+    (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 #+end_src
 
 ** buffer names
@@ -727,30 +708,31 @@ similiar to the autocompletion provided by XCode.
     :pin melpa-stable
     :defer 0
     :commands global-comany-mode
-    :init (progn
-            (setq company-tooltip-limit 20
-                  company-tooltip-align-annotations 't
-                  company-idle-delay .2
-                  company-minimum-prefix-length 2
-                  company-begin-commands '(self-insert-command))
-            (global-company-mode)))
+    :init
+    (setq company-tooltip-limit 20
+          company-tooltip-align-annotations 't
+          company-idle-delay .2
+          company-minimum-prefix-length 2
+          company-begin-commands '(self-insert-command))
+    (global-company-mode))
 
   (use-package company-web-html
     :ensure company-web
     :pin melpa-stable
     :commands company-web-html
     :after company-mode
-    :init (progn
-            (add-hook 'web-mode-hook (lambda ()
-                                       (set (make-local-variable 'company-backends) '(company-web-html))
-                                       (company-mode t)))))
+    :init
+    (add-hook 'web-mode-hook (lambda ()
+                               (push '(company-web-html company-css) company-backends)
+                               (set (make-local-variable 'company-minimum-prefix-length) 0))))
 
   (use-package company-ansible
     :ensure t
     :pin melpa-stable
     :commands company-ansible
     :after company-mode
-    :init (add-to-list 'company-backends 'company-ansible))
+    :init
+    (add-to-list 'company-backends 'company-ansible))
 #+end_src
 
 ** C/C++ modifications
@@ -819,11 +801,11 @@ We want to be able to edit CMake files in a sane way.
     :ensure t
     :pin melpa-stable
     :commands expand-region
-    :init (progn
-            (define-key ck/keys-minor-mode-map "\C-cce"
-              (defhydra expand-region (:color red)
-                "expand region as a hydra"
-                ("e" er/expand-region "Expand region")))))
+    :init
+    (define-key ck/keys-minor-mode-map "\C-cce"
+      (defhydra expand-region (:color red)
+        "expand region as a hydra"
+        ("e" er/expand-region "Expand region"))))
 #+end_src
 
 ** flycheck
@@ -836,23 +818,23 @@ We want to be able to edit CMake files in a sane way.
     :pin melpa-stable
     :commands global-flycheck-mode
     :init (add-hook 'after-init-hook #'global-flycheck-mode)
-    :config (progn
-              (setq flycheck-check-syntax-automatically '(mode-enabled new-line save))
-              (setq flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc javascript-jshint))
-              (setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc javascript-jshint))
+    :config
+    (setq flycheck-check-syntax-automatically '(mode-enabled new-line save))
+    (setq flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc javascript-jshint))
+    (setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc javascript-jshint))
 
-              (defun my/use-eslint-from-node-modules ()
-                (let* ((root (locate-dominating-file
-                              (or (buffer-file-name) default-directory)
-                              "node_modules"))
-                       (eslint (and root
-                                    (expand-file-name "node_modules/eslint/bin/eslint.js"
-                                                      root))))
+    (defun my/use-eslint-from-node-modules ()
+      (let* ((root (locate-dominating-file
+                    (or (buffer-file-name) default-directory)
+                    "node_modules"))
+             (eslint (and root
+                          (expand-file-name "node_modules/eslint/bin/eslint.js"
+                                            root))))
 
-                  (when (and eslint (file-executable-p eslint))
-                    (setq-local flycheck-javascript-eslint-executable eslint))))
+        (when (and eslint (file-executable-p eslint))
+          (setq-local flycheck-javascript-eslint-executable eslint))))
 
-              (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)))
+    (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules))
 #+end_src
 
 ** flyspell
@@ -882,36 +864,36 @@ We want to be able to edit CMake files in a sane way.
 #+begin_src emacs-lisp
   (use-package ibuffer
     :commands ibuffer
-    :init (progn
-            (define-key ck/keys-minor-mode-map (kbd "C-x C-b") 'ibuffer)
+    :init
+    (define-key ck/keys-minor-mode-map (kbd "C-x C-b") 'ibuffer)
 
-            (defun ck/define-projectile-filter-groups ()
-              (when (boundp 'projectile-known-projects)
-                (setq my/project-filter-groups
-                      (mapcar
-                       (lambda (it)
-                         (let ((name (file-name-nondirectory (directory-file-name it))))
-                           `(,name (filename . ,(expand-file-name it)))))
-                       projectile-known-projects))))
+    (defun ck/define-projectile-filter-groups ()
+      (when (boundp 'projectile-known-projects)
+        (setq my/project-filter-groups
+              (mapcar
+               (lambda (it)
+                 (let ((name (file-name-nondirectory (directory-file-name it))))
+                   `(,name (filename . ,(expand-file-name it)))))
+               projectile-known-projects))))
 
-            (setq ibuffer-saved-filter-groups
-                  (list
-                   (cons "default"
-                         (append
-                          (ck/define-projectile-filter-groups)
-                          '(("dired" (mode . dired-mode))
-                            ("Org" (or
-                                    (mode . org-mode)))
-                            ("emacs" (or
-                                      (name . "^\\*scratch\\*$")
-                                      (name . "^\\*Messages\\*$")
-                                      (name . "^\\*Help\\*$")
-                                      (name . "^\\*Flycheck error messages\\*$"))))))))
+    (setq ibuffer-saved-filter-groups
+          (list
+           (cons "default"
+                 (append
+                  (ck/define-projectile-filter-groups)
+                  '(("dired" (mode . dired-mode))
+                    ("Org" (or
+                            (mode . org-mode)))
+                    ("emacs" (or
+                              (name . "^\\*scratch\\*$")
+                              (name . "^\\*Messages\\*$")
+                              (name . "^\\*Help\\*$")
+                              (name . "^\\*Flycheck error messages\\*$"))))))))
 
-            (add-hook 'ibuffer-mode-hook
-                      (lambda ()
-                        (ibuffer-switch-to-saved-filter-groups "default")))
-            (setq ibuffer-show-empty-filter-groups nil)))
+    (add-hook 'ibuffer-mode-hook
+              (lambda ()
+                (ibuffer-switch-to-saved-filter-groups "default")))
+    (setq ibuffer-show-empty-filter-groups nil))
 #+end_src
 
 ** magit
@@ -943,9 +925,9 @@ We want to be able to edit CMake files in a sane way.
     :ensure t
     :pin melpa-stable
     :commands markdown-mode
-    :init (progn
-            (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
-            (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))))
+    :init
+    (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+    (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode)))
 #+end_src
 
 ** multiple-cursor
@@ -957,14 +939,14 @@ We want to be able to edit CMake files in a sane way.
     :ensure t
     :pin melpa-stable
     :commands mc/edit-lines mc/mark-next-like-this mc/mark-previous-like-this mc/mark-all-like-this
-    :init (progn
-            (define-key ck/keys-minor-mode-map "\C-ccm"
-              (defhydra multicursor (:color red)
-                "multicursor"
-                ("v" mc/edit-lines "all lines")
-                ("d" mc/mark-next-like-this "next match")
-                ("p" mc/mark-previous-like-this "prev match")
-                ("D" mc/mark-all-like-this "all matches")))))
+    :init
+    (define-key ck/keys-minor-mode-map "\C-ccm"
+      (defhydra multicursor (:color red)
+        "multicursor"
+        ("v" mc/edit-lines "all lines")
+        ("d" mc/mark-next-like-this "next match")
+        ("p" mc/mark-previous-like-this "prev match")
+        ("D" mc/mark-all-like-this "all matches"))))
 #+end_src
 
 ** Perl support
@@ -985,15 +967,15 @@ We want to be able to edit CMake files in a sane way.
     :ensure t
     :pin melpa-stable
     :commands php-mode
-    :init (progn
-            (defun ck-init-php ()
-              (setq c-basic-offset 2)
-              (c-set-offset 'arglist-cont 0)
-              (c-set-offset 'arglist-intro 2)
-              (c-set-offset 'case-label 2)
-              (c-set-offset 'arglist-close 0))
+    :init
+    (defun ck-init-php ()
+      (setq c-basic-offset 2)
+      (c-set-offset 'arglist-cont 0)
+      (c-set-offset 'arglist-intro 2)
+      (c-set-offset 'case-label 2)
+      (c-set-offset 'arglist-close 0))
 
-            (add-hook 'php-mode-hook 'ck-init-php)))
+    (add-hook 'php-mode-hook 'ck-init-php))
 #+end_src
 
 ** ruby support
@@ -1003,23 +985,23 @@ We want to be able to edit CMake files in a sane way.
 #+begin_src emacs-lisp
   (use-package ruby-mode
     :commands ruby-mode
-    :init (progn
-            (add-hook 'ruby-mode-hook 'turn-on-font-lock)
-            (add-hook 'ruby-mode-hook (lambda ()
-                                        (setq tab-width 2
-                                              indent-tabs-mode nil
+    :init
+    (add-hook 'ruby-mode-hook 'turn-on-font-lock)
+    (add-hook 'ruby-mode-hook (lambda ()
+                                (setq tab-width 2
+                                      indent-tabs-mode nil
                                           ;ruby-deep-arglist nil
                                           ;ruby-deep-indent-paren nil
-                                              ruby-insert-encoding-magic-comment nil)))
+                                      ruby-insert-encoding-magic-comment nil)))
 
-            (add-to-list 'auto-mode-alist '("\\.rb$" . ruby-mode))
-            (add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
-            (add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
-            (add-to-list 'auto-mode-alist '("\\.gemspec$" . ruby-mode))
-            (add-to-list 'auto-mode-alist '("\\.ru$" . ruby-mode))
-            (add-to-list 'auto-mode-alist '("Gemfile$" . ruby-mode))
-            (add-to-list 'auto-mode-alist '("\\.prawn$" . ruby-mode))
-            (add-to-list 'auto-mode-alist '("\\.xlsx\\.axlsx$" . ruby-mode))))
+    (add-to-list 'auto-mode-alist '("\\.rb$" . ruby-mode))
+    (add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
+    (add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
+    (add-to-list 'auto-mode-alist '("\\.gemspec$" . ruby-mode))
+    (add-to-list 'auto-mode-alist '("\\.ru$" . ruby-mode))
+    (add-to-list 'auto-mode-alist '("Gemfile$" . ruby-mode))
+    (add-to-list 'auto-mode-alist '("\\.prawn$" . ruby-mode))
+    (add-to-list 'auto-mode-alist '("\\.xlsx\\.axlsx$" . ruby-mode)))
 
   (use-package rubocop
     :pin melpa-stable
@@ -1057,10 +1039,10 @@ We want to be able to edit CMake files in a sane way.
     :pin melpa-stable
     :commands rvm-use-default
     :defer 0
-    :init (progn
-            (setq rvm--current-ruby nil)
-            (when (not rvm--current-ruby)
-              (rvm-use-default))))
+    :init
+    (setq rvm--current-ruby nil)
+    (when (not rvm--current-ruby)
+      (rvm-use-default)))
 #+end_src
 
   =rspec-mode= for some nice RSpec integration
@@ -1092,9 +1074,9 @@ We want to be able to edit CMake files in a sane way.
     :ensure t
     :pin melpa-stable
     :commands rust-mode
-    :init (progn
-            (setq rust-indent-unit 2)
-            (setq-default rust-indent-unit 2)))
+    :init
+    (setq rust-indent-unit 2)
+    (setq-default rust-indent-unit 2))
 #+end_src
 
 ** smart-mode-line
@@ -1106,20 +1088,20 @@ We want to be able to edit CMake files in a sane way.
     :ensure t
     :pin melpa-stable
     :commands smart-mode-line sml/setup
-    :init (progn
-            (setq sml/theme 'dark)
-            (if after-init-time (sml/setup)
-              (add-hook 'after-init-hook 'sml/setup)))
+    :init
+    (setq sml/theme 'respectful)
+    (if after-init-time (sml/setup)
+      (add-hook 'after-init-hook 'sml/setup))
 
-    :config (progn
-              (custom-set-variables
-               '(sml/hidden-modes (quote (" hl-p" " Helm" " RuboCop" " ck/keys" " pair" " HRB" " AC" " GitGutter" " FlyC" " FlyC-" " MMM" " Rails" " yas" " SP" " WS" " MRev" " ARev" " company" " RSpec"))))
+    :config
+    (custom-set-variables
+     '(sml/hidden-modes '(" hl-p" " Helm" " RuboCop" " ck/keys" " pair" " HRB" " AC" " GitGutter" " FlyC" " FlyC-" " MMM" " Rails" " yas" " SP" " WS" " MRev" " ARev" " company" " RSpec")))
 
-              (add-to-list 'sml/replacer-regexp-list '("^~/[Ss]ites/" ":WEB:"))
-              (add-to-list 'sml/replacer-regexp-list '("^~/dev/" ":DEV:"))
-              (add-to-list 'sml/replacer-regexp-list '("^~/dev/termitel/" ":TERM:"))
-              (add-to-list 'sml/replacer-regexp-list '("^~/dev/postgres/" ":PG:"))
-              (add-to-list 'sml/replacer-regexp-list '("^~/Documents/" ":DOC:"))))
+    (add-to-list 'sml/replacer-regexp-list '("^~/[Ss]ites/" ":WEB:"))
+    (add-to-list 'sml/replacer-regexp-list '("^~/dev/" ":DEV:"))
+    (add-to-list 'sml/replacer-regexp-list '("^~/dev/termitel/" ":TERM:"))
+    (add-to-list 'sml/replacer-regexp-list '("^~/dev/postgres/" ":PG:"))
+    (add-to-list 'sml/replacer-regexp-list '("^~/Documents/" ":DOC:")))
 
 #+end_src
 
@@ -1472,19 +1454,7 @@ When using OS X, the =ls= doesn't support =--dired=
 #+begin_src emacs-lisp
   (use-package elixir-mode
     :ensure t
-    :commands elixir-mode
-    :init
-    (use-package mix-format
-      :commands mix-format mix-format-before-save
-      :load-path "~/dev/mix-format.el/"
-      :init
-      (setq mixfmt-elixir (expand-file-name "~/elixir-master/bin/elixir")
-            mixfmt-mix (expand-file-name "~/elixir-master/bin/mix"))
-      (add-hook 'mix-format-hook '(lambda ()
-                                    (if (projectile-project-p)
-                                        (setq mixfmt-args (list "--dot-formatter" (concat (projectile-project-root) "/.formatter.exs")))
-                                      (setq mixfmt-args nil))))
-      (add-hook 'before-save-hook 'mix-format-before-save)))
+    :commands elixir-mode)
 
   (use-package alchemist
     :ensure t
@@ -1492,6 +1462,19 @@ When using OS X, the =ls= doesn't support =--dired=
     :after elixir-mode
     :init (progn
             (add-hook 'elixir-mode-hook 'alchemist-mode)))
+
+  (use-package mix-format
+    :commands mix-format mix-format-before-save
+    :after elixir-mode
+    :load-path "~/dev/mix-format.el/"
+    :init
+    (setq mixfmt-elixir (expand-file-name "~/elixir-master/bin/elixir")
+          mixfmt-mix (expand-file-name "~/elixir-master/bin/mix"))
+    (add-hook 'mix-format-hook '(lambda ()
+                                  (if (projectile-project-p)
+                                      (setq mixfmt-args (list "--dot-formatter" (concat (projectile-project-root) "/.formatter.exs")))
+                                    (setq mixfmt-args nil))))
+    (add-hook 'before-save-hook 'mix-format-before-save))
 #+end_src
 
 ** helm
@@ -1501,48 +1484,48 @@ When using OS X, the =ls= doesn't support =--dired=
     :ensure helm
     :pin melpa-stable
     :defer 0
-    :config (progn
-              (setq helm-split-window-in-side-p t
-                    helm-move-to-line-cycle-in-source t
-                    helm-ff-search-library-in-sexp t
-                    helm-scroll-amount 8
-                    helm-mode-fuzzy-match t
-                    helm-buffers-fuzzy-matching t)
+    :config
+    (setq helm-split-window-in-side-p t
+          helm-move-to-line-cycle-in-source t
+          helm-ff-search-library-in-sexp t
+          helm-scroll-amount 8
+          helm-mode-fuzzy-match t
+          helm-buffers-fuzzy-matching t)
 
-              (setq helm-autoresize-max-height 30
-                    helm-autoresize-min-height 30)
+    (setq helm-autoresize-max-height 30
+          helm-autoresize-min-height 30)
 
-              (helm-mode 1)
+    (helm-mode 1)
 
-              (setq helm-completing-read-handlers-alist '((describe-function . helm-completing-read-symbols)
-                                                          (describe-variable . helm-completing-read-symbols)
-                                                          (describe-symbol . helm-completing-read-symbols)
-                                                          (debug-on-entry . helm-completing-read-symbols)
-                                                          (find-function . helm-completing-read-symbols)
-                                                          (disassemble . helm-completing-read-symbols)
-                                                          (trace-function . helm-completing-read-symbols)
-                                                          (trace-function-foreground . helm-completing-read-symbols)
-                                                          (trace-function-background . helm-completing-read-symbols)
-                                                          (find-tag . helm-completing-read-with-cands-in-buffer)
-                                                          (ffap-alternate-file)
-                                                          (tmm-menubar)))
+    (setq helm-completing-read-handlers-alist '((describe-function . helm-completing-read-symbols)
+                                                (describe-variable . helm-completing-read-symbols)
+                                                (describe-symbol . helm-completing-read-symbols)
+                                                (debug-on-entry . helm-completing-read-symbols)
+                                                (find-function . helm-completing-read-symbols)
+                                                (disassemble . helm-completing-read-symbols)
+                                                (trace-function . helm-completing-read-symbols)
+                                                (trace-function-foreground . helm-completing-read-symbols)
+                                                (trace-function-background . helm-completing-read-symbols)
+                                                (find-tag . helm-completing-read-with-cands-in-buffer)
+                                                (ffap-alternate-file)
+                                                (tmm-menubar)))
 
-              (helm-autoresize-mode t)
+    (helm-autoresize-mode t)
 
-              (global-set-key (kbd "M-y") 'helm-show-kill-ring)
-              (global-set-key (kbd "C-x b") 'helm-mini)
+    (global-set-key (kbd "M-y") 'helm-show-kill-ring)
+    (global-set-key (kbd "C-x b") 'helm-mini)
 
-              (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
-              (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action)
-              (define-key helm-map (kbd "C-z") 'helm-select-action)))
+    (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+    (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action)
+    (define-key helm-map (kbd "C-z") 'helm-select-action))
 
   (use-package helm-projectile
     :ensure t
     :after helm
     :pin melpa-stable
-    :init (progn
-            (setq projectile-completion-system 'helm)
-            (helm-projectile-on)))
+    :init
+    (setq projectile-completion-system 'helm)
+    (helm-projectile-on))
 #+end_src
 
 ** Reformat XML
@@ -1565,45 +1548,6 @@ Pretty-print XML with =xmllint=
   (setq css-indent-offset 2)
 #+end_src
 
-** move lines/region up/down
-
-#+begin_src emacs-lisp
-  (defun move-text-internal (arg)
-     (cond
-      ((and mark-active transient-mark-mode)
-       (if (> (point) (mark))
-              (exchange-point-and-mark))
-       (let ((column (current-column))
-                (text (delete-and-extract-region (point) (mark))))
-         (forward-line arg)
-         (move-to-column column t)
-         (set-mark (point))
-         (insert text)
-         (exchange-point-and-mark)
-         (setq deactivate-mark nil)))
-      (t
-       (beginning-of-line)
-       (when (or (> arg 0) (not (bobp)))
-         (forward-line)
-         (when (or (< arg 0) (not (eobp)))
-              (transpose-lines arg))
-         (forward-line -1)))))
-
-  (defun move-text-down (arg)
-     "Move region (transient-mark-mode active) or current line
-    arg lines down."
-     (interactive "*p")
-     (move-text-internal arg))
-
-  (defun move-text-up (arg)
-     "Move region (transient-mark-mode active) or current line
-    arg lines up."
-     (interactive "*p")
-     (move-text-internal (- arg)))
-
-  (define-key ck/keys-minor-mode-map [\M-up] 'move-text-up)
-  (define-key ck/keys-minor-mode-map [\M-down] 'move-text-down)
-#+end_src
 ** TouchBar shortcuts
 
 #+begin_src emacs-lisp
@@ -1637,3 +1581,4 @@ Pretty-print XML with =xmllint=
     :config
     (setq prettier-js-command "prettier-eslint"))
 #+end_src
+
