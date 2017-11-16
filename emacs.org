@@ -1266,11 +1266,45 @@ We want to be able to edit CMake files in a sane way.
 #+begin_src emacs-lisp
   (use-package whitespace
     :defer 0
-    :init (progn
-            (setq whitespace-global-modes '(c-mode c++-mode ruby-mode web-mode php-mode js2-mode css-mode scss-mode elixir-mode))
-            (global-whitespace-mode t)
-            (setq show-trailing-whitespace t)
-            (setq whitespace-style '(face trailing))))
+    :init
+    (setq whitespace-global-modes '(c-mode c++-mode ruby-mode web-mode php-mode js2-mode css-mode scss-mode elixir-mode))
+    (global-whitespace-mode t)
+    (setq show-trailing-whitespace t)
+    (setq whitespace-line-column 120)
+
+    (setq whitespace-style '(face tabs spaces trailing lines-tail space-before-tab newline
+                                  indentation empty space-after-tab space-mark tab-mark newline-mark))
+
+    (setq whitespace-display-mappings
+          '((space-mark 32 [183] [46])
+            (space-mark 160 [164] [95])
+            ;(newline-mark 10 [36 10])
+            (newline-mark ?\n    [?\u21A9 ?\n] [?\> ?\n])
+            (tab-mark 9 [187 9] [92 9])))
+
+    (setq ck/spaces-color "gray92")
+    (setq ck/spaces-err-color "firebrick")
+
+    (set-face-attribute 'whitespace-space nil
+                        :background nil
+                        :foreground ck/spaces-color)
+    (set-face-attribute 'whitespace-tab nil
+                        :background nil
+                        :foreground ck/spaces-color)
+    (set-face-attribute 'whitespace-newline nil
+                        :background nil
+                        :foreground ck/spaces-color)
+    (set-face-attribute 'whitespace-empty nil
+                        :background nil
+                        :foreground ck/spaces-err-color)
+    (set-face-attribute 'whitespace-line nil
+                        :background nil
+                        :foreground ck/spaces-err-color)
+    (set-face-attribute 'whitespace-trailing nil
+                        :background "khaki1"
+                        :foreground ck/spaces-err-color)
+    )
+    ;(setq whitespace-style '(face trailing)))
 #+end_src
 
 ** YAML support
