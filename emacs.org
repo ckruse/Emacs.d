@@ -1017,7 +1017,7 @@ We want to be able to edit CMake files in a sane way.
   (use-package robe
     :ensure t
     :commands robe-mode
-    :after inf-ruby
+    :after inf-ruby company
     :init
     (add-hook 'ruby-mode-hook 'robe-mode)
     (eval-after-load 'company
