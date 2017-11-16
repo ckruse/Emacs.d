@@ -1103,7 +1103,6 @@ We want to be able to edit CMake files in a sane way.
 
 #+begin_src emacs-lisp
   (use-package smart-mode-line
-    :disabled
     :ensure t
     :pin melpa-stable
     :commands smart-mode-line sml/setup
@@ -1121,23 +1120,6 @@ We want to be able to edit CMake files in a sane way.
               (add-to-list 'sml/replacer-regexp-list '("^~/dev/termitel/" ":TERM:"))
               (add-to-list 'sml/replacer-regexp-list '("^~/dev/postgres/" ":PG:"))
               (add-to-list 'sml/replacer-regexp-list '("^~/Documents/" ":DOC:"))))
-
-  (use-package spaceline
-    :ensure t
-    :config
-    (use-package spaceline-config
-      :config
-      (spaceline-toggle-minor-modes-off)
-      (spaceline-toggle-which-function-on)
-      (spaceline-toggle-line-column-on)
-      (spaceline-toggle-buffer-size-off)
-      (spaceline-toggle-input-method-off)
-      ;(spaceline-toggle-buffer-encoding-off)
-      ;(spaceline-toggle-buffer-encoding-abbrev-off)
-      (setq powerline-default-separator 'rounded)
-      ;(setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
-      (spaceline-emacs-theme)
-      (spaceline-helm-mode)))
 
 #+end_src
 
