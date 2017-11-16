@@ -1080,11 +1080,18 @@ We want to be able to edit CMake files in a sane way.
 
 #+begin_src emacs-lisp
   (use-package smart-mode-line
+    :disabled
     :ensure t
     :pin melpa-stable
     :commands smart-mode-line sml/setup
     :init
-    (setq sml/theme 'respectful)
+    (use-package smart-mode-line-powerline-theme
+      :ensure t)
+
+    (setq sml/theme 'light-powerline)
+    (when (ck/is-osx)
+      (setq powerline-image-apple-rgb t))
+
     (if after-init-time (sml/setup)
       (add-hook 'after-init-hook 'sml/setup))
 
@@ -1098,6 +1105,18 @@ We want to be able to edit CMake files in a sane way.
     (add-to-list 'sml/replacer-regexp-list '("^~/dev/postgres/" ":PG:"))
     (add-to-list 'sml/replacer-regexp-list '("^~/Documents/" ":DOC:")))
 
+  (use-package spaceline-config
+    :ensure spaceline
+    :config
+    (when (ck/is-osx)
+      (setq powerline-image-apple-rgb t))
+
+    (spaceline-toggle-minor-modes-off)
+    (spaceline-toggle-input-method-off)
+    (spaceline-toggle-which-function-on)
+
+    (spaceline-helm-mode 1)
+    (spaceline-emacs-theme))
 #+end_src
 
 ** SQL
