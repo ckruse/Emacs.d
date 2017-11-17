@@ -1829,6 +1829,7 @@ Pretty-print XML with =xmllint=
 
   (use-package mu4e-alert
     :ensure t
+    :if (not (ck/is-osx))
     :after mu4e
     :defer 0
     :init
