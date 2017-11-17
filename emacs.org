@@ -922,7 +922,12 @@ We want to be able to edit CMake files in a sane way.
                               (name . "^\\*scratch\\*$")
                               (name . "^\\*Messages\\*$")
                               (name . "^\\*Help\\*$")
-                              (name . "^\\*Flycheck error messages\\*$"))))))))
+                              (name . "^\\*Flycheck error messages\\*$")))
+                    ("Circe" (or
+                              (mode . circe-channel-mode)
+                              (mode . circe-query-mode)
+                              (mode . circe-mode)
+                              (mode . circe-server-mode))))))))
 
     (add-hook 'ibuffer-mode-hook
               (lambda ()
@@ -1147,6 +1152,11 @@ We want to be able to edit CMake files in a sane way.
   (use-package spaceline-config
     :ensure spaceline
     :config
+    (spaceline-define-segment circe-track
+      "Show the circe buffers with new messages. Requires
+  `circe-track-mode' to be enabled."
+      (tracking-status))
+
     (when (ck/is-osx)
       (setq powerline-image-apple-rgb t))
 
@@ -1155,7 +1165,7 @@ We want to be able to edit CMake files in a sane way.
     (spaceline-toggle-which-function-on)
 
     (spaceline-helm-mode 1)
-    (spaceline-emacs-theme))
+    (spaceline-emacs-theme 'circe-track))
 #+end_src
 
 ** SQL
@@ -1843,3 +1853,71 @@ Pretty-print XML with =xmllint=
     ;; (add-hook 'message-send-mail-hook 'my-mu4e-set-msmtp-account)))
 #+end_src
 
+** Circe, IRC in Emacs
+
+#+begin_src emacs-lisp
+  (use-package circe
+    :ensure t
+    :defer 120
+    :commands circe tracking-status
+    :init
+    (defun ck/irc ()
+      (interactive)
+      (circe "EPD-ME")
+      (circe "Freenode"))
+
+    (load "~/dev/mail/znc.el")
+
+    :config
+
+    ; use things like pastebin for long pastes
+    (add-hook 'circe-channel-mode-hook 'enable-lui-autopaste)
+    (add-hook 'circe-channel-mode-hook 'turn-on-flyspell)
+
+    (enable-circe-color-nicks)
+
+    (defadvice circe-command-SAY (after jjf-circe-unignore-target)
+      (let ((ignored (tracking-ignored-p (current-buffer) nil)))
+        (when ignored
+          (setq tracking-ignored-buffers
+                (remove ignored tracking-ignored-buffers))
+          (message "This buffer will now be tracked."))))
+    (ad-activate 'circe-command-SAY)
+
+    (enable-circe-notifications)
+
+    (setq circe-default-nick "cjk101010"
+          circe-default-user "ckruse"
+          circe-default-realname "Christian Kruse"
+          circe-reduce-lurker-spam t
+          lui-time-stamp-format "%H:%M"
+          lui-fill-column 120
+
+          tracking-ignored-buffers '("#indieweb" "#erlang")
+
+          circe-network-options
+          `(("EPD-ME"
+             :host "cloud.defunct.ch"
+             :tls t
+             :nick "Christian"
+             :port "6660"
+             :pass ,epdme-password
+             )
+            ("Freenode"
+             :host "cloud.defunct.ch"
+             :tls t
+             :nick "cjk101010"
+             :port "6660"
+             :pass ,freenode-password
+             ))))
+
+  (use-package lui-autopaste
+    :ensure circe
+    :after circe
+    :commands enable-lui-autopaste)
+
+  (use-package circe-notifications
+    :ensure t
+    :after circe
+    :commands enable-circe-notifications)
+#+end_src
