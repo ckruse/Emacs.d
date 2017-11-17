@@ -552,9 +552,48 @@ key again. I instantly fell in love with it.
     :ensure smartparens
     :pin melpa-stable
     :defer 0
-    :init (progn
-            (smartparens-global-mode)
-            (show-smartparens-global-mode t)))
+    :init
+    (smartparens-global-mode)
+    (show-smartparens-global-mode t)
+
+    ;;; shamelessly stolen from spacemacs
+    (defun spacemas//elixir-looking-back-special-p (expr)
+      (save-excursion
+        (when (or (looking-back " ")
+                  (looking-back "-")) (backward-char))
+        (looking-back expr)))
+
+    (defun spacemacs//elixir-point-after-fn-p (id action context)
+      (save-excursion
+        (when (looking-back id) (backward-char))
+        (looking-back "fn")))
+
+    (defun spacemacs//elixir-do-end-close-action (id action context)
+      (when (eq action 'insert)
+        (cond ((spacemas//elixir-looking-back-special-p id)
+               (insert " ") (backward-char))
+              ((looking-back "(")
+               (insert ") ") (backward-char) (backward-char))
+              (t
+               (newline-and-indent)
+               (forward-line -1)
+               (indent-according-to-mode)))))
+
+    (sp-with-modes '(elixir-mode)
+      (sp-local-pair
+       "(" ")"
+       :unless '(:add spacemacs//elixir-point-after-fn-p))
+      (sp-local-pair
+       "fn" "end"
+       :when '(("SPC" "RET" "-" "("))
+       :post-handlers '(:add spacemacs//elixir-do-end-close-action)
+       :actions '(insert)))
+    (sp-with-modes '(elixir-mode)
+      (sp-local-pair
+       "do" "end"
+       :when '(("SPC" "RET"))
+       :post-handlers '(:add spacemacs//elixir-do-end-close-action)
+       :actions '(insert))))
 
   (use-package rainbow-delimiters
     :ensure t
