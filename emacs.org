@@ -1825,7 +1825,19 @@ Pretty-print XML with =xmllint=
     ;;         (list "-a" mu-mu4e-account)))
 
     ;; (add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)
-    (add-hook 'mu4e-compose-mode-hook 'mml-secure-message-sign-pgpmime)
+    (add-hook 'mu4e-compose-mode-hook 'mml-secure-message-sign-pgpmime))
+
+  (use-package mu4e-alert
+    :ensure t
+    :after mu4e
+    :defer 0
+    :init
+    (mu4e-alert-set-default-style 'libnotify)
+
+    (setq mu4e-alert-interesting-mail-query "flag:unread AND maildir:/Defunct/INBOX")
+
+    (mu4e-alert-enable-notifications)
+    (mu4e-alert-enable-mode-line-display)
     (spaceline-toggle-mu4e-alert-segment-on))
     ;; (add-hook 'message-send-mail-hook 'my-mu4e-set-msmtp-account)))
 #+end_src
