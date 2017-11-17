@@ -1669,3 +1669,15 @@ Pretty-print XML with =xmllint=
     (setq prettier-js-command "prettier-eslint"))
 #+end_src
 
+** Easier typography
+
+#+begin_src emacs-lisp
+  (use-package typo
+    :ensure t
+    :defer 0
+    :init
+    (add-hook 'text-mode-hook 'typo-mode)
+    :config
+    (setq typo-language "German")
+    (typo-global-mode 1))
+#+end_src
