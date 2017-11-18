@@ -1444,22 +1444,23 @@ When using OS X, the =ls= doesn't support =--dired=
           ("." ck-put-file-name-wo-path-on-clipboard "copy filename to clipboard")
           (":" ck-put-file-name-on-clipboard "copy filename with full path to clipboard")))
 
-      (define-key ck/keys-minor-mode-map "\C-ccl"
-        (defhydra launchers (:color blue)
-          "Launchers"
-          ("c" calc "Calc")
-          ("d" ediff-buffers "ediff")
-          ("f" find-dired "find-dired")
-          ("g" lgrep "lgrep")
-          ("G" rgrep "rgrep")
-          ("h" man "man")
-          ("s" eshell-here "eshell")
-          ("t" proced "proced")
-          ("a" magit-status "magit-status")
-          ("p" sql-postgres "sql-postgres")
-          ("m" mu4e "mu4e")
-          ("." ck-put-file-name-wo-path-on-clipboard "copy filename to clipboard")
-          (":" ck-put-file-name-on-clipboard "copy filename with full path to clipboard"))))
+    (define-key ck/keys-minor-mode-map "\C-ccl"
+      (defhydra launchers (:color blue)
+        "Launchers"
+        ("c" calc "Calc")
+        ("d" ediff-buffers "ediff")
+        ("f" find-dired "find-dired")
+        ("g" lgrep "lgrep")
+        ("G" rgrep "rgrep")
+        ("h" man "man")
+        ("s" eshell-here "eshell")
+        ("t" proced "proced")
+        ("a" magit-status "magit-status")
+        ("p" sql-postgres "sql-postgres")
+        ("m" mu4e "mu4e")
+        ("z" (start-process-shell-command "mbsync" "*mbsync*" "mbsync -qa") "mbsync")
+        ("." ck-put-file-name-wo-path-on-clipboard "copy filename to clipboard")
+        (":" ck-put-file-name-on-clipboard "copy filename with full path to clipboard"))))
 #+end_src
 
 ** =eshell= modifications
