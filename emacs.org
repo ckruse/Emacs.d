@@ -1732,7 +1732,8 @@ Pretty-print XML with =xmllint=
             (str ""))
         (setq str (with-current-buffer b
                     (buffer-string)))
-        (kill-buffer b)))
+        (kill-buffer b)
+        str))
 
 
     (setq mu4e-maildir "~/Mail"
