@@ -1163,6 +1163,7 @@ We want to be able to edit CMake files in a sane way.
     (spaceline-toggle-minor-modes-off)
     (spaceline-toggle-input-method-off)
     (spaceline-toggle-which-function-on)
+    (spaceline-toggle-hud-off)
 
     (spaceline-helm-mode 1)
     (spaceline-emacs-theme 'circe-track))
