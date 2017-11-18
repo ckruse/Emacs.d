@@ -1784,6 +1784,10 @@ Pretty-print XML with =xmllint=
           mu4e-compose-signature (file-string "~/dev/mail/signature-defunct")
           user-mail-address "cjk@defunct.ch")
 
+    (bind-keys :map mu4e-view-mode-map
+               ("N" . mu4e-view-headers-next-unread)
+               ("P" . mu4e-view-headers-prev-unread))
+
     (setq mu4e-refile-folder
           (lambda (msg)
             (let ((maildir (mu4e-message-field msg :maildir))
