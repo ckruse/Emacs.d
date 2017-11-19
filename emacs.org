@@ -1164,6 +1164,9 @@ We want to be able to edit CMake files in a sane way.
     (when (ck/is-osx)
       (setq powerline-image-apple-rgb t))
 
+    (setq-default powerline-default-separator 'utf-8)
+    (setq-default powerline-default-separator 'wave)
+
     (spaceline-toggle-minor-modes-off)
     (spaceline-toggle-input-method-off)
     (spaceline-toggle-which-function-on)
