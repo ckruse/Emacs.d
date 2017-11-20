@@ -659,8 +659,7 @@ Parentheses]] for an intuitive narrow/widen behaviour.
   (define-key ck/keys-minor-mode-map (kbd "C-x n") 'narrow-or-widen-dwim)
 #+end_src
 
-
-*** ace-window
+** ace-window
 
 [[https://github.com/abo-abo/ace-window][ace-window]] is a mode based on =ace-jump-mode= which makes buffer
 switching similiar to it. Very nice!
@@ -1672,6 +1671,7 @@ Pretty-print XML with =xmllint=
                              "*Xmllint Error Buffer*" t))
 
 #+end_src
+
 ** css-mode config
 
 #+begin_src emacs-lisp
@@ -1699,6 +1699,7 @@ Pretty-print XML with =xmllint=
     :commands po-mode
     :init (add-to-list 'auto-mode-alist '("\\.po\\'" . po-mode)))
 #+end_src
+
 ** prettier integration
 
 #+begin_src emacs-lisp
@@ -1941,3 +1942,4 @@ Pretty-print XML with =xmllint=
     :after circe
     :commands enable-circe-notifications)
 #+end_src
+
