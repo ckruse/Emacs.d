@@ -31,6 +31,12 @@ Including font lock and directories
   (setq org-agenda-start-with-follow-mode t)
 
   (add-hook 'org-mode-hook 'turn-on-font-lock)
+
+  (use-package org-bullets
+    :ensure t
+    :commands org-bullets-mode
+    :init
+    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 #+end_src
 
 
