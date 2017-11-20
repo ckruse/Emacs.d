@@ -394,12 +394,17 @@ Emacs should not polute my init.el
 
   (use-package leuven-theme
     :ensure t
+    :disabled
     :init
     (load-theme 'leuven t)
     (custom-theme-set-faces
      'leuven
      `(hl-line ((t (:background "#F6FECD"))))))
 
+  (use-package spacemacs-theme
+    :ensure t
+    :init
+    (load-theme 'spacemacs-dark t))
 #+end_src
 
 ** Helpers
@@ -1343,24 +1348,24 @@ We want to be able to edit CMake files in a sane way.
     (setq ck/spaces-color "gray92")
     (setq ck/spaces-err-color "firebrick")
 
-    (set-face-attribute 'whitespace-space nil
-                        :background nil
-                        :foreground ck/spaces-color)
-    (set-face-attribute 'whitespace-tab nil
-                        :background nil
-                        :foreground ck/spaces-color)
-    (set-face-attribute 'whitespace-newline nil
-                        :background nil
-                        :foreground ck/spaces-color)
-    (set-face-attribute 'whitespace-empty nil
-                        :background nil
-                        :foreground ck/spaces-err-color)
-    (set-face-attribute 'whitespace-line nil
-                        :background nil
-                        :foreground ck/spaces-err-color)
-    (set-face-attribute 'whitespace-trailing nil
-                        :background "khaki1"
-                        :foreground ck/spaces-err-color)
+    ;; (set-face-attribute 'whitespace-space nil
+    ;;                     :background nil
+    ;;                     :foreground ck/spaces-color)
+    ;; (set-face-attribute 'whitespace-tab nil
+    ;;                     :background nil
+    ;;                     :foreground ck/spaces-color)
+    ;; (set-face-attribute 'whitespace-newline nil
+    ;;                     :background nil
+    ;;                     :foreground ck/spaces-color)
+    ;; (set-face-attribute 'whitespace-empty nil
+    ;;                     :background nil
+    ;;                     :foreground ck/spaces-err-color)
+    ;; (set-face-attribute 'whitespace-line nil
+    ;;                     :background nil
+    ;;                     :foreground ck/spaces-err-color)
+    ;; (set-face-attribute 'whitespace-trailing nil
+    ;;                     :background "khaki1"
+    ;;                     :foreground ck/spaces-err-color)
     )
     ;(setq whitespace-style '(face trailing)))
 #+end_src
