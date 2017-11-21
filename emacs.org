@@ -1959,10 +1959,11 @@ Pretty-print XML with =xmllint=
 ** diminish bullshit
 
 #+begin_src emacs-lisp
+  (with-eval-after-load 'magit
+    (diminish 'magit-auto-revert-mode)
+    (diminish 'auto-revert-mode))
+
   (add-hook 'after-init-hook '(lambda ()
-                                (eval-after-load 'auto-revert-mode
-                                  '(diminish 'auto-revert-mode))
-                                (diminish 'auto-revert-mode)
                                 (diminish 'company-mode "Ⓒ")
                                 (diminish 'ck/keys-minor-mode)))
 #+end_src
