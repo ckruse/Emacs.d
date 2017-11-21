@@ -479,15 +479,16 @@ user."
     :ensure t
     :pin melpa-stable
     :defer 0
-    :init (progn
-            (projectile-global-mode)
+    :diminish (projectile-mode . "Ⓟ")
+    :init
+    (projectile-global-mode)
 
-            (defadvice projectile-project-root (around ignore-remote first activate)
-              (unless (file-remote-p default-directory) ad-do-it))
+    (defadvice projectile-project-root (around ignore-remote first activate)
+      (unless (file-remote-p default-directory) ad-do-it))
 
-            (setq projectile-indexing-method 'find
-                  projectile-enable-caching t
-                  projectile-create-missing-test-files t)))
+    (setq projectile-indexing-method 'find
+          projectile-enable-caching t
+          projectile-create-missing-test-files t))
 #+end_src
 
 ** Keyboard shortcuts
@@ -557,6 +558,7 @@ key again. I instantly fell in love with it.
     :ensure smartparens
     :pin melpa-stable
     :defer 0
+    :diminish smartparens-mode
     :init
     (smartparens-global-mode)
     (show-smartparens-global-mode t)
@@ -693,6 +695,7 @@ triggered snippets.
     :ensure t
     :pin melpa-stable
     :defer 0
+    :diminish yas-minor-mode
     :init
     (yas-global-mode 1))
 #+end_src
@@ -855,6 +858,7 @@ We want to be able to edit CMake files in a sane way.
     :ensure t
     :pin melpa-stable
     :commands global-flycheck-mode
+    :diminish flycheck-mode
     :init (add-hook 'after-init-hook #'global-flycheck-mode)
     :config
     (setq flycheck-check-syntax-automatically '(mode-enabled new-line save))
@@ -1055,6 +1059,7 @@ We want to be able to edit CMake files in a sane way.
     :ensure t
     :commands rubocop-mode
     :after ruby-mode
+    :diminish rubocop-mode
     :init
     (add-hook 'ruby-mode-hook #'rubocop-mode))
 
@@ -1070,6 +1075,7 @@ We want to be able to edit CMake files in a sane way.
     :ensure t
     :commands robe-mode
     :after inf-ruby company
+    :diminish (robe-mode . "Ⓡ")
     :init
     (add-hook 'ruby-mode-hook 'robe-mode)
     (eval-after-load 'company
@@ -1097,6 +1103,7 @@ We want to be able to edit CMake files in a sane way.
 #+begin_src emacs-lisp
   (use-package rspec-mode
     :ensure t
+    :diminish rspec-mode
     :pin melpa-stable
     :commands rspec-mode
     :init (add-hook 'ruby-mode-hook #'rspec-mode)
@@ -1110,6 +1117,7 @@ We want to be able to edit CMake files in a sane way.
     :ensure t
     :after projectile
     :defer 0
+    :diminish projectile-rails-mode
     :config
     (projectile-rails-global-mode))
 #+end_src
@@ -1171,7 +1179,6 @@ We want to be able to edit CMake files in a sane way.
     (setq-default powerline-default-separator 'utf-8)
     (setq-default powerline-default-separator 'wave)
 
-    (spaceline-toggle-minor-modes-off)
     (spaceline-toggle-input-method-off)
     (spaceline-toggle-which-function-on)
     (spaceline-toggle-hud-off)
@@ -1328,8 +1335,9 @@ We want to be able to edit CMake files in a sane way.
 #+begin_src emacs-lisp
   (use-package whitespace
     :defer 0
+    :diminish (global-whitespace-mode . "Ⓦ")
     :init
-    (setq whitespace-global-modes '(c-mode c++-mode ruby-mode web-mode php-mode js2-mode css-mode scss-mode elixir-mode))
+    (setq whitespace-global-modes '(c-mode c++-mode ruby-mode web-mode php-mode js2-mode css-mode scss-mode elixir-mode conf-space-mode))
     (global-whitespace-mode t)
     (setq show-trailing-whitespace t)
     (setq whitespace-line-column 120)
@@ -1547,6 +1555,7 @@ When using OS X, the =ls= doesn't support =--dired=
     :ensure t
     :pin melpa-stable
     :defer 0
+    :diminish mmm-mode
     :config (progn
               (setq mmm-global-mode 'maybe)
               (set-face-background 'mmm-default-submode-face nil)
@@ -1589,8 +1598,9 @@ When using OS X, the =ls= doesn't support =--dired=
     :ensure t
     :commands alchemist-mode
     :after elixir-mode
-    :init (progn
-            (add-hook 'elixir-mode-hook 'alchemist-mode)))
+    :diminish (alchemist-mode . "Ⓐ")
+    :init
+    (add-hook 'elixir-mode-hook 'alchemist-mode))
 
   (use-package mix-format
     :commands mix-format mix-format-before-save
@@ -1611,6 +1621,7 @@ When using OS X, the =ls= doesn't support =--dired=
 #+begin_src emacs-lisp
   (use-package helm-config
     :ensure helm
+    :diminish helm-mode
     :pin melpa-stable
     :defer 0
     :config
@@ -1705,6 +1716,7 @@ Pretty-print XML with =xmllint=
 #+begin_src emacs-lisp
   (use-package prettier-js
     :commands prettier-js-mode prettier-js
+    :diminish (prettier-js-mode . "⚚")
     :init
     (add-hook 'js2-mode-hook 'prettier-js-mode)
     (add-hook 'css-mode-hook 'prettier-js-mode)
@@ -1719,6 +1731,7 @@ Pretty-print XML with =xmllint=
   (use-package typo
     :ensure t
     :defer 0
+    :diminish (typo-mode . "Ⓣ")
     :init
     (add-hook 'text-mode-hook 'typo-mode)
     :config
@@ -1943,3 +1956,11 @@ Pretty-print XML with =xmllint=
     :commands enable-circe-notifications)
 #+end_src
 
+** diminish bullshit
+
+#+begin_src emacs-lisp
+  (add-hook 'after-init-hook '(lambda ()
+                                (diminish 'auto-revert-mode)
+                                (diminish 'company-mode "Ⓒ")
+                                (diminish 'ck/keys-minor-mode)))
+#+end_src
