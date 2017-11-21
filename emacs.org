@@ -1960,6 +1960,8 @@ Pretty-print XML with =xmllint=
 
 #+begin_src emacs-lisp
   (add-hook 'after-init-hook '(lambda ()
+                                (eval-after-load 'auto-revert-mode
+                                  '(diminish 'auto-revert-mode))
                                 (diminish 'auto-revert-mode)
                                 (diminish 'company-mode "Ⓒ")
                                 (diminish 'ck/keys-minor-mode)))
