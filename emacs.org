@@ -1335,10 +1335,10 @@ We want to be able to edit CMake files in a sane way.
 #+begin_src emacs-lisp
   (use-package whitespace
     :defer 0
-    :diminish (global-whitespace-mode . "Ⓦ")
+    :diminish (whitespace-mode . "Ⓦ")
     :init
-    (setq whitespace-global-modes '(c-mode c++-mode ruby-mode web-mode php-mode js2-mode css-mode scss-mode elixir-mode conf-space-mode))
-    (global-whitespace-mode t)
+    ;(setq whitespace-global-modes '(c-mode c++-mode ruby-mode web-mode php-mode js2-mode css-mode scss-mode elixir-mode conf-space-mode))
+    ;(global-whitespace-mode t)
     (setq show-trailing-whitespace t)
     (setq whitespace-line-column 120)
 
@@ -1461,6 +1461,7 @@ When using OS X, the =ls= doesn't support =--dired=
           ("t" git-timemachine "git timemachine")
           ("a" magit-status "magit-status")
           ("p" sql-postgres "sql-postgres")
+          ("w" whitespace-mode "toggle whitespaces")
           ("." ck-put-file-name-wo-path-on-clipboard "copy filename to clipboard")
           (":" ck-put-file-name-on-clipboard "copy filename with full path to clipboard")))
 
@@ -1477,6 +1478,7 @@ When using OS X, the =ls= doesn't support =--dired=
         ("t" git-timemachine "git timemachine")
         ("a" magit-status "magit-status")
         ("p" sql-postgres "sql-postgres")
+        ("w" whitespace-mode "toggle whitespaces")
         ("m" mu4e "mu4e")
         ("z" (start-process-shell-command "mbsync" "*mbsync*" "mbsync -qa") "mbsync")
         ("." ck-put-file-name-wo-path-on-clipboard "copy filename to clipboard")
