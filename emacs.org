@@ -1729,7 +1729,6 @@ Pretty-print XML with =xmllint=
 #+begin_src emacs-lisp
   (use-package typo
     :ensure t
-    :defer 0
     :diminish (typo-mode . "Ⓣ")
     :init
     (add-hook 'text-mode-hook 'typo-mode)
