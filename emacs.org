@@ -1965,3 +1965,16 @@ Pretty-print XML with =xmllint=
                                 (diminish 'company-mode "Ⓒ")
                                 (diminish 'ck/keys-minor-mode)))
 #+end_src
+** dashboard
+
+#+begin_src emacs-lisp
+  (use-package dashboard
+    :ensure t
+    :config
+    (setq dashboard-items '((projects . 5)
+                            (agenda . 20)))
+
+    (setq dashboard-startup-banner 'logo)
+
+    (dashboard-setup-startup-hook))
+#+end_src
