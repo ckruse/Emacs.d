@@ -1333,7 +1333,6 @@ We want to be able to edit CMake files in a sane way.
 
 #+begin_src emacs-lisp
   (use-package whitespace
-    :defer 0
     :diminish (whitespace-mode . "Ⓦ")
     :init
     ;(setq whitespace-global-modes '(c-mode c++-mode ruby-mode web-mode php-mode js2-mode css-mode scss-mode elixir-mode conf-space-mode))
