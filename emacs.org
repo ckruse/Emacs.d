@@ -1093,9 +1093,7 @@ We want to be able to edit CMake files in a sane way.
     :commands rvm-use-default
     :defer 0
     :init
-    (setq rvm--current-ruby nil)
-    (when (not rvm--current-ruby)
-      (rvm-use-default)))
+    (rvm-use-default))
 #+end_src
 
   =rspec-mode= for some nice RSpec integration
