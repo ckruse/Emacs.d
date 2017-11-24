@@ -1351,7 +1351,7 @@ We want to be able to edit CMake files in a sane way.
             (tab-mark 9 [187 9] [92 9])))
 
     (setq ck/spaces-color "gray92")
-    (setq ck/spaces-err-color "firebrick")
+    (setq ck/spaces-err-color "firebrick"))
 
     ;; (set-face-attribute 'whitespace-space nil
     ;;                     :background nil
@@ -1371,7 +1371,6 @@ We want to be able to edit CMake files in a sane way.
     ;; (set-face-attribute 'whitespace-trailing nil
     ;;                     :background "khaki1"
     ;;                     :foreground ck/spaces-err-color)
-    )
     ;(setq whitespace-style '(face trailing)))
 #+end_src
 
