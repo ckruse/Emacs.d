@@ -1714,6 +1714,7 @@ Pretty-print XML with =xmllint=
 
 #+begin_src emacs-lisp
   (use-package prettier-js
+    :ensure t
     :commands prettier-js-mode prettier-js
     :diminish (prettier-js-mode . "⚚")
     :init
