@@ -1613,6 +1613,13 @@ When using OS X, the =ls= doesn't support =--dired=
                                       (setq mixfmt-args (list "--dot-formatter" (concat (projectile-project-root) "/.formatter.exs")))
                                     (setq mixfmt-args nil))))
     (add-hook 'before-save-hook 'mix-format-before-save))
+
+  (use-package flycheck-credo
+    :ensure t
+    :commands flycheck-credo-setup
+    :init
+    (eval-after-load 'flycheck
+      '(flycheck-credo-setup)))
 #+end_src
 
 ** helm
