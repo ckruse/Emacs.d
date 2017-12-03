@@ -1636,6 +1636,7 @@ When using OS X, the =ls= doesn't support =--dired=
           helm-ff-search-library-in-sexp t
           helm-scroll-amount 8
           helm-mode-fuzzy-match t
+          helm-M-x-fuzzy-match t
           helm-buffers-fuzzy-matching t)
 
     (setq helm-autoresize-max-height 30
