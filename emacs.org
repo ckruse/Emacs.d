@@ -43,6 +43,9 @@
 #+begin_src emacs-lisp
   (add-to-list 'load-path "~/.emacs.d/site-lisp")
 
+  (setq package-pinned-packages
+        '((use-package . "melpa-stable")))
+
   (unless (package-installed-p 'use-package)
     (package-refresh-contents)
     (package-install 'use-package))
