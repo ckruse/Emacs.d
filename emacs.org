@@ -1294,12 +1294,19 @@ We want to be able to edit CMake files in a sane way.
     :ensure t
     :pin melpa-stable
     :commands js2-mode
-    :init (progn
-            (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-            (add-to-list 'interpreter-mode-alist '("node" . js2-mode)))
-    :config (progn
-              (custom-set-variables
-               '(js2-basic-offset 2))))
+    :init
+    (add-to-list 'interpreter-mode-alist '("node" . js2-mode))
+    :config
+    (custom-set-variables
+     '(js2-basic-offset 2)))
+
+  (use-package rjsx-mode
+    :ensure t
+    :commands rjsx-mode
+    :init
+    (add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode))
+    (custom-set-variables
+     '(js2-basic-offset 2)))
 #+end_src
 
 ** which-function-mode
