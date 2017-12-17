@@ -390,11 +390,6 @@ Emacs should not polute my init.el
     I'm using the Tomorrow theme in the eighties variant.
 
 #+begin_src emacs-lisp
-  (custom-set-variables
-   '(custom-safe-themes
-     '("c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" ; smart-mode-line-respectful
-       default)))
-
   (use-package leuven-theme
     :ensure t
     :disabled
