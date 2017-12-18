@@ -78,7 +78,7 @@
 (defun ck/byte-recompile ()
   (interactive)
   (byte-recompile-directory "~/.emacs.d" 0)
-  (byte-recompile-directory "~/emacs.d/site-lisp" 0))
+  (byte-recompile-directory "~/.emacs.d/site-lisp" 0))
 #+end_src
 
 *** is this os x?
