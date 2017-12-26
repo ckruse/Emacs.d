@@ -1800,7 +1800,7 @@ Pretty-print XML with =xmllint=
           mu4e-sent-folder "/Defunct/Sent"
           mu4e-drafts-folder "/Defunct/Drafts"
           mu4e-compose-signature (file-string "~/dev/mail/signature-defunct")
-          user-mail-address "cjk@defunct.ch")
+          user-mail-address "christian@kruse.cool")
 
     (bind-keys :map mu4e-view-mode-map
                ("N" . mu4e-view-headers-next-unread)
@@ -1826,7 +1826,7 @@ Pretty-print XML with =xmllint=
     ;;      (mu4e-sent-folder "/Defunct/Sent")
     ;;      (mu4e-drafts-folder "/Defunct/Drafts")
     ;;      (mu4e-compose-signature (file-string "~/dev/mail/signature-defunct"))
-    ;;      (user-mail-address "cjk@defunct.ch"))
+    ;;      (user-mail-address "christian@kruse.cool"))
     ;;     ("Termitel"
     ;;      (mu4e-sent-folder "/Termitel/Sent")
     ;;      (mu4e-drafts-folder "/Termitel/Drafts")
