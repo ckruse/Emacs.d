@@ -990,7 +990,8 @@ We want to be able to edit CMake files in a sane way.
         ("v" mc/edit-lines "all lines")
         ("d" mc/mark-next-like-this "next match")
         ("p" mc/mark-previous-like-this "prev match")
-        ("D" mc/mark-all-like-this "all matches"))))
+        ("D" mc/mark-all-like-this "all matches")
+        ("h" mc-hide-unmatched-lines-mode "hide unmatched lines"))))
 #+end_src
 
 ** Perl support
