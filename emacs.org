@@ -1078,16 +1078,14 @@ We want to be able to edit CMake files in a sane way.
 
 ** Rails integration
 
-   We use RVM (and thus =rvm-mode=).
+   Set =GEM_PATH= from shell.
 
 #+begin_src emacs-lisp
-  (use-package rvm
-    :ensure t
-    :pin melpa-stable
-    :commands rvm-use-default
-    :defer 0
-    :init
-    (rvm-use-default))
+  (defun set-GEM_PATH-from-shell-GEM_PATH ()
+    (interactive)
+    (let ((path-from-shell (replace-regexp-in-string "[ \t\n]*$" "" (shell-command-to-string "$SHELL --login -i -c 'echo $GEM_PATH'"))))
+      (setenv "GEM_PATH" path-from-shell)))
+  (set-GEM_PATH-from-shell-GEM_PATH)
 #+end_src
 
   =rspec-mode= for some nice RSpec integration
