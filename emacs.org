@@ -954,15 +954,6 @@ We want to be able to edit CMake files in a sane way.
         ("h" mc-hide-unmatched-lines-mode "hide unmatched lines"))))
 #+end_src
 
-** Perl support
-
-   There seem to be references to =cperl-mode= in various pieces of
-   code. We don't use it.
-
-#+begin_src
-(defalias 'perl-mode 'cperl-mode)
-#+end_src
-
 ** PHP support
 
    Just indentation, nothing special.
