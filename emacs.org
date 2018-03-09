@@ -554,51 +554,11 @@ key again. I instantly fell in love with it.
 #+begin_src emacs-lisp
   (use-package smartparens-config
     :ensure smartparens
-    :pin melpa-stable
     :defer 0
     :diminish smartparens-mode
     :init
     (smartparens-global-mode)
-    (show-smartparens-global-mode t)
-
-    ;;; shamelessly stolen from spacemacs
-    (defun spacemas//elixir-looking-back-special-p (expr)
-      (save-excursion
-        (when (or (looking-back " ")
-                  (looking-back "-")) (backward-char))
-        (looking-back expr)))
-
-    (defun spacemacs//elixir-point-after-fn-p (id action context)
-      (save-excursion
-        (when (looking-back id) (backward-char))
-        (looking-back "fn")))
-
-    (defun spacemacs//elixir-do-end-close-action (id action context)
-      (when (eq action 'insert)
-        (cond ((spacemas//elixir-looking-back-special-p id)
-               (insert " ") (backward-char))
-              ((looking-back "(")
-               (insert ") ") (backward-char) (backward-char))
-              (t
-               (newline-and-indent)
-               (forward-line -1)
-               (indent-according-to-mode)))))
-
-    (sp-with-modes '(elixir-mode)
-      (sp-local-pair
-       "(" ")"
-       :unless '(:add spacemacs//elixir-point-after-fn-p))
-      (sp-local-pair
-       "fn" "end"
-       :when '(("SPC" "RET" "-" "("))
-       :post-handlers '(:add spacemacs//elixir-do-end-close-action)
-       :actions '(insert)))
-    (sp-with-modes '(elixir-mode)
-      (sp-local-pair
-       "do" "end"
-       :when '(("SPC" "RET"))
-       :post-handlers '(:add spacemacs//elixir-do-end-close-action)
-       :actions '(insert))))
+    (show-smartparens-global-mode t))
 
   (use-package rainbow-delimiters
     :ensure t
@@ -1595,18 +1555,20 @@ When using OS X, the =ls= doesn't support =--dired=
     :init
     (add-hook 'elixir-mode-hook 'alchemist-mode))
 
-  (use-package mix-format
-    :commands mix-format mix-format-before-save
+  (use-package elixir-format
+    :commands elixir-format elixir-format-before-save
     :after elixir-mode
     :load-path "~/dev/mix-format.el/"
     :init
     (when (ck/is-osx)
-      (setq mixfmt-mix "/usr/local/bin/mix"))
-    (add-hook 'mix-format-hook '(lambda ()
-                                  (if (projectile-project-p)
-                                      (setq mixfmt-args (list "--dot-formatter" (concat (projectile-project-root) "/.formatter.exs")))
-                                    (setq mixfmt-args nil))))
-    (add-hook 'before-save-hook 'mix-format-before-save))
+      (setq elixir-format-mix-path "/usr/local/bin/mix"))
+    (add-hook 'elixir-format-hook '(lambda ()
+                                     (if (projectile-project-p)
+                                         (let ((fmt-file (concat (projectile-project-root) "/.formatter.exs")))
+                                           (when (file-regular-p fmt-file)
+                                             (setq elixir-format-arguments (list "--dot-formatter" fmt-file))))
+                                       (setq elixir-format-arguments nil))))
+    (add-hook 'before-save-hook 'elixir-format-before-save))
 
   (use-package flycheck-credo
     :ensure t
