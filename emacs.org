@@ -1064,18 +1064,6 @@ We want to be able to edit CMake files in a sane way.
     (define-key projectile-rails-mode-map (kbd "C-c c r") 'hydra-projectile-rails/body))
 #+end_src
 
-** Rust support
-
-#+begin_src emacs-lisp
-  (use-package rust-mode
-    :ensure t
-    :pin melpa-stable
-    :commands rust-mode
-    :init
-    (setq rust-indent-unit 2)
-    (setq-default rust-indent-unit 2))
-#+end_src
-
 ** smart-mode-line
 
    Unclutters my mode line (e.g. hides minor modes).
@@ -1389,83 +1377,22 @@ When using OS X, the =ls= doesn't support =--dired=
    them easily.
 
 #+begin_src emacs-lisp
-  (if (ck/is-osx)
-      (define-key ck/keys-minor-mode-map "\C-ccl"
-        (defhydra launchers (:color blue)
-          "Launchers"
-          ("c" calc "Calc")
-          ("d" ediff-buffers "ediff")
-          ("f" find-dired "find-dired")
-          ("g" lgrep "lgrep")
-          ("G" rgrep "rgrep")
-          ("h" man "man")
-          ("s" eshell-here "eshell")
-          ("t" git-timemachine "git timemachine")
-          ("a" magit-status "magit-status")
-          ("p" sql-postgres "sql-postgres")
-          ("w" whitespace-mode "toggle whitespaces")
-          ("." ck-put-file-name-wo-path-on-clipboard "copy filename to clipboard")
-          (":" ck-put-file-name-on-clipboard "copy filename with full path to clipboard")))
-
-    (define-key ck/keys-minor-mode-map "\C-ccl"
-      (defhydra launchers (:color blue)
-        "Launchers"
-        ("c" calc "Calc")
-        ("d" ediff-buffers "ediff")
-        ("f" find-dired "find-dired")
-        ("g" lgrep "lgrep")
-        ("G" rgrep "rgrep")
-        ("h" man "man")
-        ("s" eshell-here "eshell")
-        ("t" git-timemachine "git timemachine")
-        ("a" magit-status "magit-status")
-        ("p" sql-postgres "sql-postgres")
-        ("w" whitespace-mode "toggle whitespaces")
-        ("m" mu4e "mu4e")
-        ("z" (start-process-shell-command "mbsync" "*mbsync*" "mbsync -qa") "mbsync")
-        ("." ck-put-file-name-wo-path-on-clipboard "copy filename to clipboard")
-        (":" ck-put-file-name-on-clipboard "copy filename with full path to clipboard"))))
-#+end_src
-
-** =eshell= modifications
-
-#+begin_src emacs-lisp
-  (defun eshell-here ()
-    "Opens up a new shell in the directory associated with the
-  current buffer's file. The eshell is renamed to match that
-  directory to make multiple eshell windows easier."
-    (interactive)
-    (let* ((proot (projectile-project-root))
-           (parent (if proot
-                       proot
-                     (if
-                         (buffer-file-name)
-                         (file-name-directory (buffer-file-name))
-                       default-directory)))
-           (height (/ (window-total-height) 3))
-           (name   (car (last (split-string parent "/" t))))
-           (default-directory parent))
-      (split-window-vertically (- height))
-      (other-window 1)
-      (eshell "new")
-      (rename-buffer (concat "*eshell: " name "*"))))
-
-  (defun eshell/x ()
-    (interactive)
-    (insert "exit")
-    (eshell-send-input)
-    (delete-window))
-
-  (defun eshell-mode-hook-func ()
-    (setq eshell-path-env (concat (getenv "PATH") ":" eshell-path-env))
-    (define-key eshell-mode-map [up] 'previous-line)
-    (define-key eshell-mode-map [down] 'next-line)
-    (define-key eshell-mode-map (kbd "\C-x k") 'eshell/x))
-    ;(setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
-    ;(define-key eshell-mode-map (kbd "M-s") 'other-window-or-split))
-
-  (add-hook 'eshell-mode-hook 'eshell-mode-hook-func)
-
+  (define-key ck/keys-minor-mode-map "\C-ccl"
+    (defhydra launchers (:color blue)
+      "Launchers"
+      ("c" calc "Calc")
+      ("d" ediff-buffers "ediff")
+      ("f" find-dired "find-dired")
+      ("g" lgrep "lgrep")
+      ("G" rgrep "rgrep")
+      ("h" man "man")
+      ("s" eshell-here "eshell")
+      ("t" git-timemachine "git timemachine")
+      ("a" magit-status "magit-status")
+      ("p" sql-postgres "sql-postgres")
+      ("w" whitespace-mode "toggle whitespaces")
+      ("." ck-put-file-name-wo-path-on-clipboard "copy filename to clipboard")
+      (":" ck-put-file-name-on-clipboard "copy filename with full path to clipboard")))
 #+end_src
 
 ** comment/uncomment line
@@ -1490,20 +1417,6 @@ When using OS X, the =ls= doesn't support =--dired=
       (back-to-indentation)))
 
   (define-key ck/keys-minor-mode-map (kbd "C-c c C-c") 'endless/comment-line-or-region)
-#+end_src
-
-** go-mode
-
-#+begin_src emacs-lisp
-  (use-package go-mode
-    :ensure t
-    :pin melpa-stable
-    :commands go-mode
-    :init (progn
-            (add-to-list 'exec-path (concat (getenv "HOME") "/dev/go/bin"))
-            (add-to-list 'auto-mode-alist (cons "\\.go\\'" 'go-mode))
-            (add-hook 'before-save-hook #'gofmt-before-save)
-            (setenv "GOPATH" (concat (getenv "HOME") "/dev/go"))))
 #+end_src
 
 ** elixir-mode
@@ -1607,18 +1520,6 @@ Pretty-print XML with =xmllint=
   (setq css-indent-offset 2)
 #+end_src
 
-** TouchBar shortcuts
-
-#+begin_src emacs-lisp
-  (when (ck/is-osx)
-    (define-key ck/keys-minor-mode-map [f1] 'org-capture)
-    (define-key ck/keys-minor-mode-map [f2] (lambda ()
-                                              (interactive)
-                                              (find-file "~/Documents/org/inbox.org")))
-    (define-key ck/keys-minor-mode-map [f3] 'magit-status)
-    (define-key ck/keys-minor-mode-map [f5] 'er/expand-region))
-#+end_src
-
 ** po-mode
 
 #+begin_src emacs-lisp
@@ -1655,154 +1556,6 @@ Pretty-print XML with =xmllint=
     :config
     (setq typo-language "German")
     (typo-global-mode 1))
-#+end_src
-
-** mu4e
-
-#+begin_src emacs-lisp
-  ;; make sure mu4e is in your load-path
-  (use-package mu4e
-    :commands mu4e
-    :if (not (ck/is-osx))
-    :init
-    (setq mail-user-agent 'mu4e-user-agent)
-    :config
-    (require 'org-mu4e)
-    (require 'mu4e-contrib)
-
-    (defun file-string (file)
-      "Read the contents of a file and return as a string."
-
-      (let ((b (find-file-noselect file))
-            (str ""))
-        (setq str (with-current-buffer b
-                    (buffer-string)))
-        (kill-buffer b)
-        str))
-
-
-    (setq mu4e-maildir "~/Mail"
-          mu4e-sent-folder   "/Defunct/Sent"
-          mu4e-drafts-folder "/Defunct/Drafts"
-          mu4e-trash-folder  "/Defunct/Trash"
-
-          mu4e-use-fancy-chars t
-          mu4e-view-show-images t
-          mu4e-attachment-dir "~/Downloads"
-          mu4e-change-filenames-when-moving t
-          mu4e-headers-full-search t
-          mu4e-get-mail-command "true"
-          mu4e-update-interval 60
-          mu4e-hide-index-messages t
-          mu4e-view-show-addresses t
-          mu4e-completing-read-function 'completing-read)
-
-    (setq mu4e-headers-fields
-          '( (:human-date    .   12)
-             (:flags         .    6)
-             (:maildir       .   22)
-             (:mailing-list  .   10)
-             (:from          .   22)
-             (:subject       .   nil)))
-
-    (setq mu4e-html2text-command 'mu4e-shr2text
-          mime-edit-split-message nil
-          mime-edit-pgp-signers '("A99A9D73")
-          mime-edit-pgp-encrypt-to-self t
-          message-send-mail-function 'smtpmail-send-it
-          smtpmail-default-smtp-server "localhost"
-          smtpmail-smtp-server "localhost"
-          ;; message-send-mail-function 'message-send-mail-with-sendmail
-          ;; sendmail-program "~/dev/mail/msmtp-enqueue.sh"
-          ;; message-sendmail-extra-arguments '("-a" "Defunct")
-          mail-specify-envelope-from t
-          message-sendmail-f-is-evil nil
-          mail-envelope-from 'header
-          mail-interactive t
-          message-sendmail-envelope-from 'header
-          user-full-name "Christian Kruse"
-          message-kill-buffer-on-exit t
-          mu4e-headers-include-related nil
-
-          mu4e-sent-folder "/Defunct/Sent"
-          mu4e-drafts-folder "/Defunct/Drafts"
-          mu4e-compose-signature (file-string "~/dev/mail/signature-defunct")
-          user-mail-address "christian@kruse.cool")
-
-    (bind-keys :map mu4e-view-mode-map
-               ("N" . mu4e-view-headers-next-unread)
-               ("P" . mu4e-view-headers-prev-unread))
-
-    (setq mu4e-refile-folder
-          (lambda (msg)
-            (let ((maildir (mu4e-message-field msg :maildir))
-                  (account))
-              (string-match "/\\(.*?\\)/" maildir)
-              (setq account (match-string 1 maildir))
-              (concat "/" account "/Archiv"))))
-
-    (add-to-list 'mu4e-bookmarks
-                 '("(maildir:/Defunct/INBOX) and flag:unread"
-                   "Unread in unified inbox" ?n))
-    (add-to-list 'mu4e-bookmarks
-                 '("maildir:/Defunct/INBOX"
-                   "Unified inbox" ?i))
-
-    ;; (defvar my-mu4e-account-alist
-    ;;   '(("Defunct"
-    ;;      (mu4e-sent-folder "/Defunct/Sent")
-    ;;      (mu4e-drafts-folder "/Defunct/Drafts")
-    ;;      (mu4e-compose-signature (file-string "~/dev/mail/signature-defunct"))
-    ;;      (user-mail-address "christian@kruse.cool"))
-    ;;     ("Termitel"
-    ;;      (mu4e-sent-folder "/Termitel/Sent")
-    ;;      (mu4e-drafts-folder "/Termitel/Drafts")
-    ;;      (mu4e-compose-signature (file-string "~/dev/mail/signature-termitel"))
-    ;;      (user-mail-address "c.kruse@termitel.de"))))
-
-    ;; (defvar my-mu4e-account nil)
-
-    ;; (defun my-mu4e-set-account ()
-    ;;   "Set the account for composing a message."
-    ;;   (let* ((account
-    ;;           (if mu4e-compose-parent-message
-    ;;               (let ((maildir (mu4e-message-field mu4e-compose-parent-message :maildir)))
-    ;;                 (string-match "/\\(.*?\\)/" maildir)
-    ;;                 (match-string 1 maildir))
-    ;;             (completing-read (format "Compose with account: (%s) "
-    ;;                                      (mapconcat #'(lambda (var) (car var))
-    ;;                                                 my-mu4e-account-alist "/"))
-    ;;                              (mapcar #'(lambda (var) (car var)) my-mu4e-account-alist)
-    ;;                              nil t nil nil (caar my-mu4e-account-alist))))
-    ;;          (account-vars (cdr (assoc account my-mu4e-account-alist))))
-    ;;     (setq mu-mu4e-account account)
-    ;;     (if account-vars
-    ;;         (mapc #'(lambda (var)
-    ;;                   (set (car var) (cadr var)))
-    ;;               account-vars)
-    ;;       (error "No email account found"))))
-
-    ;; (defun my-mu4e-set-msmtp-account ()
-    ;;   (setq message-sendmail-extra-arguments
-    ;;         (list "-a" mu-mu4e-account)))
-
-    ;; (add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)
-    (add-hook 'mu4e-compose-mode-hook 'mml-secure-message-sign-pgpmime))
-
-  (when (not (ck/is-osx))
-    (use-package mu4e-alert
-      :ensure t
-      :after mu4e
-      :defer 0
-      :init
-      (mu4e-alert-set-default-style 'libnotify)
-
-      (setq mu4e-alert-interesting-mail-query "flag:unread AND maildir:/Defunct/INBOX")
-
-      (mu4e-alert-enable-notifications)
-      (mu4e-alert-enable-mode-line-display)
-      (spaceline-toggle-mu4e-alert-segment-on)))
-    ;; (add-hook 'message-send-mail-hook 'my-mu4e-set-msmtp-account)))
 #+end_src
 
 ** diminish bullshit
