@@ -151,7 +151,9 @@
     (setq shell-file-name "bash")
     (load "~/.emacs.d/emulate-mac-keyboard-mode")
     (emulate-mac-us-keyboard-mode)
-    (setq mac-command-modifier 'super))
+    (setq mac-command-modifier 'super)
+    (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+    (add-to-list 'default-frame-alist '(ns-appearance . dark)))
 #+end_src
 
 *** customizable variables
@@ -1253,13 +1255,8 @@ We want to be able to edit CMake files in a sane way.
    located in in the mode line.
 
 #+begin_src emacs-lisp
-(which-function-mode)
-
-(add-to-list 'which-func-modes 'ruby-mode)
-(add-to-list 'which-func-modes 'emacs-lisp-mode)
-(add-to-list 'which-func-modes 'js-mode)
-(add-to-list 'which-func-modes 'c-mode)
-(add-to-list 'which-func-modes 'php-mode)
+  (which-function-mode)
+  (setq which-func-modes '(ruby-mode emacs-lisp-mode js-mode c-mode php-mode elixir-mode))
 #+end_src
 
 ** whitespace-mode
