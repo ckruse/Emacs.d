@@ -1564,5 +1564,6 @@ Pretty-print XML with =xmllint=
 
   (add-hook 'after-init-hook '(lambda ()
                                 (diminish 'company-mode "Ⓒ")
-                                (diminish 'ck/keys-minor-mode)))
+                                (diminish 'ck/keys-minor-mode)
+                                (diminish 'eldoc-mode)))
 #+end_src
