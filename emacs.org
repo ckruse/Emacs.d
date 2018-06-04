@@ -1421,7 +1421,17 @@ When using OS X, the =ls= doesn't support =--dired=
 #+begin_src emacs-lisp
   (use-package elixir-mode
     :ensure t
-    :commands elixir-mode)
+    :commands elixir-mode
+    :init
+    (add-hook 'elixir-mode-hook
+              (lambda () (add-hook 'before-save-hook 'elixir-format nil t)))
+
+    (add-hook 'elixir-format-hook (lambda ()
+                                    (if (projectile-project-p)
+                                        (setq elixir-format-arguments
+                                              (list "--dot-formatter"
+                                                    (concat (locate-dominating-file buffer-file-name ".formatter.exs") ".formatter.exs")))
+                                      (setq elixir-format-arguments nil)))))
 
   (use-package alchemist
     :ensure t
@@ -1430,21 +1440,6 @@ When using OS X, the =ls= doesn't support =--dired=
     :diminish (alchemist-mode . "Ⓐ")
     :init
     (add-hook 'elixir-mode-hook 'alchemist-mode))
-
-  (use-package elixir-format
-    :commands elixir-format elixir-format-before-save
-    :after elixir-mode
-    :load-path "~/dev/mix-format.el/"
-    :init
-    (when (ck/is-osx)
-      (setq elixir-format-mix-path "/usr/local/bin/mix"))
-    (add-hook 'elixir-format-hook '(lambda ()
-                                     (if (projectile-project-p)
-                                         (let ((fmt-file (concat (projectile-project-root) "/.formatter.exs")))
-                                           (when (file-regular-p fmt-file)
-                                             (setq elixir-format-arguments (list "--dot-formatter" fmt-file))))
-                                       (setq elixir-format-arguments nil))))
-    (add-hook 'before-save-hook 'elixir-format-before-save))
 
   (use-package flycheck-credo
     :ensure t
