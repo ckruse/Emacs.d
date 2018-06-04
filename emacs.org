@@ -1291,6 +1291,9 @@ We want to be able to edit CMake files in a sane way.
     (set-face-attribute 'whitespace-space nil
                         :background nil
                         :foreground ck/spaces-color)
+    (set-face-attribute 'whitespace-hspace nil
+                        :background nil
+                        :foreground ck/spaces-color)
     (set-face-attribute 'whitespace-tab nil
                         :background nil
                         :foreground ck/spaces-color)
