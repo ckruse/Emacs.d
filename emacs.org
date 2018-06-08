@@ -717,11 +717,6 @@ similiar to the autocompletion provided by XCode.
           company-begin-commands '(self-insert-command))
     (global-company-mode))
 
-  (use-package company-box
-    :ensure t
-    :diminish company-box-mode
-    :init (add-hook 'company-mode-hook 'company-box-mode))
-
   (use-package company-web-html
     :ensure company-web
     :pin melpa-stable
