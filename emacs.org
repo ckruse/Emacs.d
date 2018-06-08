@@ -967,13 +967,17 @@ We want to be able to edit CMake files in a sane way.
     :commands php-mode
     :init
     (defun ck-init-php ()
-      (setq c-basic-offset 2)
-      (c-set-offset 'arglist-cont 0)
-      (c-set-offset 'arglist-intro 2)
-      (c-set-offset 'case-label 2)
-      (c-set-offset 'arglist-close 0))
+      (php-set-style "ck"))
 
-    (add-hook 'php-mode-hook 'ck-init-php))
+    (add-hook 'php-mode-hook 'ck-init-php)
+
+    :config
+    (c-add-style
+     "ck"
+     '("php"
+       (c-basic-offset . 2)
+       (c-offsets-alist . ((case-label . 0)))
+       (tab-width . 2))))
 #+end_src
 
 ** ruby support
