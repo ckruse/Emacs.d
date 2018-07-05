@@ -1556,3 +1556,16 @@ Pretty-print XML with =xmllint=
                                 (diminish 'ck/keys-minor-mode)
                                 (diminish 'eldoc-mode)))
 #+end_src
+** theme light or dark
+
+#+begin_src emacs-lisp
+  (defun ck/theme-dark ()
+    (interactive)
+    (load-theme 'spacemacs-dark t)
+    (spaceline-emacs-theme))
+
+  (defun ck/theme-light ()
+    (interactive)
+    (load-theme 'spacemacs-light t)
+    (spaceline-emacs-theme))
+#+end_src
