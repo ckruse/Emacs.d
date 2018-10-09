@@ -6,9 +6,9 @@
 (use-package diminish
   :ensure t)
 
-(use-package auto-package-update
+(use-package paradox
   :ensure t
-  :commands auto-package-update-now)
+  :commands paradox-list-packages paradox-upgrade-packages)
 
 (use-package which-key
   :ensure t
@@ -95,6 +95,11 @@
   (setq projectile-completion-system 'helm)
   :config
   (helm-projectile-on))
+
+(use-package helm-rg
+  :ensure t
+  :after helm
+  :commands helm-rg helm-rg-at-point helm-projectile-rg helm-projectile-rg-at-point)
 
 (use-package hydra
   :ensure t)
@@ -250,21 +255,11 @@
   :ensure t
   :commands gist-region gist-region-private gist-buffer gist-buffer-private gist-region-or-buffer gist-region-or-buffer-private)
 
-(use-package js2-mode
+(use-package editorconfig
   :ensure t
-  :commands js2-mode
+  :diminish editorconfig-mode
   :init
-  (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode)))
-
-(use-package prettier-js
-  :ensure t
-  :commands prettier-js-mode prettier-js
-  :diminish (prettier-js-mode . "⚚")
-  :init
-  (add-hook 'js2-mode-hook 'prettier-js-mode)
-  (add-hook 'css-mode-hook 'prettier-js-mode)
-  (add-hook 'scss-mode-hook 'prettier-js-mode)
-  :config
-  (setq prettier-js-command "prettier-eslint"))
+  (add-hook 'prog-mode-hook (editorconfig-mode 1))
+  (add-hook 'text-mode-hook (editorconfig-mode 1)))
 
 (provide 'packages)

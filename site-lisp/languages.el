@@ -42,14 +42,6 @@
   (add-to-list 'auto-mode-alist '("\\.prawn$" . ruby-mode))
   (add-to-list 'auto-mode-alist '("\\.xlsx\\.axlsx$" . ruby-mode)))
 
-(use-package rubocop
-  :ensure t
-  :commands rubocop-mode
-  :after ruby-mode
-  :diminish rubocop-mode
-  :init
-  (add-hook 'ruby-mode-hook #'rubocop-mode))
-
 (use-package inf-ruby
   :ensure t
   :commands inf-ruby-mode
@@ -68,6 +60,14 @@
   (eval-after-load 'company
     '(push 'company-robe company-backends)))
 
+(use-package rubocop
+  :ensure t
+  :commands rubocop-mode
+  :after ruby-mode
+  :diminish rubocop-mode
+  :init
+  (add-hook 'ruby-mode-hook #'rubocop-mode))
+
 (use-package rspec-mode
   :ensure t
   :diminish rspec-mode
@@ -81,9 +81,21 @@
   :commands js2-mode
   :init
   (add-to-list 'interpreter-mode-alist '("node" . js2-mode))
+  (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
   :config
   (custom-set-variables
    '(js2-basic-offset 2)))
+
+(use-package prettier-js
+  :ensure t
+  :commands prettier-js-mode prettier-js
+  :diminish (prettier-js-mode . "⚚")
+  :init
+  (add-hook 'js2-mode-hook 'prettier-js-mode)
+  (add-hook 'css-mode-hook 'prettier-js-mode)
+  (add-hook 'scss-mode-hook 'prettier-js-mode)
+  :config
+  (setq prettier-js-command "prettier-eslint"))
 
 
 (use-package yaml-mode
