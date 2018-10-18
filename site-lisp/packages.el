@@ -171,12 +171,18 @@
   :ensure company
   :defer 0
   :init
-  (setq company-tooltip-limit 20
+  (setq company-tooltip-limit 10
         company-tooltip-align-annotations 't
-        company-idle-delay .2
+        company-idle-delay 0
+        company-tooltip-idle-delay 1
         company-minimum-prefix-length 2
-        company-begin-commands '(self-insert-command))
-  (global-company-mode))
+        company-begin-commands '(self-insert-command)
+        company-frontends '(company-pseudo-tooltip-unless-just-one-frontend-with-delay company-preview-frontend company-echo-metadata-frontend)
+        company-require-match 'never)
+  (global-company-mode)
+  :config
+  (define-key company-active-map (kbd "<return>") nil)
+  (define-key company-active-map (kbd "RET") nil))
 
 (use-package company-web-html
   :ensure company-web
