@@ -75,6 +75,9 @@
   :init (add-hook 'ruby-mode-hook #'rspec-mode)
   :config (rspec-install-snippets))
 
+;;;
+;;; JS
+;;;
 
 (use-package js2-mode
   :ensure t
@@ -83,8 +86,7 @@
   (add-to-list 'interpreter-mode-alist '("node" . js2-mode))
   (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
   :config
-  (custom-set-variables
-   '(js2-basic-offset 2)))
+  (setq js2-basic-offset 2))
 
 (use-package prettier-js
   :ensure t
@@ -96,6 +98,20 @@
   (add-hook 'scss-mode-hook 'prettier-js-mode)
   :config
   (setq prettier-js-command "prettier-eslint"))
+
+(use-package tide
+  :ensure t
+  :commands (tide-mode tide-setup tide-hl-identifier-mode)
+  :after (js2-mode company flycheck)
+  :hook ((js2-mode . tide-setup)
+         (js2-mode . tide-hl-identifier-mode)))
+
+(use-package rjsx-mode
+  :ensure t
+  :init
+  (add-to-list 'auto-mode-alist '("components\\/.*\\.js\\'" . rjsx-mode))
+  (add-to-list 'auto-mode-alist '("containers\\/.*\\.js\\'" . rjsx-mode)))
+
 
 
 (use-package yaml-mode
