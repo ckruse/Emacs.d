@@ -189,6 +189,8 @@
   :ensure t
   :commands flycheck-mix-setup
   :init
+  (defvar elixir-enable-compilation-checking nil)
+
   (add-to-list 'safe-local-variable-values
                    (cons 'elixir-enable-compilation-checking nil))
   (add-to-list 'safe-local-variable-values
