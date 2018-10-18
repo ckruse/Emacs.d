@@ -185,6 +185,27 @@
   :init
   (add-hook 'elixir-mode-hook 'alchemist-mode))
 
+(use-package flycheck-mix
+  :ensure t
+  :commands flycheck-mix-setup
+  :init
+  (add-to-list 'safe-local-variable-values
+                   (cons 'elixir-enable-compilation-checking nil))
+  (add-to-list 'safe-local-variable-values
+               (cons 'elixir-enable-compilation-checking t))
+
+  (add-hook 'hack-local-variables-hook
+            (lambda ()
+              (when (and (or elixir-enable-compilation-checking) (string-equal major-mode "elixir-mode"))
+                (flycheck-mix-setup)
+                ;; enable credo only if there are no compilation errors
+                (flycheck-add-next-checker 'elixir-mix '(warning . elixir-credo)))))
+  (add-hook 'flycheck-before-syntax-check-hook (lambda ()
+                                                 (when (string-equal major-mode "elixir-mode")
+                                                   (setenv "MIX_ENV" "test")))))
+
+
+
 (use-package flycheck-credo
   :ensure t
   :commands flycheck-credo-setup 
@@ -192,6 +213,7 @@
   :init
   (eval-after-load 'flycheck
     '(flycheck-credo-setup)))
+
 
 ;; css mode config
 (setq css-indent-offset 2)
