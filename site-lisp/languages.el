@@ -1,5 +1,22 @@
 ;; -*- coding: utf-8 -*-
 
+(use-package lsp-mode
+  :load-path "~/dev/emacs/lsp-mode"
+  :diminish lsp-mode
+  :commands lsp-mode
+  :init
+  ;(remove-hook 'lsp-eldoc-hook 'lsp-document-highlight)
+  (remove-hook 'lsp-eldoc-hook 'lsp-hover))
+(use-package company-lsp
+  :load-path "~/dev/emacs/company-lsp/"
+  :commands company-lsp
+  :init (push 'company-lsp company-backends))
+(use-package lsp-ui
+  :disabled
+  :load-path "~/dev/emacs/lsp-ui"
+  :init
+  (add-hook 'lsp-mode-hook 'lsp-ui-mode))
+
 (use-package markdown-mode
   :ensure t
   :commands markdown-mode
@@ -50,15 +67,20 @@
   (add-hook 'ruby-mode-hook 'inf-ruby-minor-mode)
   (add-hook 'compilation-filter-hook 'inf-ruby-auto-enter))
 
-(use-package robe
-  :ensure t
-  :commands robe-mode
-  :after inf-ruby company
-  :diminish (robe-mode . "Ⓡ")
+(use-package lsp-ruby
+  :load-path "~/dev/emacs/lsp-ruby"
   :init
-  (add-hook 'ruby-mode-hook 'robe-mode)
-  (eval-after-load 'company
-    '(push 'company-robe company-backends)))
+  (add-hook 'ruby-mode-hook #'lsp-ruby-enable))
+
+;; (use-package robe
+;;   :ensure t
+;;   :commands robe-mode
+;;   :after inf-ruby company
+;;   :diminish (robe-mode . "Ⓡ")
+;;   :init
+;;   (add-hook 'ruby-mode-hook 'robe-mode)
+;;   (eval-after-load 'company
+;;     '(push 'company-robe company-backends)))
 
 (use-package rubocop
   :ensure t
