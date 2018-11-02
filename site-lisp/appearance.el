@@ -1,10 +1,17 @@
 (add-to-list 'default-frame-alist '(font . "Source Code Pro-11"))
 
 (use-package spacemacs-theme
+  :disabled
   :ensure t
   :defer
   :init
   (load-theme 'spacemacs-dark t))
+
+(use-package monokai-theme
+  :ensure t
+  :defer
+  :init
+  (load-theme 'monokai t))
 
 ;; (use-package spaceline-config
 ;;   :ensure spaceline
