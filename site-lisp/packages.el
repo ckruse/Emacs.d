@@ -232,7 +232,9 @@
   (add-to-list 'magit-no-confirm 'stage-all-changes)
   (add-to-list 'magit-no-confirm 'unstage-all-changes)
   (setq magit-save-repository-buffers nil
-        magit-last-seen-setup-instructions "2.1.0"))
+        magit-last-seen-setup-instructions "2.1.0")
+  (push (cons [unpushed status] 'show) magit-section-initial-visibility-alist)
+  (push (cons [stashes status] 'show) magit-section-initial-visibility-alist))
 
 (use-package magit-todos
   :after magit
