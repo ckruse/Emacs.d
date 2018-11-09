@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: etype
+# key: etype
+# --
+export const $1 = "$1";
+export const $1_SUCCESS = "$1_SUCCESS";
+export const $1_FAILURE = "$1_FAILURE";
+$0

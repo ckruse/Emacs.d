@@ -1,0 +1,25 @@
+# -*- mode: snippet -*-
+# name: redux
+# key: redux
+# --
+import React from "react";
+import { connect } from "react-redux";
+
+class $1 extends React.Component {
+  render() {
+    return <${0:div} />;
+  }
+}
+
+const mapStateToProps = store => ({
+  // property: store.property
+});
+
+const mapDispatchToProps = dispatch => ({
+  //action: () => dispatch(action())
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)($1);
