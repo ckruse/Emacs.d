@@ -148,7 +148,7 @@
 
 (use-package flycheck
   :ensure t
-  :commands global-flycheck-mode
+  :commands (global-flycheck-mode flycheck-add-next-checker)
   :diminish flycheck-mode
   :init (add-hook 'after-init-hook #'global-flycheck-mode)
   :config

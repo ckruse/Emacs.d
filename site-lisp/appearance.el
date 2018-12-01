@@ -7,11 +7,17 @@
   :init
   (load-theme 'spacemacs-dark t))
 
-(use-package monokai-theme
+(use-package leuven-theme
   :ensure t
-  :defer
   :init
-  (load-theme 'monokai t))
+  (load-theme 'leuven t)
+  (custom-theme-set-faces
+   'leuven
+   '(org-level-1 nil :overline nil) ; I don't like the overline in L1 and L2
+   '(org-level-2 nil :overline nil) ;  Headings, so I remove it
+   '(org-block-begin-line nil :underline nil)
+   '(org-block-end-line nil :overline nil)
+   '(hl-line nil :underline nil)))
 
 ;; (use-package spaceline-config
 ;;   :ensure spaceline
@@ -33,7 +39,7 @@
 (use-package smart-mode-line
   :ensure t
   :config
-  (setq sml/theme 'respectful)
+  (setq sml/theme 'light)
   (setq sml/no-confirm-load-theme t)
 
   (add-to-list 'sml/replacer-regexp-list
@@ -46,6 +52,7 @@
                  (lambda (s) (concat (match-string 1 s) ": ")))
                t)
   :init
+  (setq sml/theme 'light)
   (sml/setup))
 
 (provide 'appearance)
