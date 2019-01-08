@@ -38,7 +38,6 @@
 
 (use-package smart-mode-line
   :ensure t
-  :disabled
   :config
   ;;(setq sml/theme 'dark)
   (setq sml/no-confirm-load-theme t)
