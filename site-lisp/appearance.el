@@ -1,13 +1,13 @@
 (add-to-list 'default-frame-alist '(font . "Source Code Pro-11"))
 
 (use-package spacemacs-theme
-  :disabled
   :ensure t
   :defer
   :init
   (load-theme 'spacemacs-dark t))
 
 (use-package leuven-theme
+  :disabled
   :ensure t
   :init
   (load-theme 'leuven t)
@@ -38,8 +38,9 @@
 
 (use-package smart-mode-line
   :ensure t
+  :disabled
   :config
-  (setq sml/theme 'light)
+  ;;(setq sml/theme 'dark)
   (setq sml/no-confirm-load-theme t)
 
   (add-to-list 'sml/replacer-regexp-list
@@ -52,7 +53,7 @@
                  (lambda (s) (concat (match-string 1 s) ": ")))
                t)
   :init
-  (setq sml/theme 'light)
+  ;;(setq sml/theme 'dark)
   (sml/setup))
 
 (provide 'appearance)

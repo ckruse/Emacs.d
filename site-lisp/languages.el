@@ -1,21 +1,20 @@
 ;; -*- coding: utf-8 -*-
 
 (use-package lsp-mode
-  :load-path "~/dev/emacs/lsp-mode"
+  :ensure t
+  ;:load-path "~/dev/emacs/lsp-mode"
   :diminish lsp-mode
-  :commands lsp-mode
+  :commands lsp-mode lsp
+  :hook (css-mode . lsp)
   :init
+  (setq lsp-prefer-flymake nil))
   ;(remove-hook 'lsp-eldoc-hook 'lsp-document-highlight)
-  (remove-hook 'lsp-eldoc-hook 'lsp-hover))
+  ;(remove-hook 'lsp-eldoc-hook 'lsp-hover))
 (use-package company-lsp
-  :load-path "~/dev/emacs/company-lsp/"
+  :ensure t
+  ;:load-path "~/dev/emacs/company-lsp/"
   :commands company-lsp
   :init (push 'company-lsp company-backends))
-(use-package lsp-ui
-  :disabled
-  :load-path "~/dev/emacs/lsp-ui"
-  :init
-  (add-hook 'lsp-mode-hook 'lsp-ui-mode))
 
 (use-package markdown-mode
   :ensure t
@@ -49,6 +48,7 @@
                               (setq tab-width 2
                                     indent-tabs-mode nil
                                     ruby-insert-encoding-magic-comment nil)))
+  (add-hook 'ruby-mode-hook #'lsp)
 
   (add-to-list 'auto-mode-alist '("\\.rb$" . ruby-mode))
   (add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
@@ -66,11 +66,6 @@
   :init
   (add-hook 'ruby-mode-hook 'inf-ruby-minor-mode)
   (add-hook 'compilation-filter-hook 'inf-ruby-auto-enter))
-
-(use-package lsp-ruby
-  :load-path "~/dev/emacs/lsp-ruby"
-  :init
-  (add-hook 'ruby-mode-hook #'lsp-ruby-enable))
 
 ;; (use-package robe
 ;;   :ensure t
@@ -101,6 +96,7 @@
 ;;; JS
 ;;;
 
+  ;:hook (js2-mode . lsp)
 (use-package js2-mode
   :ensure t
   :commands js2-mode
@@ -187,7 +183,9 @@
 (use-package elixir-mode
   :ensure t
   :commands elixir-mode
+  :hook (elixir-mode . lsp)
   :init
+  (add-to-list 'exec-path "~/dev/emacs/elixir-ls/release")
   (add-hook 'elixir-mode-hook
             (lambda () (add-hook 'before-save-hook 'elixir-format nil t)))
 
@@ -199,13 +197,13 @@
                                                   (concat (locate-dominating-file buffer-file-name ".formatter.exs") ".formatter.exs")))
                                     (setq elixir-format-arguments nil)))))
 
-(use-package alchemist
-  :ensure t
-  :commands alchemist-mode
-  :after elixir-mode
-  :diminish (alchemist-mode . "Ⓐ")
-  :init
-  (add-hook 'elixir-mode-hook 'alchemist-mode))
+;; (use-package alchemist
+;;   :ensure t
+;;   :commands alchemist-mode
+;;   :after elixir-mode
+;;   :diminish (alchemist-mode . "Ⓐ")
+;;   :init
+;;   (add-hook 'elixir-mode-hook 'alchemist-mode))
 
 (use-package flycheck-mix
   :ensure t
@@ -242,9 +240,9 @@
 ;; css mode config
 (setq css-indent-offset 2)
 
-(use-package po-mode
-  :ensure t
-  :commands po-mode
-  :init (add-to-list 'auto-mode-alist '("\\.po\\'" . po-mode)))
+;; (use-package po-mode
+;;   :ensure t
+;;   :commands po-mode
+;;   :init (add-to-list 'auto-mode-alist '("\\.po\\'" . po-mode)))
 
 (provide 'languages)

@@ -118,6 +118,7 @@
 (use-package web-mode
   :ensure t
   :commands web-mode
+  :hook (web-mode . lsp)
   :init
   (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
