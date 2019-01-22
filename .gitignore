@@ -27,3 +27,4 @@ tramp
 /.last-package-update-day
 /network-security.data
 /vimish-fold/
+/machine.el

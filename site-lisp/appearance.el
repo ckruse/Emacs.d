@@ -1,4 +1,8 @@
-(add-to-list 'default-frame-alist '(font . "Source Code Pro-11"))
+(setq ck/font '(font . "Source Code Pro-11"))
+(when (file-exists-p "~/.emacs.d/machine.el")
+  (load "~/.emacs.d/machine.el"))
+
+(add-to-list 'default-frame-alist ck/font)
 
 (use-package spacemacs-theme
   :ensure t

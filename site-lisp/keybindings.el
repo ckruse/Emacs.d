@@ -85,5 +85,7 @@
       ("t" ck/org-tags "list tags"))))
 
 
+(when (ck/is-osx)
+  (setq ns-right-option-modifier nil))
 
 (provide 'keybindings)
