@@ -2,19 +2,15 @@
 
 (use-package lsp-mode
   :ensure t
-  ;:load-path "~/dev/emacs/lsp-mode"
   :diminish lsp-mode
-  :commands lsp-mode lsp
+  :commands lsp
   :hook (css-mode . lsp)
   :init
   (setq lsp-prefer-flymake nil))
-  ;(remove-hook 'lsp-eldoc-hook 'lsp-document-highlight)
-  ;(remove-hook 'lsp-eldoc-hook 'lsp-hover))
+
 (use-package company-lsp
   :ensure t
-  ;:load-path "~/dev/emacs/company-lsp/"
-  :commands company-lsp
-  :init (push 'company-lsp company-backends))
+  :commands company-lsp)
 
 (use-package markdown-mode
   :ensure t
@@ -96,39 +92,49 @@
 ;;; JS
 ;;;
 
-  ;:hook (js2-mode . lsp)
+
 (use-package js2-mode
   :ensure t
   :commands js2-mode
+  :hook (js2-mode . lsp)
   :init
   (add-to-list 'interpreter-mode-alist '("node" . js2-mode))
   (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+  ;(setq lsp-clients-typescript-server "/usr/local/bin/typescript-language-server")
   :config
-  (setq js2-basic-offset 2))
+  (setq js2-basic-offset 2)
+
+  (general-define-key :keymaps 'js2-mode-map
+                      "M-." 'lsp-find-definition)
+
+  (add-hook 'js2-mode-hook
+            (lambda () (add-hook 'before-save-hook 'lsp-format-buffer nil t))))
 
 (use-package prettier-js
   :ensure t
   :commands prettier-js-mode prettier-js
   :diminish (prettier-js-mode . "⚚")
   :init
-  (add-hook 'js2-mode-hook 'prettier-js-mode)
+  ;;(add-hook 'js2-mode-hook 'prettier-js-mode)
   (add-hook 'css-mode-hook 'prettier-js-mode)
   (add-hook 'scss-mode-hook 'prettier-js-mode)
   :config
   (setq prettier-js-command "prettier-eslint"))
 
-(use-package tide
-  :ensure t
-  :commands (tide-mode tide-setup tide-hl-identifier-mode)
-  :after (js2-mode company flycheck)
-  :hook ((js2-mode . tide-setup)
-         (js2-mode . tide-hl-identifier-mode)))
+;; (use-package tide
+;;   :ensure t
+;;   :commands (tide-mode tide-setup tide-hl-identifier-mode)
+;;   :after (js2-mode company flycheck)
+;;   :hook ((js2-mode . tide-setup)
+;;          (js2-mode . tide-hl-identifier-mode)))
 
 (use-package rjsx-mode
   :ensure t
   :init
   (add-to-list 'auto-mode-alist '("components\\/.*\\.js\\'" . rjsx-mode))
-  (add-to-list 'auto-mode-alist '("containers\\/.*\\.js\\'" . rjsx-mode)))
+  (add-to-list 'auto-mode-alist '("containers\\/.*\\.js\\'" . rjsx-mode))
+  (general-define-key :keymaps 'rjsx-mode-map
+                      "M-." 'lsp-find-definition))
 
 
 
@@ -180,6 +186,9 @@
                            (concat erlang-root-dir
                                    "../lib/tools-*/emacs"))))
 
+(use-package lsp-elixir
+  :ensure lsp-elixir.el)
+
 (use-package elixir-mode
   :ensure t
   :commands elixir-mode
@@ -187,15 +196,17 @@
   :init
   (add-to-list 'exec-path "~/dev/emacs/elixir-ls/release")
   (add-hook 'elixir-mode-hook
-            (lambda () (add-hook 'before-save-hook 'elixir-format nil t)))
+            (lambda () (add-hook 'before-save-hook 'lsp-format-buffer nil t))))
+  ;; (add-hook 'elixir-mode-hook
+  ;;           (lambda () (add-hook 'before-save-hook 'elixir-format nil t)))
 
-  (add-hook 'elixir-format-hook (lambda ()
-                                  (if (and (projectile-project-p)
-                                           (file-exists-p (concat (locate-dominating-file buffer-file-name ".formatter.exs") ".formatter.exs")))
-                                      (setq elixir-format-arguments
-                                            (list "--dot-formatter"
-                                                  (concat (locate-dominating-file buffer-file-name ".formatter.exs") ".formatter.exs")))
-                                    (setq elixir-format-arguments nil)))))
+  ;; (add-hook 'elixir-format-hook (lambda ()
+  ;;                                 (if (and (projectile-project-p)
+  ;;                                          (file-exists-p (concat (locate-dominating-file buffer-file-name ".formatter.exs") ".formatter.exs")))
+  ;;                                     (setq elixir-format-arguments
+  ;;                                           (list "--dot-formatter"
+  ;;                                                 (concat (locate-dominating-file buffer-file-name ".formatter.exs") ".formatter.exs")))
+  ;;                                   (setq elixir-format-arguments nil)))))
 
 ;; (use-package alchemist
 ;;   :ensure t
