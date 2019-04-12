@@ -200,31 +200,6 @@
   :init
   (add-to-list 'company-backends 'company-ansible))
 
-
-
-(use-package ibuffer
-  :commands ibuffer
-  :config
-  (setq ibuffer-saved-filter-groups
-        (list
-         (cons "default"
-               (append
-                (ck/define-projectile-filter-groups)
-                '(("dired" (mode . dired-mode))
-                  ("Org" (or
-                          (mode . org-mode)))
-                  ("emacs" (or
-                            (name . "^\\*scratch\\*$")
-                            (name . "^\\*Messages\\*$")
-                            (name . "^\\*Help\\*$")
-                            (name . "^\\*Flycheck error messages\\*$"))))))))
-
-  (add-hook 'ibuffer-mode-hook
-            (lambda ()
-              (ibuffer-switch-to-saved-filter-groups "default")))
-  (setq ibuffer-show-empty-filter-groups nil))
-
-
 (use-package magit
   :ensure t
   :commands magit-status

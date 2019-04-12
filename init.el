@@ -45,4 +45,5 @@
 (use-package languages)
 (use-package keybindings)
 (use-package ck-org)
+(use-package ibuffer-config)
 (use-package hide-minors)
