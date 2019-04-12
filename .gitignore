@@ -28,3 +28,5 @@ tramp
 /network-security.data
 /vimish-fold/
 /machine.el
+/.lsp-session-v1
+/transient
