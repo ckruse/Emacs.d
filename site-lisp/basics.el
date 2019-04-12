@@ -80,11 +80,15 @@
 (blink-cursor-mode 0)
 
 
+(when (boundp 'ns-pop-up-frames)
+  (setq ns-pop-up-frames nil))
+
+(setq visible-bell t)
+(setq line-move-visual nil)
+(setq track-eol t)
+
 (which-function-mode)
 (setq which-func-modes '(ruby-mode emacs-lisp-mode js-mode js2-mode c-mode php-mode elixir-mode))
-
-(use-package dired-x
-  :defer 0)
 
 (defun set-exec-path-from-shell-PATH ()
   (interactive)

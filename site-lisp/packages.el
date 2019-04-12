@@ -90,16 +90,15 @@
 
 (use-package helm-projectile
   :ensure t
-  :after helm projectile
+  :after (helm projectile)
   :init
   (setq projectile-completion-system 'helm)
   :config
   (helm-projectile-on))
 
-(use-package helm-rg
+(use-package projectile-ripgrep
   :ensure t
-  :after helm
-  :commands helm-rg helm-rg-at-point helm-projectile-rg helm-projectile-rg-at-point)
+  :commands projectile-ripgrep)
 
 (use-package hydra
   :ensure t)

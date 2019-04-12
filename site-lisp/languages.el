@@ -5,12 +5,25 @@
   :diminish lsp-mode
   :commands lsp
   :hook (css-mode . lsp)
+  :bind (:map lsp-mode-map
+              ("C-c C-d" . lsp-describe-thing-at-point))
   :init
-  (setq lsp-prefer-flymake nil))
+  (setq lsp-prefer-flymake nil)
+  (setq lsp-enable-on-type-formatting nil)
+  (setq lsp-auto-guess-root t))
+
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode
+  :config
+  (setq lsp-ui-doc-enable nil)
+  (setq lsp-ui-peek-enable nil))
 
 (use-package company-lsp
   :ensure t
-  :commands company-lsp)
+  :commands company-lsp
+  :init
+  (setq company-lsp-cache-candidates 'auto))
 
 (use-package markdown-mode
   :ensure t
@@ -63,16 +76,6 @@
   (add-hook 'ruby-mode-hook 'inf-ruby-minor-mode)
   (add-hook 'compilation-filter-hook 'inf-ruby-auto-enter))
 
-;; (use-package robe
-;;   :ensure t
-;;   :commands robe-mode
-;;   :after inf-ruby company
-;;   :diminish (robe-mode . "Ⓡ")
-;;   :init
-;;   (add-hook 'ruby-mode-hook 'robe-mode)
-;;   (eval-after-load 'company
-;;     '(push 'company-robe company-backends)))
-
 (use-package rubocop
   :ensure t
   :commands rubocop-mode
@@ -100,22 +103,25 @@
   :init
   (add-to-list 'interpreter-mode-alist '("node" . js2-mode))
   (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-  ;(setq lsp-clients-typescript-server "/usr/local/bin/typescript-language-server")
+
+  ;; (setq lsp-clients-typescript-server "typescript-language-server"
+  ;;       lsp-clients-typescript-server-args '("--stdio"))
+
   :config
-  (setq js2-basic-offset 2)
+  (setq js2-basic-offset 2))
 
-  (general-define-key :keymaps 'js2-mode-map
-                      "M-." 'lsp-find-definition)
+  ;; (general-define-key :keymaps 'js2-mode-map
+  ;;                     "M-." 'lsp-find-definition))
 
-  (add-hook 'js2-mode-hook
-            (lambda () (add-hook 'before-save-hook 'lsp-format-buffer nil t))))
+  ;; (add-hook 'js2-mode-hook
+  ;;           (lambda () (add-hook 'before-save-hook 'lsp-format-buffer nil t))))
 
 (use-package prettier-js
   :ensure t
   :commands prettier-js-mode prettier-js
   :diminish (prettier-js-mode . "⚚")
   :init
-  ;;(add-hook 'js2-mode-hook 'prettier-js-mode)
+  (add-hook 'js2-mode-hook 'prettier-js-mode)
   (add-hook 'css-mode-hook 'prettier-js-mode)
   (add-hook 'scss-mode-hook 'prettier-js-mode)
   :config
@@ -186,9 +192,6 @@
                            (concat erlang-root-dir
                                    "../lib/tools-*/emacs"))))
 
-(use-package lsp-elixir
-  :ensure lsp-elixir.el)
-
 (use-package elixir-mode
   :ensure t
   :commands elixir-mode
@@ -197,24 +200,6 @@
   (add-to-list 'exec-path "~/dev/emacs/elixir-ls/release")
   (add-hook 'elixir-mode-hook
             (lambda () (add-hook 'before-save-hook 'lsp-format-buffer nil t))))
-  ;; (add-hook 'elixir-mode-hook
-  ;;           (lambda () (add-hook 'before-save-hook 'elixir-format nil t)))
-
-  ;; (add-hook 'elixir-format-hook (lambda ()
-  ;;                                 (if (and (projectile-project-p)
-  ;;                                          (file-exists-p (concat (locate-dominating-file buffer-file-name ".formatter.exs") ".formatter.exs")))
-  ;;                                     (setq elixir-format-arguments
-  ;;                                           (list "--dot-formatter"
-  ;;                                                 (concat (locate-dominating-file buffer-file-name ".formatter.exs") ".formatter.exs")))
-  ;;                                   (setq elixir-format-arguments nil)))))
-
-;; (use-package alchemist
-;;   :ensure t
-;;   :commands alchemist-mode
-;;   :after elixir-mode
-;;   :diminish (alchemist-mode . "Ⓐ")
-;;   :init
-;;   (add-hook 'elixir-mode-hook 'alchemist-mode))
 
 (use-package flycheck-mix
   :ensure t

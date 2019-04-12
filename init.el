@@ -39,6 +39,7 @@
 (use-package defuns)
 (use-package appearance)
 (use-package basics)
+(use-package dired-config)
 (use-package personal)
 (use-package packages)
 (use-package languages)
