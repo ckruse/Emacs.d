@@ -9,13 +9,6 @@
   (mapcar 'kill-buffer (buffer-list))
   (delete-other-windows))
 
-(defun ck/web-mode-hook ()
-    "Hooks for Web mode."
-    (setq web-mode-markup-indent-offset 2
-          web-mode-css-indent-offset 2
-          web-mode-code-indent-offset 2
-          web-mode-enable-auto-indentation nil))
-
 (defun ck/define-projectile-filter-groups ()
   (when (boundp 'projectile-known-projects)
     (setq my/project-filter-groups

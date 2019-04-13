@@ -2,7 +2,6 @@
   :ensure t
   :diminish lsp-mode
   :commands lsp
-  :hook (css-mode . lsp)
   :bind (:map lsp-mode-map
               ("C-c C-d" . lsp-describe-thing-at-point))
   :init

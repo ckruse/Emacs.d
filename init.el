@@ -44,6 +44,7 @@
 (use-package personal)
 (use-package packages)
 (use-package languages)
+(use-package init-web)
 (use-package keybindings)
 (use-package ck-org)
 (use-package ibuffer-config)
