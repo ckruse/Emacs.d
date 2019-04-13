@@ -10,9 +10,14 @@
 (setq create-lockfiles nil)
 
 ;; start emacs server
-(load "server")
-(unless (server-running-p)
-  (server-start))
+(use-package server
+  :init
+  (add-hook 'after-init-hook (lambda ()
+                               (unless (server-running-p)
+                                 (server-start)))))
+
+(use-package saveplace
+  :hook (after-init . save-place-mode))
 
 ;; no one needs the startup message
 (setq inhibit-startup-message t)
