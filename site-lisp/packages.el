@@ -165,40 +165,8 @@
                                       (when (and eslint (file-executable-p eslint))
                                         (setq-local flycheck-javascript-eslint-executable eslint))))))
 
+(require 'init-company)
 
-
-(use-package company-mode
-  :ensure company
-  :defer 0
-  :init
-  (setq company-tooltip-limit 10
-        company-tooltip-align-annotations 't
-        company-idle-delay 0
-        company-tooltip-idle-delay 1
-        company-minimum-prefix-length 2
-        company-begin-commands '(self-insert-command)
-        company-frontends '(company-pseudo-tooltip-unless-just-one-frontend-with-delay company-preview-frontend company-echo-metadata-frontend)
-        company-require-match 'never)
-  (global-company-mode)
-  :config
-  (define-key company-active-map (kbd "<return>") nil)
-  (define-key company-active-map (kbd "RET") nil))
-
-(use-package company-web-html
-  :ensure company-web
-  :commands company-web-html
-  :after company-mode web-mode
-  :init
-  (add-hook 'web-mode-hook (lambda ()
-                             (push '(company-web-html company-css) company-backends)
-                             (set (make-local-variable 'company-minimum-prefix-length) 0))))
-
-(use-package company-ansible
-  :ensure t
-  :commands company-ansible
-  :after company-mode
-  :init
-  (add-to-list 'company-backends 'company-ansible))
 
 (use-package magit
   :ensure t
