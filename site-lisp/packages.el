@@ -71,34 +71,7 @@
   :init (setq tramp-use-ssh-controlmaster-options nil
               tramp-ssh-controlmaster-options nil))
 
-(use-package projectile
-  :ensure t
-  :defer 0
-  :diminish (projectile-mode . "Ⓟ")
-  :init
-
-  ;(defadvice projectile-project-root (around ignore-remote first activate)
-  ;  (unless (file-remote-p default-directory) ad-do-it))
-
-  ;(setq projectile-indexing-method 'find
-  ;      projectile-enable-caching t
-  ;      projectile-create-missing-test-files t))
-  (setq projectile-keymap-prefix (kbd "C-c p")
-        projectile-require-project-root nil)
-  :config
-  (projectile-global-mode 1))
-
-(use-package helm-projectile
-  :ensure t
-  :after (helm projectile)
-  :init
-  (setq projectile-completion-system 'helm)
-  :config
-  (helm-projectile-on))
-
-(use-package projectile-ripgrep
-  :ensure t
-  :commands projectile-ripgrep)
+(require 'init-projectile)
 
 (use-package hydra
   :ensure t)
@@ -192,15 +165,6 @@
   :ensure t
   :commands git-timemachine)
 
-(use-package projectile-rails
-  :ensure t
-  :after projectile
-  :defer 0
-  :diminish projectile-rails-mode
-  :config
-  (projectile-rails-global-mode)
-  (define-key projectile-rails-mode-map (kbd "C-c c r") 'hydra-projectile-rails/body))
-
 
 (use-package gist
   :ensure t
@@ -209,9 +173,8 @@
 (use-package editorconfig
   :ensure t
   :diminish editorconfig-mode
-  :init
-  (add-hook 'prog-mode-hook (editorconfig-mode 1))
-  (add-hook 'text-mode-hook (editorconfig-mode 1)))
+  :hook ((prog-mode . editorconfig-mode)
+         (text-mode . editorconfig-mode)))
 
 (use-package highlight-indent-guides
   :ensure t
@@ -224,5 +187,8 @@
   :config
   (setq highlight-indent-guides-method 'character)
   (setq highlight-indent-guides-responsive t))
+
+(use-package dockerfile-mode
+  :ensure t)
 
 (provide 'packages)

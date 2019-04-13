@@ -57,7 +57,7 @@
       ("g" projectile-ripgrep "projectile-ripgrep")
       ("G" ripgrep-regexp "ripgrep")
       ("h" man "man")
-      ("s" eshell-here "eshell")
+      ("s" shell-pop "eshell")
       ("t" git-timemachine "git timemachine")
       ("a" magit-status "magit-status")
       ("p" sql-postgres "sql-postgres")

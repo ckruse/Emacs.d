@@ -40,6 +40,7 @@
 (use-package appearance)
 (use-package basics)
 (use-package dired-config)
+(use-package init-shell)
 (use-package personal)
 (use-package packages)
 (use-package languages)
