@@ -10,12 +10,12 @@
   (setq lsp-enable-on-type-formatting nil)
   (setq lsp-auto-guess-root t))
 
-(use-package lsp-ui
-  :ensure t
-  :commands lsp-ui-mode
-  :config
-  (setq lsp-ui-doc-enable nil)
-  (setq lsp-ui-peek-enable nil))
+;; (use-package lsp-ui
+;;   :ensure t
+;;   :commands lsp-ui-mode
+;;   :config
+;;   (setq lsp-ui-doc-enable nil)
+;;   (setq lsp-ui-peek-enable nil))
 
 (use-package company-lsp
   :ensure t
