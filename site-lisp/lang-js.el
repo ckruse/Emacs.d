@@ -6,11 +6,9 @@
   (add-to-list 'interpreter-mode-alist '("node" . js2-mode))
   (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
-  ;; (setq lsp-clients-typescript-server "typescript-language-server"
-  ;;       lsp-clients-typescript-server-args '("--stdio"))
-
   :config
-  (setq js2-basic-offset 2))
+  (setq js2-basic-offset 2)
+  (unbind-key "M-." js2-mode-map))
 
   ;; (general-define-key :keymaps 'js2-mode-map
   ;;                     "M-." 'lsp-find-definition))
@@ -43,6 +41,9 @@
   (add-to-list 'auto-mode-alist '("containers\\/.*\\.js\\'" . rjsx-mode))
   (general-define-key :keymaps 'rjsx-mode-map
                       "M-." 'lsp-find-definition))
+
+(use-package json-mode
+  :ensure t)
 
 
 (provide 'lang-js)

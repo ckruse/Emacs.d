@@ -31,6 +31,13 @@
 (use-package css-mode
   :init (setq css-indent-offset 2))
 
+(use-package scss-mode
+  :ensure t
+  :init
+  ;; Disable complilation on save
+  (setq scss-compile-at-save nil))
+
+
 (use-package php-mode
   :ensure t
   :commands php-mode

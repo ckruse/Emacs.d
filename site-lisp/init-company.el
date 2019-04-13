@@ -53,16 +53,16 @@
   (define-key company-active-map (kbd "TAB") #'company-complete-selection)
   (define-key company-active-map (kbd "SPC") nil))
 
-(defun ck/init-web-mode ()
-  (lambda ()
-    (push '(company-web-html company-css) company-backends)
-    (set (make-local-variable 'company-minimum-prefix-length) 0)))
+;; (defun ck/init-web-mode ()
+;;   (lambda ()
+;;     (push '(company-web-html company-css) company-backends)
+;;     (set (make-local-variable 'company-minimum-prefix-length) 0)))
 
-(use-package company-web-html
-  :ensure company-web
-  :commands company-web-html
-  :after (company-mode web-mode)
-  :hook (web-mode ck/init-web-mode))
+;; (use-package company-web-html
+;;   :ensure company-web
+;;   :commands company-web-html
+;;   :after (company-mode web-mode)
+;;   :hook (web-mode ck/init-web-mode))
 
 (use-package company-ansible
   :ensure t
