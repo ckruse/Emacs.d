@@ -12,8 +12,7 @@
       :init (diredfl-global-mode 1))
 
     (use-package dired-x
-      :ensure nil
-      :demand
+      :defer 0
       :config
       (let ((cmd (cond
                   ((ck/is-osx) "open")
