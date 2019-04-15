@@ -162,8 +162,13 @@
                        (unless (eq major-mode 'ein:notebook-multilang-mode)
                          (highlight-indent-guides-mode 1))))
   :config
-  (setq highlight-indent-guides-method 'character)
-  (setq highlight-indent-guides-responsive t))
+  ;; (setq highlight-indent-guides-method 'character)
+  (setq highlight-indent-guides-responsive t
+        highlight-indent-guides-delay 0.4
+        highlight-indent-guides-auto-even-face-perc 2.5
+        highlight-indent-guides-auto-odd-face-perc 5
+        highlight-indent-guides-auto-top-even-face-perc 15
+        highlight-indent-guides-auto-top-odd-face-perc 15))
 
 (use-package dockerfile-mode
   :ensure t)
