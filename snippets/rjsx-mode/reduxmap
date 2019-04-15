@@ -1,0 +1,16 @@
+# -*- mode: snippet -*-
+# name: reduxmap
+# key: reduxmap
+# --
+const mapStateToProps = state => ({
+  $1
+});
+
+const mapDispatchToProps = dispatch => ({
+  $2
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)($0);
