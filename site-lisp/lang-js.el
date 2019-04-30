@@ -34,11 +34,19 @@
 ;;   :hook ((js2-mode . tide-setup)
 ;;          (js2-mode . tide-hl-identifier-mode)))
 
+(defun jsx-file-p ()
+  (and buffer-file-name
+       (or (equal (file-name-extension buffer-file-name) "js")
+           (equal (file-name-extension buffer-file-name) "jsx"))
+       (re-search-forward "\\(^\\s-*import React\\|\\( from \\|require(\\)[\"']react\\)"
+                          magic-mode-regexp-match-limit t)))
+
+
 (use-package rjsx-mode
   :ensure t
   :init
-  (add-to-list 'auto-mode-alist '("components\\/.*\\.js\\'" . rjsx-mode))
-  (add-to-list 'auto-mode-alist '("containers\\/.*\\.js\\'" . rjsx-mode))
+  (add-to-list 'magic-mode-alist (cons #'jsx-file-p 'rjsx-mode))
+
   (general-define-key :keymaps 'rjsx-mode-map
                       "M-." 'lsp-find-definition))
 
