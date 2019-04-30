@@ -50,6 +50,11 @@
   (general-define-key :keymaps 'rjsx-mode-map
                       "M-." 'lsp-find-definition))
 
+(use-package  import-js
+  :ensure t
+  :init
+  (add-hook 'rjsx-mode 'run-import-js))
+
 (use-package json-mode
   :ensure t)
 
