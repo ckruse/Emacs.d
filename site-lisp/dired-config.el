@@ -1,11 +1,10 @@
 (use-package dired
-  :ensure nil
   :config
   (setq dired-recursive-deletes 'always)
   (setq dired-recursive-copies 'always)
 
   (when (ck/is-osx)
-    (setq dired-use-ls-dired nil)
+    (setq dired-use-ls-dired nil))
 
     (use-package diredfl
       :ensure t
@@ -32,7 +31,7 @@
 
       (setq dired-omit-files
             (concat dired-omit-files
-                    "\\|^.DS_Store$\\|^.projectile$\\|^.git*\\|^.svn$\\|^.vscode$\\|\\.js\\.meta$\\|\\.meta$\\|\\.elc$\\|^.emacs.*"))))
+                    "\\|^.DS_Store$\\|^.projectile$\\|^.git*\\|^.svn$\\|^.vscode$\\|\\.js\\.meta$\\|\\.meta$\\|\\.elc$\\|^.emacs.*")))
 
 
   (use-package all-the-icons-dired
