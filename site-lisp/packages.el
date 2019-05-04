@@ -173,4 +173,11 @@
 (use-package dockerfile-mode
   :ensure t)
 
+(use-package move-text
+  :ensure t
+  :commands move-text-up move-text-down
+  :bind
+  (([m-up] . move-text-up)
+   ([m-down] . move-text-down)))
+
 (provide 'packages)
