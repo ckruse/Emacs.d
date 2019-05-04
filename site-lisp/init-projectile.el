@@ -27,6 +27,10 @@
   :ensure t
   :commands projectile-ripgrep)
 
+(use-package helm-rg
+  :ensure t
+  :defer t
+  :after helm)
 
 (use-package projectile-rails
   :ensure t
