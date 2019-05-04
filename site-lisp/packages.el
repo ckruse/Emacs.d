@@ -129,15 +129,6 @@
   (push (cons [unpushed status] 'show) magit-section-initial-visibility-alist)
   (push (cons [stashes status] 'show) magit-section-initial-visibility-alist))
 
-(use-package magit-todos
-  :after magit
-  :ensure t
-  :defer 0
-  :init
-  (setq magit-todos-require-colon nil)
-  :config
-  (magit-todos-mode))
-
 (use-package git-timemachine
   :ensure t
   :commands git-timemachine)
