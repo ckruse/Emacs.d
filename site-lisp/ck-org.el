@@ -41,8 +41,6 @@
                                  "* TODO %? :blog:\n%U\n" :clock-in t :clock-resume t)
                                 ("j" "Journal" entry (file+datetree "~/Documents/org/priv/diary.org")
                                  "* %?\n%U\n" :clock-in t :clock-resume t)
-                                ("k" "Körpermaße" entry (file+datetree "~/Documents/org/priv/measurements.org")
-                                 "* %?\n%U\n")
                                 ("m" "Meeting" entry (file+headline "~/Documents/org/inbox.org" "Inbox")
                                  "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
                                 ("c" "Phone call" entry (file+headline "~/Documents/org/inbox.org" "Inbox")
@@ -77,5 +75,17 @@
   :after org
   :init
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+(use-package org-projectile
+  :ensure t
+  :config
+  (org-projectile-per-project)
+
+  (setq org-projectile-projects-directory "~/Documents/org/")
+  (setq org-projectile-per-project-filepath
+        (lambda (path) (concat (projectile-project-name) ".org")))
+  (setq org-agenda-files (append org-agenda-files (org-projectile-todo-files)))
+
+  (push (org-projectile-project-todo-entry) org-capture-templates))
 
 (provide 'ck-org)
