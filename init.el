@@ -49,3 +49,4 @@
 (use-package ck-org)
 (use-package ibuffer-config)
 (use-package hide-minors)
+(use-package init-formatting)

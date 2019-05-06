@@ -16,17 +16,6 @@
   ;; (add-hook 'js2-mode-hook
   ;;           (lambda () (add-hook 'before-save-hook 'lsp-format-buffer nil t))))
 
-(use-package prettier-js
-  :ensure t
-  :commands prettier-js-mode prettier-js
-  :diminish (prettier-js-mode . "⚚")
-  :init
-  (add-hook 'js2-mode-hook 'prettier-js-mode)
-  (add-hook 'css-mode-hook 'prettier-js-mode)
-  (add-hook 'scss-mode-hook 'prettier-js-mode)
-  :config
-  (setq prettier-js-command "prettier-eslint"))
-
 ;; (use-package tide
 ;;   :ensure t
 ;;   :commands (tide-mode tide-setup tide-hl-identifier-mode)
@@ -57,6 +46,12 @@
 
 (use-package json-mode
   :ensure t)
+
+(use-package add-node-modules-path
+  :ensure t
+  :commands add-node-modules-path
+  :init
+  (add-hook 'js2-mode-hook 'add-node-modules-path))
 
 
 (provide 'lang-js)
